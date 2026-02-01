@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>50강 커리큘럼 대시보드 | AI 마스터 클래스</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Noto Sans KR', sans-serif; }
+    .prose { max-width: 100%; }
+    .prose h1 { font-size: 2rem; font-weight: 800; margin-bottom: 1rem; color: #1f2937; }
+    .prose h2 { font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; color: #374151; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.5rem; }
+    .prose h3 { font-size: 1.25rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; color: #4b5563; }
+    .prose h4 { font-size: 1.1rem; font-weight: 600; margin-top: 1rem; margin-bottom: 0.5rem; color: #6b7280; }
+    .prose p { margin-bottom: 1rem; line-height: 1.8; color: #374151; }
+    .prose ul, .prose ol { margin-bottom: 1rem; padding-left: 1.5rem; }
+    .prose li { margin-bottom: 0.5rem; line-height: 1.6; }
+    .prose blockquote { border-left: 4px solid #D4A853; padding-left: 1rem; margin: 1rem 0; background: #FFFBEB; padding: 1rem; border-radius: 0.5rem; }
+    .prose table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+    .prose th, .prose td { border: 1px solid #e5e7eb; padding: 0.75rem; text-align: left; }
+    .prose th { background: #f9fafb; font-weight: 600; }
+    .prose code { background: #f3f4f6; padding: 0.2rem 0.4rem; border-radius: 0.25rem; font-size: 0.9em; }
+    .prose pre { background: #1f2937; color: #f9fafb; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; margin: 1rem 0; }
+    .prose hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <!-- 헤더 -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm border-b border-gray-200">
+    <div class="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <a href="/checklist.html" class="flex items-center gap-2 text-gray-600 hover:text-amber-600">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+          체크리스트로
+        </a>
+      </div>
+      <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
+        완료됨
+      </span>
+    </div>
+  </header>
+
+  <!-- 메인 콘텐츠 -->
+  <main class="max-w-4xl mx-auto px-4 pt-24 pb-16">
+    <div class="bg-white rounded-2xl shadow-lg p-8">
+      <div class="prose">
+        <h1>50강 커리큘럼 대시보드</h1>
+        <blockquote>
+          <strong>버전</strong>: 4단계 구조 (2026-02-01 기준)<br>
+          <strong>총 강의수</strong>: 50강<br>
+          <strong>총 소요기간</strong>: 12주 (3개월)<br>
+          <strong>총 프로덕트</strong>: 40개
+        </blockquote>
+
+        <h2>개요 (Overview)</h2>
+        
+        <h3>레벨별 구성</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>레벨</th>
+              <th>강의수</th>
+              <th>프로덕트</th>
+              <th>소요기간</th>
+              <th>핵심 목표</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Lv.1</strong></td>
+              <td>15강</td>
+              <td>10개</td>
+              <td>3주</td>
+              <td>디지털 기초 + 첫 성취감</td>
+            </tr>
+            <tr>
+              <td><strong>Lv.2</strong></td>
+              <td>12강</td>
+              <td>10개</td>
+              <td>3주</td>
+              <td>생활에 AI 녹이기</td>
+            </tr>
+            <tr>
+              <td><strong>Lv.3</strong></td>
+              <td>12강</td>
+              <td>10개</td>
+              <td>3주</td>
+              <td>전문가급 콘텐츠 제작</td>
+            </tr>
+            <tr>
+              <td><strong>Lv.4</strong></td>
+              <td>11강</td>
+              <td>10개</td>
+              <td>3주</td>
+              <td>가르치고 수익화</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>촬영 우선순위</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>단계</th>
+              <th>레벨</th>
+              <th>강의 범위</th>
+              <th>목적</th>
+              <th>예상 소요</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>1차</strong></td>
+              <td>Lv.1</td>
+              <td>01-15강</td>
+              <td>MVP 출시</td>
+              <td>3주</td>
+            </tr>
+            <tr>
+              <td><strong>2차</strong></td>
+              <td>Lv.2</td>
+              <td>16-27강</td>
+              <td>패키지 완성</td>
+              <td>2주</td>
+            </tr>
+            <tr>
+              <td><strong>3차</strong></td>
+              <td>Lv.3</td>
+              <td>28-39강</td>
+              <td>고급 과정</td>
+              <td>2주</td>
+            </tr>
+            <tr>
+              <td><strong>4차</strong></td>
+              <td>Lv.4</td>
+              <td>40-50강</td>
+              <td>전문가 과정</td>
+              <td>2주</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Lv.1 초보자 (15강 / 3주)</h2>
+        <blockquote>
+          <strong>슬로건</strong>: "AI에 도전하는 용기"<br>
+          <strong>목표</strong>: 디지털 문해력 확보 + 첫 성취 경험
+        </blockquote>
+
+        <h3>Part 1: 디지털 기초 다지기 (5강)</h3>
+        
+        <h4>01강 | 디지털, 두려워하지 마세요</h4>
+        <ul>
+          <li><strong>강의 시간</strong>: 60분</li>
+          <li><strong>핵심 내용</strong>: AI 시대 시니어 생존 전략, 성공 사례 소개, 학습 계획서 작성</li>
+          <li><strong>프로덕트</strong>: 학습 계획서 1장</li>
+          <li><strong>촬영 우선순위</strong>: ⭐⭐⭐⭐⭐ (1순위)</li>
+        </ul>
+
+        <h4>02강 | 구글 계정 만들기 - 첫 디지털 자산</h4>
+        <ul>
+          <li><strong>강의 시간</strong>: 75분</li>
+          <li><strong>핵심 내용</strong>: Gmail 계정 생성, 프로필 설정, 연락처 등록</li>
+          <li><strong>프로덕트</strong>: 나의 첫 Gmail 완성</li>
+          <li><strong>촬영 우선순위</strong>: ⭐⭐⭐⭐⭐ (1순위)</li>
+        </ul>
+
+        <h4>03-05강 | 스마트폰 기본기, 마우스/키보드, 화면 클릭</h4>
+        <ul>
+          <li>03강: 스마트폰 기본기 - 손가락 하나로 하는 모든 것 (60분)</li>
+          <li>04강: 마우스와 키보드 - 컴퓨터와 대화하기 (60분)</li>
+          <li>05강: 화면 클릭의 정석 - 터치부터 드래그까지 (60분)</li>
+        </ul>
+
+        <h3>Part 2: AI 첫 만남 (5강)</h3>
+        
+        <h4>06-10강 | ChatGPT 첫 대화부터 실패 대응까지</h4>
+        <ul>
+          <li>06강: ChatGPT 첫 대화 - "안녕하세요" (75분)</li>
+          <li>07강: AI에게 잘 물어보는 법 (60분)</li>
+          <li>08강: AI가 그려주는 그림 첫 경험 (75분)</li>
+          <li>09강: AI와의 대화 저장하기 (60분)</li>
+          <li>10강: 실패해도 괜찮아요 - 재시도의 힘 (60분)</li>
+        </ul>
+
+        <h3>Part 3: 가족과 공유하기 (5강)</h3>
+        
+        <h4>11-15강 | 첫 이메일부터 수료식까지</h4>
+        <ul>
+          <li>11강: 첫 이메일 보내기 - 가족에게 디지털 안부 (75분)</li>
+          <li>12강: 사진 정리하기 - 구글 포토 시작 (60분)</li>
+          <li>13강: AI가 써주는 편지 - 감사 인사 전하기 (75분)</li>
+          <li>14강: 나만의 AI 그림 만들기 (75분)</li>
+          <li>15강: 초보자 수료, 다음 단계로! (90분)</li>
+        </ul>
+
+        <hr>
+
+        <h2>Lv.2 중급자 (12강 / 3주)</h2>
+        <blockquote>
+          <strong>슬로건</strong>: "AI와 즐겁게 놀기"<br>
+          <strong>목표</strong>: 생활에 AI 녹이기 + 가족 콘텐츠 제작
+        </blockquote>
+
+        <h3>Part 1-3: 16-27강</h3>
+        <ul>
+          <li>16강: 편지쓰기 - AI가 내 비서</li>
+          <li>17강: 동화책 만들기 - 손주를 위한 선물</li>
+          <li>18강: 여행계획 세우기 - AI와 떠나는 여행</li>
+          <li>19강: SNS 포스팅 - 나도 인플루언서</li>
+          <li>20-27강: 정리하기, 만들기 파트 (8강)</li>
+        </ul>
+
+        <hr>
+
+        <h2>Lv.3 고급자 (12강 / 3주)</h2>
+        <blockquote>
+          <strong>슬로건</strong>: "AI로 능력자 되기"<br>
+          <strong>목표</strong>: 전문가급 콘텐츠 제작 + 브랜드 구축
+        </blockquote>
+        <p>28-39강: 유튜브 쇼츠부터 고급자 수료까지</p>
+
+        <hr>
+
+        <h2>Lv.4 전문가 (11강 / 3주)</h2>
+        <blockquote>
+          <strong>슬로건</strong>: "AI로 수익 만들기"<br>
+          <strong>목표</strong>: 강사/컨설턴트로 활동 + 수익화 실현
+        </blockquote>
+        <p>40-50강: 강사 기초부터 AI 마스터의 출발까지</p>
+
+        <hr>
+
+        <h2>촬영 스케줄</h2>
+        <ul>
+          <li><strong>1차 촬영 (Week 1-3)</strong>: Lv.1 MVP (15강)</li>
+          <li><strong>2차 촬영 (Week 4-5)</strong>: Lv.2 패키지 (12강)</li>
+          <li><strong>3차 촬영 (Week 6-7)</strong>: Lv.3 고급 (12강)</li>
+          <li><strong>4차 촬영 (Week 8-9)</strong>: Lv.4 전문가 (11강)</li>
+        </ul>
+
+        <p><strong>작성</strong>: 그러쥬 | <strong>날짜</strong>: 2026-02-01</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- 푸터 -->
+  <footer class="max-w-4xl mx-auto px-4 pb-8 text-center text-gray-500 text-sm">
+    <p>AI 마스터 클래스 - 제작 문서</p>
+  </footer>
+</body>
+</html>

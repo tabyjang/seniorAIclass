@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>4단계 레벨 구조 변경 설계 | AI 마스터 클래스</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Noto Sans KR', sans-serif; }
+    .prose h1 { font-size: 2rem; font-weight: 800; margin-bottom: 1rem; color: #1f2937; }
+    .prose h2 { font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; color: #374151; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.5rem; }
+    .prose h3 { font-size: 1.25rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; color: #4b5563; }
+    .prose h4 { font-size: 1.1rem; font-weight: 600; margin-top: 1rem; margin-bottom: 0.5rem; color: #6b7280; }
+    .prose p { margin-bottom: 1rem; line-height: 1.8; color: #374151; }
+    .prose ul, .prose ol { margin-bottom: 1rem; padding-left: 1.5rem; }
+    .prose li { margin-bottom: 0.5rem; line-height: 1.6; }
+    .prose blockquote { border-left: 4px solid #f97316; padding-left: 1rem; margin: 1rem 0; background: #fff7ed; padding: 1rem; border-radius: 0.5rem; }
+    .prose table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+    .prose th, .prose td { border: 1px solid #e5e7eb; padding: 0.75rem; text-align: left; }
+    .prose th { background: #f9fafb; font-weight: 600; }
+    .prose code { background: #f3f4f6; padding: 0.2rem 0.4rem; border-radius: 0.25rem; font-size: 0.9em; }
+    .prose pre { background: #1f2937; color: #f9fafb; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; margin: 1rem 0; }
+    .prose hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+    .level-1 { color: #E85D04; }
+    .level-2 { color: #ca8a04; }
+    .level-3 { color: #4D96FF; }
+    .level-4 { color: #9B59B6; }
+    .bg-level-1 { background-color: #fff7ed; }
+    .bg-level-2 { background-color: #fefce8; }
+    .bg-level-3 { background-color: #eff6ff; }
+    .bg-level-4 { background-color: #faf5ff; }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <header class="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm border-b border-gray-200">
+    <div class="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
+      <a href="/checklist.html" class="flex items-center gap-2 text-gray-600 hover:text-orange-500">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        체크리스트로
+      </a>
+      <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">완료됨</span>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 pt-24 pb-16">
+    <article class="bg-white rounded-2xl shadow-lg p-8 prose">
+      <div class="mb-6 pb-4 border-b border-gray-200">
+        <span class="text-sm text-gray-500">docs/01_planning/</span>
+        <h1 class="mt-2">5단계 -> 4단계 레벨 구조 변경 설계</h1>
+        <div class="flex gap-4 text-sm text-gray-500">
+          <span>변경일: 2026-02-01</span>
+          <span>설계자: 그러쥬 (Gruju)</span>
+        </div>
+      </div>
+
+      <blockquote>
+        <strong>목적</strong>: 5단계 레벨을 4단계로 통합하여 시니어 학습자의 진입 장벽 낮추기
+      </blockquote>
+
+      <hr>
+
+      <h2>1. 변경 개요</h2>
+
+      <h3>현재 구조 (5단계)</h3>
+      <pre>
+Lv.1 AI 기초 마스터 (10강/2주)
+Lv.2 프롬프트 전문가 (10강/2주)
+Lv.3 콘텐츠 크리에이터 (10강/3주)
+Lv.4 수익화 전문가 (10강/3주)
+Lv.5 AI 비즈니스 리더 (10강/4주)
+
+총: 50강 / 14주
+      </pre>
+
+      <h3>변경 구조 (4단계)</h3>
+      <pre>
+Lv.1 초보자 (Beginner) - 15강/3주
+Lv.2 중급자 (Intermediate) - 12강/3주
+Lv.3 고급자 (Advanced) - 12강/3주
+Lv.4 전문가 (Expert) - 11강/3주
+
+총: 50강 / 12주 (2주 단축)
+      </pre>
+
+      <hr>
+
+      <h2>2. 변경 이유</h2>
+
+      <h3>왜 4단계인가?</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>문제점 (5단계)</th>
+            <th>해결책 (4단계)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>레벨이 너무 많아 진입 장벽 느껴짐</td>
+            <td>4단계로 명확한 성장 경로 제시</td>
+          </tr>
+          <tr>
+            <td>시니어는 "12주"가 "14주"보다 심리적 부담 적음</td>
+            <td>총 12주로 심리적 진입 장벽 낮춤</td>
+          </tr>
+          <tr>
+            <td>Lv.2/3/4 구분이 모호함</td>
+            <td>초보->중급->고급->전문가 명확한 단계</td>
+          </tr>
+          <tr>
+            <td>10강x5 구조는 반복적 느낌</td>
+            <td>15-12-12-11 강의 분포로 변화감</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>시니어 타겟에 최적화</h3>
+      <ul>
+        <li><strong>"3개월 완성"</strong>이 마케팅하기 쉬움</li>
+        <li><strong>Lv.4 전문가</strong>가 최종 목표로 명확</li>
+        <li>각 레벨별 <strong>10개 프로덕트</strong>로 성취감 유지</li>
+      </ul>
+
+      <hr>
+
+      <h2>3. 상세 변경 설계</h2>
+
+      <div class="bg-level-1 p-4 rounded-lg mb-4">
+        <h3 class="level-1">3.1 Lv.1 초보자 (15강/3주)</h3>
+        <p><strong>병합 대상</strong>: 기존 Lv.1 + Lv.2 일부 기초</p>
+        <table>
+          <thead>
+            <tr><th>파트</th><th>강의 수</th><th>핵심 내용</th><th>프로덕트</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Part 1</strong>: 디지털 기초</td><td>5강</td><td>Gmail, 스마트폰 세팅, 마우스/키보드 기초</td><td>Gmail 계정, 스마트폰 설정 완료</td></tr>
+            <tr><td><strong>Part 2</strong>: AI 첫 만남</td><td>5강</td><td>ChatGPT 첫 사용, 프롬프트 기초, AI 이미지 생성</td><td>첫 대화록, AI 그림 5종세트</td></tr>
+            <tr><td><strong>Part 3</strong>: 가족과 연결</td><td>5강</td><td>이메일 보내기, 구글포토, AI 편지쓰기</td><td>디지털 앨범, AI 감사 편지</td></tr>
+          </tbody>
+        </table>
+        <p><strong>슬로건</strong>: "AI에 도전하는 용기"<br>
+        <strong>컬러</strong>: 오렌지 (#E85D04)<br>
+        <strong>목표</strong>: "나도 디지털 할 수 있다" 자신감 확보</p>
+      </div>
+
+      <div class="bg-level-2 p-4 rounded-lg mb-4">
+        <h3 class="level-2">3.2 Lv.2 중급자 (12강/3주)</h3>
+        <p><strong>병합 대상</strong>: 기존 Lv.2 프롬프트 + Lv.3 콘텐츠 일부</p>
+        <table>
+          <thead>
+            <tr><th>파트</th><th>강의 수</th><th>핵심 내용</th><th>프로덕트</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Part 1</strong>: AI로 표현</td><td>4강</td><td>편지쓰기, 동화책, 여행계획, SNS 포스팅</td><td>손주 편지함 12통, 가족 동화책, 여행 바이블</td></tr>
+            <tr><td><strong>Part 2</strong>: AI로 정리</td><td>4강</td><td>가족 이력서, 이력서/자기소개서, 시/글짓기</td><td>가족 타임라인, AI 시/글 모음집</td></tr>
+            <tr><td><strong>Part 3</strong>: AI로 만들기</td><td>4강</td><td>홈페이지 기초, 동영상 자막, PPT 만들기</td><td>5페이지 홈페이지, 자막 영상 3개, PPT 3개</td></tr>
+          </tbody>
+        </table>
+        <p><strong>슬로건</strong>: "AI와 즐겁게 놀기"<br>
+        <strong>컬러</strong>: 노랑 (#FFD93D)<br>
+        <strong>목표</strong>: 가족에게 선물할 수 있는 콘텐츠 10개 제작</p>
+      </div>
+
+      <div class="bg-level-3 p-4 rounded-lg mb-4">
+        <h3 class="level-3">3.3 Lv.3 고급자 (12강/3주)</h3>
+        <p><strong>병합 대상</strong>: 기존 Lv.3 고급 콘텐츠 + Lv.4 수익화 기초</p>
+        <table>
+          <thead>
+            <tr><th>파트</th><th>강의 수</th><th>핵심 내용</th><th>프로덕트</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Part 1</strong>: 전문 콘텐츠</td><td>4강</td><td>유튜브 쇼츠, AI 영상편집, 홈페이지 심화, 브랜딩</td><td>유튜브 쇼츠 5개, 가족 영화관, BI 키트</td></tr>
+            <tr><td><strong>Part 2</strong>: 문서/데이터</td><td>4강</td><td>보고서/기획서, 데이터분석, 책쓰기, 발표코칭</td><td>전문 보고서 2개, 회고록 50페이지, 발표 세트 3개</td></tr>
+            <tr><td><strong>Part 3</strong>: 고급 활용</td><td>4강</td><td>AI 번역, 쇼핑/일정 관리, 업무자동화</td><td>번역 문서 5개, AI 비서 시스템, 자동화 템플릿</td></tr>
+          </tbody>
+        </table>
+        <p><strong>슬로건</strong>: "AI로 능력자 되기"<br>
+        <strong>컬러</strong>: 파랑 (#4D96FF)<br>
+        <strong>목표</strong>: 전문가 수준 결과물, 브랜드 구축</p>
+      </div>
+
+      <div class="bg-level-4 p-4 rounded-lg mb-4">
+        <h3 class="level-4">3.4 Lv.4 전문가 (11강/3주)</h3>
+        <p><strong>병합 대상</strong>: 기존 Lv.4 전문가 + Lv.5 리더십</p>
+        <table>
+          <thead>
+            <tr><th>파트</th><th>강의 수</th><th>핵심 내용</th><th>프로덕트</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Part 1</strong>: 강사 기초</td><td>4강</td><td>교육 기초, 강의 설계, 동영상강의 제작, 코칭 스킬</td><td>강의 시나리오 3개, 10회 강의 계획서, 영상강의 10개</td></tr>
+            <tr><td><strong>Part 2</strong>: 사업화</td><td>4강</td><td>수익모델, 홍보/마케팅, 커뮤니티 운영, 문서 고급</td><td>수익모델 기획서, 마케팅 전략서, 커뮤니티 계획</td></tr>
+            <tr><td><strong>Part 3</strong>: 전문가 성장</td><td>3강</td><td>워크플로우, 프로젝트 관리, 수료/네트워킹</td><td>워크플로우 다이어그램, 프로젝트 템플릿</td></tr>
+          </tbody>
+        </table>
+        <p><strong>슬로건</strong>: "AI로 수익 만들기"<br>
+        <strong>컬러</strong>: 보라 (#9B59B6)<br>
+        <strong>목표</strong>: 강사/컨설턴트 등록, 수익화 실현</p>
+      </div>
+
+      <hr>
+
+      <h2>4. 프로덕트 재배치 (총 40개)</h2>
+
+      <h3>Lv.1 초보자 프로덕트 (10개)</h3>
+      <ol>
+        <li>나의 첫 Gmail</li>
+        <li>나만의 스마트폰 설정</li>
+        <li>클릭 마스터 인증</li>
+        <li>ChatGPT 첫 대화록 5개</li>
+        <li>첫 AI 그림 5종세트</li>
+        <li>첫 이메일 3통</li>
+        <li>디지털 앨범 시즌1 (3개/30장)</li>
+        <li>AI 감사 편지 3통</li>
+        <li>나의 AI 일기장 (7일)</li>
+        <li>초보자 수료 포트폴리오</li>
+      </ol>
+
+      <h3>Lv.2 중급자 프로덕트 (10개)</h3>
+      <ol start="11">
+        <li>손주 사랑 편지함 (12통)</li>
+        <li>가족 동화책 (5페이지)</li>
+        <li>가족 여행 바이블 PPT</li>
+        <li>가족 SNS 계정 + 10포스팅</li>
+        <li>가족 이력서 타임라인</li>
+        <li>AI 시/글 모음집</li>
+        <li>가족 홈페이지 (5페이지)</li>
+        <li>자막 달린 가족 영상 3개</li>
+        <li>가족 발표용 PPT 3개</li>
+        <li>중급자 수료 포트폴리오</li>
+      </ol>
+
+      <hr>
+
+      <h2>6. 변경의 장점</h2>
+
+      <h3>사용자 입장</h3>
+      <ul>
+        <li><strong>심리적 부담 감소</strong>: 14주 -> 12주 (3개월 완성)</li>
+        <li><strong>명확한 목표</strong>: 초보->중급->고급->전문가 4단계 성장</li>
+        <li><strong>더 많은 초보자 콘텐츠</strong>: Lv.1이 15강으로 확대</li>
+      </ul>
+
+      <h3>비즈니스 입장</h3>
+      <ul>
+        <li><strong>마케팅 메시지 강화</strong>: "3개월 AI 마스터"</li>
+        <li><strong>개발 효율 향상</strong>: 레벨 테스트/홈페이지 UI 단순화</li>
+        <li><strong>강의 구조 명확</strong>: 콘텐츠 제작 우선순위 명확</li>
+      </ul>
+
+      <hr>
+
+      <blockquote>
+        <strong>"단순함이 최고의 전략이다"</strong><br>
+        5단계 -> 4단계. 더 명확하고, 더 쉽고, 더 매력적이다.
+      </blockquote>
+
+      <div class="mt-8 p-4 bg-gray-50 rounded-lg text-sm text-gray-500">
+        <p><strong>설계</strong>: 그러쥬 (Gruju)</p>
+        <p><strong>날짜</strong>: 2026-02-01</p>
+        <p><strong>다음 리뷰</strong>: 변경 적용 후 피드백</p>
+      </div>
+    </article>
+  </main>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lv.1 강의-프로덕트 매트릭스 | AI 마스터 클래스</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Noto Sans KR', sans-serif; }
+    .prose { max-width: 100%; }
+    .prose h1 { font-size: 2rem; font-weight: 800; margin-bottom: 1rem; color: #1f2937; }
+    .prose h2 { font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; color: #374151; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.5rem; }
+    .prose h3 { font-size: 1.25rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; color: #4b5563; }
+    .prose p { margin-bottom: 1rem; line-height: 1.8; color: #374151; }
+    .prose ul, .prose ol { margin-bottom: 1rem; padding-left: 1.5rem; }
+    .prose li { margin-bottom: 0.5rem; line-height: 1.6; }
+    .prose blockquote { border-left: 4px solid #D4A853; padding-left: 1rem; margin: 1rem 0; background: #FFFBEB; padding: 1rem; border-radius: 0.5rem; }
+    .prose table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.85rem; }
+    .prose th, .prose td { border: 1px solid #e5e7eb; padding: 0.5rem; text-align: center; }
+    .prose th { background: #f9fafb; font-weight: 600; }
+    .direct { color: #059669; font-weight: bold; }
+    .indirect { color: #6b7280; }
+    .product-box { background: #f0f9ff; border: 2px solid #bae6fd; border-radius: 0.75rem; padding: 1rem; margin: 1rem 0; }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <header class="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm border-b border-gray-200">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <a href="/checklist.html" class="flex items-center gap-2 text-gray-600 hover:text-amber-600">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+          체크리스트로
+        </a>
+      </div>
+      <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">완료됨</span>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 pt-24 pb-16">
+    <div class="bg-white rounded-2xl shadow-lg p-8">
+      <div class="prose">
+        <h1>Lv.1 초보자 - 강의-프로덕트 매트릭스</h1>
+        <blockquote>
+          <strong>대상</strong>: Lv.1 초보자 (15강 / 10프로덕트 / 3주)<br>
+          <strong>목적</strong>: 강의와 프로덕트 연결 상태 한눈에 파악
+        </blockquote>
+
+        <h2>15×10 매트릭스 표</h2>
+        <p><span class="direct">● = 직접 연결</span> | <span class="indirect">○ = 간접 연결</span></p>
+
+        <div style="overflow-x: auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>강의</th>
+                <th>#01<br>Gmail</th>
+                <th>#02<br>폰</th>
+                <th>#03<br>클릭</th>
+                <th>#04<br>대화</th>
+                <th>#05<br>그림</th>
+                <th>#06<br>메일</th>
+                <th>#07<br>앨범</th>
+                <th>#08<br>편지</th>
+                <th>#09<br>일기</th>
+                <th>#10<br>수료</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>01강</strong></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td><strong>02강</strong></td><td class="direct">●</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td><strong>03강</strong></td><td class="indirect">○</td><td class="direct">●</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td><strong>04강</strong></td><td></td><td class="indirect">○</td><td class="direct">●</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td><strong>05강</strong></td><td></td><td></td><td class="direct">●</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td><strong>06강</strong></td><td></td><td></td><td></td><td class="direct">●</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td><strong>07강</strong></td><td></td><td></td><td></td><td class="direct">●</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td><strong>08강</strong></td><td></td><td></td><td></td><td></td><td class="direct">●</td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td><strong>09강</strong></td><td></td><td></td><td></td><td class="indirect">○</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td><strong>10강</strong></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td><strong>11강</strong></td><td class="indirect">○</td><td></td><td></td><td></td><td></td><td class="direct">●</td><td></td><td></td><td></td><td></td></tr>
+              <tr><td><strong>12강</strong></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="direct">●</td><td></td><td></td><td></td></tr>
+              <tr><td><strong>13강</strong></td><td></td><td></td><td></td><td class="indirect">○</td><td></td><td></td><td></td><td class="direct">●</td><td></td><td></td></tr>
+              <tr><td><strong>14강</strong></td><td></td><td></td><td></td><td></td><td class="indirect">○</td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td><strong>15강</strong></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="direct">●</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>프로덕트별 상세 매핑</h2>
+
+        <div class="product-box">
+          <h3>📧 프로덕트 #01: 나의 첫 Gmail</h3>
+          <p><strong>직접 연결</strong>: 02강 (Gmail 생성)<br>
+          <strong>간접 연결</strong>: 03강 (폰에서 확인), 11강 (이메일 발송)</p>
+          <p><strong>완성 기준</strong>: @gmail.com 주소 생성 + 프로필 설정 + 연락처 5개 등록</p>
+        </div>
+
+        <div class="product-box">
+          <h3>📱 프로덕트 #02: 스마트폰 세팅 완료</h3>
+          <p><strong>직접 연결</strong>: 03강 (폰 기본 설정)<br>
+          <strong>간접 연결</strong>: 04강 (클릭 연습)</p>
+          <p><strong>완성 기준</strong>: 배경화면 + 글자 크기 + 주요 앱 배치 + 알림 설정 (10가지)</p>
+        </div>
+
+        <div class="product-box">
+          <h3>🖱️ 프로덕트 #03: 클릭 마스터</h3>
+          <p><strong>직접 연결</strong>: 04강, 05강 (클릭 기초/정석)</p>
+          <p><strong>완성 기준</strong>: 10가지 클릭 동작 완료 + 체크리스트 서명</p>
+        </div>
+
+        <div class="product-box">
+          <h3>💬 프로덕트 #04: ChatGPT 첫 대화록</h3>
+          <p><strong>직접 연결</strong>: 06강 (첫 대화), 07강 (질문 개선)</p>
+          <p><strong>완성 기준</strong>: 첫 5개 대화 저장 + 대화 목록 스크린샷</p>
+        </div>
+
+        <div class="product-box">
+          <h3>🎨 프로덕트 #05: 첫 AI 그림 5종세트</h3>
+          <p><strong>직접 연결</strong>: 08강 (AI 그림 첫경험)</p>
+          <p><strong>완성 기준</strong>: 봄/강아지/커피/캐릭터/상상 그림 5장</p>
+        </div>
+
+        <h2>주차별 프로덕트 분배</h2>
+        <table>
+          <thead>
+            <tr><th>주차</th><th>프로덕트 완성</th><th>강의</th><th>비고</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Week 1</strong></td><td>#01, #02, #03</td><td>1-5강</td><td>디지털 기초</td></tr>
+            <tr><td><strong>Week 2</strong></td><td>#04, #05, #09(진행)</td><td>6-10강</td><td>AI 첫 만남</td></tr>
+            <tr><td><strong>Week 3</strong></td><td>#06, #07, #08, #09(완료), #10</td><td>11-15강</td><td>가족 공유 + 수료</td></tr>
+          </tbody>
+        </table>
+
+        <h2>촬영 우선순위</h2>
+        <table>
+          <thead>
+            <tr><th>우선순위</th><th>강의</th><th>연결 프로덕트</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>⭐⭐⭐⭐⭐</td><td>02강</td><td>#01 Gmail</td></tr>
+            <tr><td>⭐⭐⭐⭐⭐</td><td>03강</td><td>#02 폰세팅</td></tr>
+            <tr><td>⭐⭐⭐⭐⭐</td><td>06강</td><td>#04 대화</td></tr>
+            <tr><td>⭐⭐⭐⭐⭐</td><td>11강</td><td>#06 이메일</td></tr>
+            <tr><td>⭐⭐⭐⭐</td><td>04-05강</td><td>#03 클릭</td></tr>
+            <tr><td>⭐⭐⭐⭐</td><td>08강</td><td>#05 그림</td></tr>
+          </tbody>
+        </table>
+
+        <p><strong>작성</strong>: 그러쥬 | <strong>날짜</strong>: 2026-02-01</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="max-w-6xl mx-auto px-4 pb-8 text-center text-gray-500 text-sm">
+    <p>AI 마스터 클래스 - 제작 문서</p>
+  </footer>
+</body>
+</html>

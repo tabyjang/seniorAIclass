@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PRD (제품 요구사항) | AI 마스터 클래스</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Noto Sans KR', sans-serif; }
+    .prose { max-width: 100%; }
+    .prose h1 { font-size: 2rem; font-weight: 800; margin-bottom: 1rem; color: #1f2937; }
+    .prose h2 { font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; color: #374151; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.5rem; }
+    .prose h3 { font-size: 1.25rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; color: #4b5563; }
+    .prose h4 { font-size: 1.1rem; font-weight: 600; margin-top: 1rem; margin-bottom: 0.5rem; color: #6b7280; }
+    .prose p { margin-bottom: 1rem; line-height: 1.8; color: #374151; }
+    .prose ul, .prose ol { margin-bottom: 1rem; padding-left: 1.5rem; }
+    .prose li { margin-bottom: 0.5rem; line-height: 1.6; }
+    .prose blockquote { border-left: 4px solid #f97316; padding-left: 1rem; margin: 1rem 0; background: #fff7ed; padding: 1rem; border-radius: 0.5rem; }
+    .prose table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+    .prose th, .prose td { border: 1px solid #e5e7eb; padding: 0.75rem; text-align: left; }
+    .prose th { background: #f9fafb; font-weight: 600; }
+    .prose code { background: #f3f4f6; padding: 0.2rem 0.4rem; border-radius: 0.25rem; font-size: 0.9em; }
+    .prose pre { background: #1f2937; color: #f9fafb; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; margin: 1rem 0; }
+    .prose hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+    .level-1 { color: #E85D04; }
+    .level-2 { color: #FFD93D; }
+    .level-3 { color: #4D96FF; }
+    .level-4 { color: #9B59B6; }
+    .bg-level-1 { background-color: #fff7ed; }
+    .bg-level-2 { background-color: #fefce8; }
+    .bg-level-3 { background-color: #eff6ff; }
+    .bg-level-4 { background-color: #faf5ff; }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <!-- 헤더 -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm border-b border-gray-200">
+    <div class="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <a href="/checklist.html" class="flex items-center gap-2 text-gray-600 hover:text-orange-500">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+          체크리스트로
+        </a>
+      </div>
+      <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
+        완료됨
+      </span>
+    </div>
+  </header>
+
+  <!-- 메인 -->
+  <main class="max-w-4xl mx-auto px-4 pt-24 pb-16">
+    <article class="bg-white rounded-2xl shadow-lg p-8 prose">
+      <div class="mb-6 pb-4 border-b border-gray-200">
+        <span class="text-sm text-gray-500">docs/01_planning/</span>
+        <h1 class="mt-2">시니어 AI 클래스 프로젝트 PRD</h1>
+        <div class="flex gap-4 text-sm text-gray-500">
+          <span>작성일: 2026-02-01</span>
+          <span>버전: 1.0</span>
+          <span class="px-2 py-0.5 bg-amber-100 text-amber-700 rounded">Draft</span>
+        </div>
+      </div>
+
+      <blockquote>
+        <strong>Product Requirements Document</strong><br>
+        작성일: 2026-02-01 | 버전: 1.0 | 상태: Draft
+      </blockquote>
+
+      <hr>
+
+      <h2>1. 개요 (Overview)</h2>
+
+      <h3>1.1 프로젝트 명칭</h3>
+      <p><strong>시니어 AI 클래스 (Senior AI Class)</strong></p>
+
+      <h3>1.2 프로젝트 비전</h3>
+      <blockquote>"50-70대 시니어가 AI 시대의 주인공이 되는 세상"</blockquote>
+      <p>AI가 어렵고 낯선 것이 아닌, 시니어의 일상을 풍요롭게 만들고 새로운 가능성을 열어주는 도구가 되도록 한다.</p>
+
+      <h3>1.3 핵심 가치 제안</h3>
+      <ul>
+        <li><strong>쉬움</strong>: "나이는 숫자일 뿐, AI는 어렵지 않아요"</li>
+        <li><strong>성취</strong>: 매 수업마다 완성하는 프로덕트로 자신감 충전</li>
+        <li><strong>연결</strong>: 가족과의 디지털 소통 창구 마련</li>
+        <li><strong>성장</strong>: 초보자에서 강사/전문가로의 성장 경로</li>
+      </ul>
+
+      <hr>
+
+      <h2>2. 타겟 사용자 (Target Users)</h2>
+
+      <h3>2.1 1차 타겟</h3>
+      <p><strong>50-70대 시니어 (주부, 퇴직자, 은퇴 예정자)</strong></p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>세부 타겟</th>
+            <th>특성</th>
+            <th>주요 니즈</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>디지털 완전 초보</strong> (50-60세)</td>
+            <td>스마트폰 기본 기능만 사용</td>
+            <td>자녀/손주와의 소통, 디지털 자립</td>
+          </tr>
+          <tr>
+            <td><strong>AI 체험 희망자</strong> (55-65세)</td>
+            <td>AI 도구 사용 경험 없음</td>
+            <td>새로운 취미, 창작 활동</td>
+          </tr>
+          <tr>
+            <td><strong>능력 개발 희망자</strong> (60-70세)</td>
+            <td>기본적인 디지털 활용 가능</td>
+            <td>업무/사업에 AI 활용, 수익화</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>2.2 2차 타겟</h3>
+      <ul>
+        <li><strong>자녀</strong>: 부모님 AI 교육을 원하는 30-40대</li>
+        <li><strong>배우자</strong>: 부부 함께 배우기를 원하는 시니어</li>
+        <li><strong>기관</strong>: 노인복지관, 경로당, 시니어센터</li>
+      </ul>
+
+      <hr>
+
+      <h2>3. 레벨별 구조 (Level Structure)</h2>
+
+      <h3>3.1 4단계 레벨 시스템</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>레벨</th>
+            <th>이름</th>
+            <th>강의수</th>
+            <th>프로덕트수</th>
+            <th>소요기간</th>
+            <th>핵심 목표</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="bg-level-1">
+            <td><strong>Lv.1</strong></td>
+            <td>초보자</td>
+            <td>15강</td>
+            <td>10개</td>
+            <td>3주</td>
+            <td>디지털 기초 + 첫 성취감</td>
+          </tr>
+          <tr class="bg-level-2">
+            <td><strong>Lv.2</strong></td>
+            <td>중급자</td>
+            <td>12강</td>
+            <td>10개</td>
+            <td>3주</td>
+            <td>생활에 AI 녹이기</td>
+          </tr>
+          <tr class="bg-level-3">
+            <td><strong>Lv.3</strong></td>
+            <td>고급자</td>
+            <td>12강</td>
+            <td>10개</td>
+            <td>3주</td>
+            <td>전문가급 콘텐츠 제작</td>
+          </tr>
+          <tr class="bg-level-4">
+            <td><strong>Lv.4</strong></td>
+            <td>전문가</td>
+            <td>11강</td>
+            <td>10개</td>
+            <td>3주</td>
+            <td>가르치고 수익화</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p><strong>총 50강 | 40프로덕트 | 12주 완성</strong></p>
+
+      <h3>3.2 레벨별 특징</h3>
+
+      <div class="bg-level-1 p-4 rounded-lg mb-4">
+        <h4 class="level-1">Lv.1 초보자 (Beginner)</h4>
+        <ul>
+          <li><strong>슬로건</strong>: "AI에 도전하는 용기"</li>
+          <li><strong>컬러</strong>: 따뜻한 오렌지 (#E85D04)</li>
+          <li><strong>핵심 프로덕트</strong>: Gmail, 스마트폰 세팅, 첫 AI 대화, 디지털 앨범</li>
+          <li><strong>성취 기준</strong>: "나도 디지털 할 수 있다" 자신감 확보</li>
+        </ul>
+      </div>
+
+      <div class="bg-level-2 p-4 rounded-lg mb-4">
+        <h4 style="color: #ca8a04;">Lv.2 중급자 (Intermediate)</h4>
+        <ul>
+          <li><strong>슬로건</strong>: "AI와 즐겁게 놀기"</li>
+          <li><strong>컬러</strong>: 밝은 노랑 (#FFD93D)</li>
+          <li><strong>핵심 프로덕트</strong>: 손주 편지함, 동화책, 여행계획, SNS 계정</li>
+          <li><strong>성취 기준</strong>: 가족에게 선물할 수 있는 콘텐츠 제작</li>
+        </ul>
+      </div>
+
+      <div class="bg-level-3 p-4 rounded-lg mb-4">
+        <h4 class="level-3">Lv.3 고급자 (Advanced)</h4>
+        <ul>
+          <li><strong>슬로건</strong>: "AI로 능력자 되기"</li>
+          <li><strong>컬러</strong>: 전문적인 파랑 (#4D96FF)</li>
+          <li><strong>핵심 프로덕트</strong>: 가족 영화관, 홈페이지, 회고록, 발표회</li>
+          <li><strong>성취 기준</strong>: 전문가 수준의 결과물, 브랜드 구축</li>
+        </ul>
+      </div>
+
+      <div class="bg-level-4 p-4 rounded-lg mb-4">
+        <h4 class="level-4">Lv.4 전문가 (Expert)</h4>
+        <ul>
+          <li><strong>슬로건</strong>: "AI로 수익 만들기"</li>
+          <li><strong>컬러</strong>: 고급스러운 보라 (#9B59B6)</li>
+          <li><strong>핵심 프로덕트</strong>: AI 교재, 가족 AI 학교, 봉사단, 컨설팅</li>
+          <li><strong>성취 기준</strong>: 강사/컨설턴트로 활동, 수익화 실현</li>
+        </ul>
+      </div>
+
+      <hr>
+
+      <h2>4. 상세 커리큘럼 (Detailed Curriculum)</h2>
+
+      <h3>4.1 Lv.1 초보자 - 15강</h3>
+
+      <h4>Part 1: 디지털 기초 다지기 (5강)</h4>
+      <ul>
+        <li><strong>01강</strong> | 디지털, 두려워하지 마세요</li>
+        <li><strong>02강</strong> | 구글 계정 만들기 - 첫 디지털 자산</li>
+        <li><strong>03강</strong> | 스마트폰 기본기 - 손가락 하나로 하는 모든 것</li>
+        <li><strong>04강</strong> | 마우스와 키보드 - 컴퓨터와 대화하기</li>
+        <li><strong>05강</strong> | 화면 클릭의 정석 - 터치부터 드래그까지</li>
+      </ul>
+
+      <h4>Part 2: AI 첫 만남 (5강)</h4>
+      <ul>
+        <li><strong>06강</strong> | ChatGPT 첫 대화 - "안녕하세요"</li>
+        <li><strong>07강</strong> | AI에게 잘 물어보는 법</li>
+        <li><strong>08강</strong> | AI가 그려주는 그림 첫 경험</li>
+        <li><strong>09강</strong> | AI와의 대화 저장하기</li>
+        <li><strong>10강</strong> | 실패해도 괜찮아요 - 재시도의 힘</li>
+      </ul>
+
+      <h4>Part 3: 가족과 공유하기 (5강)</h4>
+      <ul>
+        <li><strong>11강</strong> | 첫 이메일 보내기 - 가족에게 디지털 안부</li>
+        <li><strong>12강</strong> | 사진 정리하기 - 구글 포토 시작</li>
+        <li><strong>13강</strong> | AI가 써주는 편지 - 감사 인사 전하기</li>
+        <li><strong>14강</strong> | 나만의 AI 그림 만들기</li>
+        <li><strong>15강</strong> | 초보자 수료, 다음 단계로!</li>
+      </ul>
+
+      <hr>
+
+      <h2>5. 레벨별 완성 프로덕트 (Level Products)</h2>
+
+      <h3>5.1 Lv.1 초보자 프로덕트 (10개)</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>프로덕트명</th>
+            <th>완성 기준</th>
+            <th>증명 방식</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>나의 첫 Gmail</td><td>@gmail.com 생성, 프로필 설정</td><td>Gmail 홈 화면 스크린샷</td></tr>
+          <tr><td>2</td><td>나만의 스마트폰</td><td>10가지 개인 설정 완료</td><td>홈화면 캡처 3장</td></tr>
+          <tr><td>3</td><td>클릭 마스터</td><td>10가지 클릭 동작 완료</td><td>체크리스트 서명</td></tr>
+          <tr><td>4</td><td>ChatGPT 첫 대화록</td><td>5개 대화 저장</td><td>대화 목록 스크린샷</td></tr>
+          <tr><td>5</td><td>첫 AI 그림 5종세트</td><td>5장 그림 생성</td><td>그림 폴더 정리</td></tr>
+          <tr><td>6</td><td>첫 이메일 3통</td><td>가족 3명 발송 + 답장</td><td>보낸메일함 스크린샷</td></tr>
+          <tr><td>7</td><td>디지털 앨범 시즌1</td><td>3개 앨범 30장</td><td>앨범 목록 스크린샷</td></tr>
+          <tr><td>8</td><td>AI 감사 편지 3통</td><td>3통 작성 + 출력 + 전달</td><td>출력본 사진</td></tr>
+          <tr><td>9</td><td>나의 AI 일기장</td><td>7일치 기록</td><td>PDF 파일</td></tr>
+          <tr><td>10</td><td>초보자 수료 포트폴리오</td><td>9개 + 수료증</td><td>포트폴리오 PDF</td></tr>
+        </tbody>
+      </table>
+
+      <hr>
+
+      <h2>6. 성공 Metrics (KPI)</h2>
+
+      <h3>6.1 사용자 성과 지표</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>레벨</th>
+            <th>완료율 목표</th>
+            <th>핵심 성과</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>초보자</td><td>85%+</td><td>10개 프로덕트 완성, Gmail/이메일 활용</td></tr>
+          <tr><td>중급자</td><td>80%+</td><td>가족 콘텐츠 10개 제작, SNS 운영</td></tr>
+          <tr><td>고급자</td><td>75%+</td><td>전문 결과물 10개, 브랜드 구축</td></tr>
+          <tr><td>전문가</td><td>70%+</td><td>강사 등록, 수익화 실현</td></tr>
+        </tbody>
+      </table>
+
+      <h3>6.2 비즈니스 지표</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>지표</th>
+            <th>목표 (1년차)</th>
+            <th>목표 (3년차)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>누적 수강생</td><td>1,000명</td><td>10,000명</td></tr>
+          <tr><td>레벨 완료율</td><td>80%</td><td>85%</td></tr>
+          <tr><td>강사 양성</td><td>20명</td><td>200명</td></tr>
+          <tr><td>월간 반복 매출</td><td>2,000만원</td><td>1억원</td></tr>
+        </tbody>
+      </table>
+
+      <hr>
+
+      <div class="mt-8 p-4 bg-gray-50 rounded-lg text-sm text-gray-500">
+        <p><strong>문서 버전</strong>: 1.0</p>
+        <p><strong>작성일</strong>: 2026-02-01</p>
+        <p><strong>최종 수정일</strong>: 2026-02-01</p>
+        <p><strong>상태</strong>: Draft (검토 대기)</p>
+        <p><strong>다음 리뷰</strong>: 2026-02-15</p>
+      </div>
+    </article>
+  </main>
+</body>
+</html>

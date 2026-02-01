@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>40개 완성 프로덕트 | AI 마스터 클래스</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Noto Sans KR', sans-serif; }
+    /* 미드나잇 럭셔리 팔레트 */
+    .level-1 { --level-color: #0F172A; --level-bg: #F8FAFC; }
+    .level-2 { --level-color: #334155; --level-bg: #F1F5F9; }
+    .level-3 { --level-color: #D4A853; --level-bg: #FDF8ED; }
+    .level-4 { --level-color: #1E293B; --level-bg: #F8FAFC; }
+    .product-card { transition: all 0.3s ease; }
+    .product-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .product-details { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+    .product-details.open { max-height: 500px; }
+    .level-tab.active { transform: scale(1.05); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <!-- 헤더 -->
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="flex justify-between items-center h-16">
+        <a href="/" class="flex items-center gap-2">
+          <div class="w-10 h-10 bg-slate-900 rounded-full flex items-center justify-center">
+            <span class="text-amber-400 font-bold text-lg">AI</span>
+          </div>
+          <span class="text-xl font-bold text-gray-800">
+            AI <span class="text-amber-500">마스터</span> 클래스
+          </span>
+        </a>
+        <div class="flex items-center gap-4">
+          <a href="/checklist.html" class="flex items-center gap-1.5 px-3 py-1.5 bg-amber-50 text-amber-600 rounded-full text-sm font-medium hover:bg-amber-100 transition-colors">
+            <span class="w-2 h-2 bg-amber-500 rounded-full animate-pulse"></span>
+            진행중
+          </a>
+          <a href="/" class="text-gray-600 hover:text-amber-500 font-medium">홈으로</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 메인 컨텐츠 -->
+  <main class="pt-24 pb-16">
+    <div class="max-w-6xl mx-auto px-4">
+      <!-- 헤더 섹션 -->
+      <div class="text-center mb-12">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-orange-100 text-orange-600 rounded-full text-sm font-medium mb-4">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <span>총 40개 프로덕트</span>
+        </div>
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+          레벨별 <span class="text-orange-500">완성 프로덕트</span>
+        </h1>
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+          매 수업마다 하나씩 완성하는 실제 결과물<br>
+          총 50강, 40개 프로덕트를 12주 만에 완성해요
+        </p>
+      </div>
+
+      <!-- 레벨 탭 -->
+      <div class="flex flex-wrap justify-center gap-3 mb-10" id="level-tabs">
+        <button onclick="setLevel(1)" class="level-tab level-1 active flex items-center gap-2 px-5 py-3 rounded-full font-medium text-base text-white" style="background-color: #E85D04;">
+          <span class="font-bold">Lv.1</span>
+          <span>초보자</span>
+          <span class="text-sm opacity-80">(10개)</span>
+        </button>
+        <button onclick="setLevel(2)" class="level-tab level-2 flex items-center gap-2 px-5 py-3 rounded-full font-medium text-base bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors">
+          <span class="font-bold">Lv.2</span>
+          <span>중급자</span>
+          <span class="text-sm opacity-80">(10개)</span>
+        </button>
+        <button onclick="setLevel(3)" class="level-tab level-3 flex items-center gap-2 px-5 py-3 rounded-full font-medium text-base bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors">
+          <span class="font-bold">Lv.3</span>
+          <span>고급자</span>
+          <span class="text-sm opacity-80">(10개)</span>
+        </button>
+        <button onclick="setLevel(4)" class="level-tab level-4 flex items-center gap-2 px-5 py-3 rounded-full font-medium text-base bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors">
+          <span class="font-bold">Lv.4</span>
+          <span>전문가</span>
+          <span class="text-sm opacity-80">(10개)</span>
+        </button>
+      </div>
+
+      <!-- 레벨 정보 카드 -->
+      <div id="level-info" class="level-1 rounded-2xl p-6 mb-8" style="background-color: var(--level-bg);">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div>
+            <div class="flex items-center gap-3 mb-2">
+              <span id="level-badge" class="text-white text-sm font-bold px-3 py-1 rounded-full" style="background-color: var(--level-color);">
+                Lv.1
+              </span>
+              <h3 id="level-name" class="text-2xl font-bold text-gray-800">초보자</h3>
+            </div>
+            <p id="level-slogan" class="text-lg text-gray-600 italic">"AI에 도전하는 용기"</p>
+          </div>
+          <div class="flex gap-4">
+            <div class="text-center px-4 py-2 bg-white rounded-xl">
+              <div id="level-lectures" class="text-2xl font-bold" style="color: var(--level-color);">15강</div>
+              <div class="text-sm text-gray-500">강의</div>
+            </div>
+            <div class="text-center px-4 py-2 bg-white rounded-xl">
+              <div class="text-2xl font-bold" style="color: var(--level-color);">10개</div>
+              <div class="text-sm text-gray-500">프로덕트</div>
+            </div>
+            <div class="text-center px-4 py-2 bg-white rounded-xl">
+              <div id="level-duration" class="text-2xl font-bold" style="color: var(--level-color);">3주</div>
+              <div class="text-sm text-gray-500">소요</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 프로덕트 그리드 -->
+      <div id="products-grid" class="grid md:grid-cols-2 gap-4">
+        <!-- 프로덕트들이 JS로 렌더링됨 -->
+      </div>
+
+      <!-- 하단 CTA -->
+      <div class="text-center mt-12">
+        <p class="text-lg text-gray-600 mb-6">
+          <strong class="text-orange-500">40개 프로덕트</strong>를 12주 만에 완성하세요
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="/#level-test" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-orange-500 text-white rounded-full font-bold text-lg hover:bg-orange-600 transition-colors">
+            나에게 맞는 레벨 찾기
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </a>
+          <a href="/#contact" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white border-2 border-orange-500 text-orange-500 rounded-full font-bold text-lg hover:bg-orange-50 transition-colors">
+            무료 상담 받기
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- 푸터 -->
+  <footer class="bg-gray-800 text-white py-8">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <p class="text-gray-400">&copy; 2026 AI 마스터 클래스. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // 레벨 데이터
+    const levelsData = {
+      1: {
+        name: "초보자",
+        slogan: "AI에 도전하는 용기",
+        color: "#E85D04",
+        bgColor: "#fff7ed",
+        lectures: 15,
+        duration: "3주",
+        products: [
+          { id: 1, name: "나의 첫 Gmail", description: "디지털 신분증 - 첫 이메일 계정", icon: "✉️", criteria: "@gmail.com 생성, 프로필 설정", proof: "Gmail 홈 화면 스크린샷", details: ["본인 이름 또는 별명 주소 생성", "프로필 사진 업로드", "기본 설정 완료 (언어, 테마)"] },
+          { id: 2, name: "나만의 스마트폰", description: "10가지 개인 설정 완료", icon: "📱", criteria: "10가지 개인 설정 완료", proof: "홈화면 캡처 3장", details: ["배경화면 설정", "글자 크기 조정", "주요 앱 배치", "알림 설정"] },
+          { id: 3, name: "클릭 마스터", description: "10가지 클릭 동작 인증", icon: "🖱️", criteria: "10가지 클릭 동작 완료", proof: "체크리스트 서명", details: ["한 번 클릭", "두 번 클릭", "길게 누르기", "드래그", "스와이프", "우클릭", "스크롤", "확대/축소"] },
+          { id: 4, name: "ChatGPT 첫 대화록", description: "AI와의 첫 5개 대화", icon: "💬", criteria: "5개 대화 저장", proof: "대화 목록 스크린샷", details: ["인사 대화", "날씨 물어보기", "이야기 듣기", "식단 추천", "자유 대화"] },
+          { id: 5, name: "첫 AI 그림 5종세트", description: "AI가 그려준 그림 모음", icon: "🎨", criteria: "5장 그림 생성", proof: "그림 폴더 정리", details: ["자연 (봄 꽃)", "동물 (강아지)", "음식 (커피)", "인물 (캐릭터)", "상상 (우리 집)"] },
+          { id: 6, name: "첫 이메일 3통", description: "가족에게 디지털 안부", icon: "📤", criteria: "가족 3명 발송 + 답장", proof: "보낸메일함 스크린샷", details: ["자녀에게 이메일", "손주에게 이메일", "배우자에게 이메일", "답장 확인"] },
+          { id: 7, name: "디지털 앨범 시즌1", description: "구글 포토 앨범 정리", icon: "📷", criteria: "3개 앨범 30장", proof: "앨범 목록 스크린샷", details: ["우리 가족 앨범", "손주 모음 앨범", "추억의 사진 앨범"] },
+          { id: 8, name: "AI 감사 편지 3통", description: "따뜻한 마음을 담은 편지", icon: "💝", criteria: "3통 작성 + 출력 + 전달", proof: "출력본 사진", details: ["부모님께 편지", "자녀에게 편지", "배우자에게 편지"] },
+          { id: 9, name: "나의 AI 일기장", description: "7일간의 AI 일기", icon: "📖", criteria: "7일치 기록", proof: "PDF 파일", details: ["오늘의 기분", "오늘의 할 일", "오늘의 감사", "오늘의 질문", "오늘의 요리", "주간 돌아보기"] },
+          { id: 10, name: "초보자 수료 포트폴리오", description: "15강 성취 증명", icon: "🏆", criteria: "9개 + 수료증", proof: "포트폴리오 PDF", details: ["9개 프로덕트 정리", "학습 여정 기록", "수료증 발급"] }
+        ]
+      },
+      2: {
+        name: "중급자",
+        slogan: "AI와 즐겁게 놀기",
+        color: "#FFD93D",
+        bgColor: "#fefce8",
+        lectures: 12,
+        duration: "3주",
+        products: [
+          { id: 11, name: "손주 사랑 편지함", description: "12개월 편지 세트", icon: "✏️", criteria: "12통 편지 작성", proof: "PDF + 출력본", details: ["1월~12월 월별 편지", "생일/명절 특별 편지", "디지털 편지함 표지"] },
+          { id: 12, name: "가족 동화책", description: "손주 맞춤 동화책 1권", icon: "📚", criteria: "5페이지 1권", proof: "A4 소책자 인쇄", details: ["표지 디자인", "5페이지 스토리", "AI 일러스트 5장"] },
+          { id: 13, name: "가족 여행 바이블", description: "3박 4일 여행 계획서", icon: "✈️", criteria: "3박 4일 계획 PPT", proof: "PPT + 여행 인증샷", details: ["10페이지 PPT", "일자별 상세 일정", "맛집 지도", "예산 계획표"] },
+          { id: 14, name: "가족 SNS 계정", description: "블로그 + 10개 포스팅", icon: "🔗", criteria: "블로그 + 10개 포스팅", proof: "블로그 통계 스크린샷", details: ["네이버 블로그 개설", "게시물 10개 작성", "가족 공유"] },
+          { id: 15, name: "가족 이력서", description: "30년 역사 타임라인", icon: "👨‍👩‍👧‍👦", criteria: "30년 타임라인", proof: "A3 포스터 인쇄", details: ["가족 타임라인", "주요 가족사 10개", "사진 타임라인"] },
+          { id: 16, name: "가족 AI 요리책", description: "20개 레시피 모음", icon: "🍳", criteria: "20개 레시피", proof: "A5 요리책 인쇄", details: ["가족 맞춤 레시피", "사진 포함", "영양 정보"] },
+          { id: 17, name: "가족 카드세트", description: "24장 특별한 카드", icon: "💳", criteria: "24장 카드", proof: "카드박스 세트", details: ["생일 카드", "명절 카드", "감사 카드", "축하 카드"] },
+          { id: 18, name: "가족 디자인 키트", description: "명함/로고/프로필", icon: "🖼️", criteria: "명함/로고/프로필", proof: "명함 인쇄 100장", details: ["가족 로고 디자인", "명함 디자인", "프로필 사진 3종"] },
+          { id: 19, name: "가족 갤러리", description: "6장 포스터 세트", icon: "📁", criteria: "6장 포스터", proof: "A4 출력 6장", details: ["가족 사진 보정", "AI 스타일 적용", "액자용 출력"] },
+          { id: 20, name: "가족 음성 아카이브", description: "5편 음성 녹음", icon: "🎙️", criteria: "5편 녹음", proof: "MP3 + QR코드", details: ["가족 인터뷰", "추억 이야기", "메시지 녹음"] }
+        ]
+      },
+      3: {
+        name: "고급자",
+        slogan: "AI로 능력자 되기",
+        color: "#4D96FF",
+        bgColor: "#eff6ff",
+        lectures: 12,
+        duration: "3주",
+        products: [
+          { id: 21, name: "가족 영화관", description: "5편 영상 (총 20분)", icon: "🎬", criteria: "5편 영상 (총 20분)", proof: "유튜브 채널", details: ["가족 2026 연말 영상", "젊은 시절 영상", "손주 성장 다큐", "가족 여행 브이로그"] },
+          { id: 22, name: "우리 가족 홈페이지", description: "5페이지 웹사이트", icon: "🌐", criteria: "5페이지 웹사이트", proof: "도메인 연결", details: ["메인 페이지", "가족 소개", "갤러리", "블로그", "연락처"] },
+          { id: 23, name: "가족 회고록", description: "50페이지 전자책", icon: "📄", criteria: "50페이지 전자책", proof: "EPUB/PDF 파일", details: ["5장 구성", "AI 일러스트 20장", "QR코드 영상 링크"] },
+          { id: 24, name: "가족 데이터센터", description: "가계 관리 시스템", icon: "📊", criteria: "가계 관리 시스템", proof: "구글시트 공유", details: ["가계부 분석", "건강 데이터", "자산 현황표"] },
+          { id: 25, name: "가족 발표회", description: "3개 발표자료 세트", icon: "📽️", criteria: "3개 발표자료", proof: "PPT + 발표 영상", details: ["결혼기념 발표", "이사 감사 발표", "손주 돌잔치 축하"] },
+          { id: 26, name: "가족 유튜브 채널", description: "구독자 100명 달성", icon: "📺", criteria: "구독자 100명", proof: "스튜디오 스크린샷", details: ["채널 개설", "영상 10개 업로드", "구독자 확보"] },
+          { id: 27, name: "가족 브랜드 아이덴티티", description: "BI 완성", icon: "💼", criteria: "BI 완성", proof: "브랜드 키트", details: ["로고 시스템", "컬러 팔레트", "폰트 가이드", "활용 예시"] },
+          { id: 28, name: "가족 전자책 출판", description: "3권 출간", icon: "📕", criteria: "3권 출간", proof: "Amazon 등록", details: ["회고록", "요리책", "여행기"] },
+          { id: 29, name: "가족 비즈니스 제안서", description: "사업계획 1건", icon: "🗄️", criteria: "사업계획 1건", proof: "제안서 PDF", details: ["사업 아이디어", "시장 분석", "수익 모델"] },
+          { id: 30, name: "가족 감사제", description: "50인 행사", icon: "🎉", criteria: "50인 행사", proof: "행사 사진 200장", details: ["초대장 디자인", "프로그램 기획", "사진 촬영"] }
+        ]
+      },
+      4: {
+        name: "전문가",
+        slogan: "AI로 수익 만들기",
+        color: "#9B59B6",
+        bgColor: "#faf5ff",
+        lectures: 11,
+        duration: "3주",
+        products: [
+          { id: 31, name: "나만의 AI 교재", description: "3종 출판", icon: "🎓", criteria: "PDF 교재 3종", proof: "PDF 교재 3종", details: ["시니어 AI 입문 교재", "실습 워크북", "강사용 가이드"] },
+          { id: 32, name: "우리 가족 AI 학교", description: "10회 강의 완료", icon: "🏫", criteria: "10회 강의 완료", proof: "가족 수료증 6장", details: ["가족 대상 교육", "10회 강의", "수료증 발급"] },
+          { id: 33, name: "AI봉사단", description: "지역사회 5회 강의", icon: "🤝", criteria: "지역사회 5회", proof: "봉사활동 확인증", details: ["경로당 강의", "도서관 강의", "수강생 50명"] },
+          { id: 34, name: "AI 컨설턴트 포트폴리오", description: "3건 수행", icon: "✅", criteria: "프로젝트 3건 완료", proof: "수익 인증", details: ["포트폴리오 문서", "수익 300만원+"] },
+          { id: 35, name: "AI 마스터 인증", description: "공식 강사 등록", icon: "🏆", criteria: "공식 강사 등록", proof: "명함 + 등록번호", details: ["AI 마스터 수료증", "강사 네트워크 가입"] },
+          { id: 36, name: "AI 강사 브랜드", description: "개인 브랜딩", icon: "👤", criteria: "개인 브랜딩", proof: "강사 홈페이지", details: ["개인 홈페이지", "포트폴리오", "연락처"] },
+          { id: 37, name: "AI 교육 채널", description: "구독자 500명", icon: "📺", criteria: "구독자 500명", proof: "월 수익 50만원+", details: ["유튜브 채널", "정기 업로드", "수익화"] },
+          { id: 38, name: "AI 비즈니스 모델", description: "3가지 수익원", icon: "💰", criteria: "3가지 수익원", proof: "월 100만원 수익", details: ["강의 수익", "컨설팅 수익", "콘텐츠 수익"] },
+          { id: 39, name: "AI 멘토링", description: "후배 3명 양성", icon: "👥", criteria: "후배 3명 양성", proof: "멘토링 수료증", details: ["멘티 선발", "교육 진행", "수료 인증"] },
+          { id: 40, name: "AI 사회공헌", description: "프로젝트 1건", icon: "🏠", criteria: "프로젝트 1건", proof: "감사장/표창장", details: ["사회공헌 기획", "실행", "인정"] }
+        ]
+      }
+    };
+
+    let currentLevel = 1;
+    let expandedProductId = null;
+
+    function setLevel(level) {
+      currentLevel = level;
+      expandedProductId = null;
+      updateUI();
+    }
+
+    function toggleProduct(id) {
+      expandedProductId = expandedProductId === id ? null : id;
+      renderProducts();
+    }
+
+    function updateUI() {
+      const data = levelsData[currentLevel];
+
+      // 탭 업데이트
+      document.querySelectorAll('.level-tab').forEach((tab, idx) => {
+        const lvl = idx + 1;
+        if (lvl === currentLevel) {
+          tab.classList.add('active');
+          tab.style.backgroundColor = levelsData[lvl].color;
+          tab.classList.remove('bg-gray-100', 'text-gray-600');
+          tab.classList.add('text-white');
+        } else {
+          tab.classList.remove('active');
+          tab.style.backgroundColor = '';
+          tab.classList.add('bg-gray-100', 'text-gray-600');
+          tab.classList.remove('text-white');
+        }
+      });
+
+      // 레벨 정보 카드 업데이트
+      const levelInfo = document.getElementById('level-info');
+      levelInfo.style.backgroundColor = data.bgColor;
+      levelInfo.style.setProperty('--level-color', data.color);
+
+      document.getElementById('level-badge').textContent = `Lv.${currentLevel}`;
+      document.getElementById('level-badge').style.backgroundColor = data.color;
+      document.getElementById('level-name').textContent = data.name;
+      document.getElementById('level-slogan').textContent = `"${data.slogan}"`;
+      document.getElementById('level-lectures').textContent = `${data.lectures}강`;
+      document.getElementById('level-lectures').style.color = data.color;
+      document.getElementById('level-duration').textContent = data.duration;
+      document.getElementById('level-duration').style.color = data.color;
+
+      // 프로덕트 카운트 색상
+      levelInfo.querySelectorAll('.text-2xl.font-bold').forEach(el => {
+        el.style.color = data.color;
+      });
+
+      renderProducts();
+    }
+
+    function renderProducts() {
+      const data = levelsData[currentLevel];
+      const grid = document.getElementById('products-grid');
+
+      grid.innerHTML = data.products.map((product, idx) => `
+        <div class="product-card bg-white border-2 border-gray-100 rounded-2xl overflow-hidden hover:border-gray-200" style="animation: fadeIn 0.3s ease ${idx * 0.05}s both;">
+          <button onclick="toggleProduct(${product.id})" class="w-full p-5 text-left hover:bg-gray-50 transition-colors">
+            <div class="flex items-start gap-4">
+              <div class="w-14 h-14 rounded-xl flex items-center justify-center text-white flex-shrink-0 text-2xl" style="background-color: ${data.color};">
+                ${product.icon}
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2 mb-1">
+                  <span class="text-sm font-medium text-gray-400">#${product.id}</span>
+                  <h4 class="font-bold text-gray-800 text-lg">${product.name}</h4>
+                </div>
+                <p class="text-gray-600 text-sm">${product.description}</p>
+              </div>
+              <div class="text-gray-400 flex-shrink-0 transform transition-transform ${expandedProductId === product.id ? 'rotate-180' : ''}">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+              </div>
+            </div>
+          </button>
+          <div class="product-details ${expandedProductId === product.id ? 'open' : ''}">
+            <div class="px-5 pb-5 pt-2 border-t border-gray-100">
+              <div class="mb-4">
+                <h5 class="text-sm font-bold text-gray-500 mb-2">완성 기준</h5>
+                <p class="text-gray-800 font-medium">${product.criteria}</p>
+              </div>
+              <div class="mb-4">
+                <h5 class="text-sm font-bold text-gray-500 mb-2">증명 방식</h5>
+                <p class="text-gray-600">${product.proof}</p>
+              </div>
+              <div class="mb-4">
+                <h5 class="text-sm font-bold text-gray-500 mb-2">포함 내용</h5>
+                <ul class="space-y-1">
+                  ${product.details.map(detail => `
+                    <li class="flex items-center gap-2 text-sm text-gray-600">
+                      <svg class="w-4 h-4 flex-shrink-0" style="color: ${data.color};" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                      ${detail}
+                    </li>
+                  `).join('')}
+                </ul>
+              </div>
+              <a href="/#contact" class="flex items-center justify-center gap-2 w-full py-3 rounded-xl text-white font-medium transition-opacity hover:opacity-90" style="background-color: ${data.color};">
+                이 프로덕트 만들기
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // 초기화
+    updateUI();
+  </script>
+
+  <style>
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</body>
+</html>

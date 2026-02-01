@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>사이트맵 & 페이지 흐름도 | AI 마스터 클래스</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Noto Sans KR', sans-serif; }
+    .prose { max-width: 100%; }
+    .prose h1 { font-size: 2rem; font-weight: 800; margin-bottom: 1rem; color: #1f2937; }
+    .prose h2 { font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; color: #374151; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.5rem; }
+    .prose h3 { font-size: 1.25rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; color: #4b5563; }
+    .prose p { margin-bottom: 1rem; line-height: 1.8; color: #374151; }
+    .prose ul, .prose ol { margin-bottom: 1rem; padding-left: 1.5rem; }
+    .prose li { margin-bottom: 0.5rem; line-height: 1.6; }
+    .prose blockquote { border-left: 4px solid #D4A853; padding-left: 1rem; margin: 1rem 0; background: #FFFBEB; padding: 1rem; border-radius: 0.5rem; }
+    .prose pre { background: #f3f4f6; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; font-family: monospace; font-size: 0.9rem; }
+    .flow-box { background: #f9fafb; border: 2px solid #e5e7eb; border-radius: 0.5rem; padding: 0.75rem; margin: 0.25rem; text-align: center; }
+    .flow-arrow { text-align: center; color: #9ca3af; margin: 0.25rem 0; }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <!-- 헤더 -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm border-b border-gray-200">
+    <div class="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <a href="/checklist.html" class="flex items-center gap-2 text-gray-600 hover:text-amber-600">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+          체크리스트로
+        </a>
+      </div>
+      <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
+        완료됨
+      </span>
+    </div>
+  </header>
+
+  <!-- 메인 콘텐츠 -->
+  <main class="max-w-4xl mx-auto px-4 pt-24 pb-16">
+    <div class="bg-white rounded-2xl shadow-lg p-8">
+      <div class="prose">
+        <h1>홈페이지 사이트맵 & 페이지 흐름도</h1>
+        <blockquote>
+          <strong>작성일</strong>: 2026-02-01<br>
+          <strong>작성자</strong>: 그러쥬<br>
+          <strong>목적</strong>: 시니어 AI 클래스 홈페이지 구조 설계
+        </blockquote>
+
+        <h2>1. 전체 사이트맵</h2>
+        
+        <h3>헤더 (모든 페이지 공통)</h3>
+        <ul>
+          <li>로고 → 홈으로</li>
+          <li>주요 메뉴: 40개 프로덕트 | AI 배우기 | 무료 체험 | 수강 후기 | 상담 신청</li>
+          <li>전화번호 (클릭시 전화)</li>
+          <li>CTA: [카톡 상담] [무료 상담 받기]</li>
+        </ul>
+
+        <h3>메인 페이지 (/)</h3>
+        <ul>
+          <li><strong>히어로 섹션</strong>: "AI, 어렵지 않아요" + 레벨테스트 CTA</li>
+          <li><strong>레벨 테스트 섹션</strong>: 3개 궁금증 카드</li>
+          <li><strong>4단계 레벨 소개</strong>: Lv.1-Lv.4 카드</li>
+          <li><strong>40프로덕트 쇼케이스</strong>: 그리드 + 필터</li>
+          <li><strong>타겟 사용자</strong>: 3명의 페르소나 후기</li>
+          <li><strong>50강 미리보기</strong>: 6개 샘플 강의</li>
+          <li><strong>무료 체험 배너</strong></li>
+          <li><strong>FAQ 섹션</strong></li>
+          <li><strong>하단 상담 배너</strong></li>
+        </ul>
+
+        <h3>푸터 (모든 페이지 공통)</h3>
+        <ul>
+          <li>사이트맵 | 연락처 | 운영 시간 | SNS | Copyright</li>
+        </ul>
+
+        <h3>플로팅 CTA</h3>
+        <ul>
+          <li>[카톡 상담] 버튼 (우측 하단 고정)</li>
+        </ul>
+
+        <h2>2. 하위 페이지 구조</h2>
+
+        <h3>/products.html (40개 프로덕트)</h3>
+        <ul>
+          <li>필터: [전체] [초보자] [중급자] [고급자] [전문가]</li>
+          <li>프로덕트 그리드 4×10</li>
+          <li>각 카드: 아이콘 | 완성 예시 | [자세히 보기]</li>
+        </ul>
+
+        <h3>/curriculum.html (커리큘럼)</h3>
+        <ul>
+          <li>레벨 탭 4개</li>
+          <li>각 탭: 레벨 소개 | 강의 목록 | 프로덕트 목록 | [시작하기]</li>
+        </ul>
+
+        <h3>/level-test.html (레벨 테스트)</h3>
+        <ul>
+          <li>5질문 × 예/아니오</li>
+          <li>진행률 바</li>
+          <li>결과 화면: 레벨 추천 + CTA</li>
+        </ul>
+
+        <h3>/trial.html (무료 체험)</h3>
+        <ul>
+          <li>혜택 3가지</li>
+          <li>체험 강의 미리보기</li>
+          <li>신청 폼</li>
+        </ul>
+
+        <h3>/reviews.html (수강 후기)</h3>
+        <ul>
+          <li>필터: 레벨별</li>
+          <li>후기 카드 그리드</li>
+          <li>클릭 → 상세 모달</li>
+        </ul>
+
+        <h3>/contact.html (상담 신청)</h3>
+        <ul>
+          <li>연락처 정보</li>
+          <li>상담 신청 폼</li>
+          <li>신청 완료 → 확인 페이지</li>
+        </ul>
+
+        <h2>3. 사용자 흐름 (User Flow)</h2>
+
+        <h3>흐름 A: 레벨테스트 → 상담 (추천)</h3>
+        <pre>
+[진입: 메인]
+    ↓
+[히어로] "AI, 어렵지 않아요"
+    ↓
+[레벨테스트 섹션] 클릭
+    ↓
+[테스트 진행] 5질문
+    ↓
+[결과] "Lv.X 단계입니다"
+    ↓
+[상담 신청]
+    ↓
+[수강 등록]</pre>
+
+        <h3>흐름 B: 커리큘럼 → 상담</h3>
+        <pre>
+[진입: 메인]
+    ↓
+[레벨 카드] 클릭
+    ↓
+[/curriculum.html]
+    ↓
+[탭 이동] 확인
+    ↓
+[이 레벨 시작하기]
+    ↓
+[상담 신청]</pre>
+
+        <h2>4. URL 구조</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>페이지</th>
+              <th>URL</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>홈</td><td>/</td></tr>
+            <tr><td>프로덕트</td><td>/products.html</td></tr>
+            <tr><td>커리큘럼</td><td>/curriculum.html</td></tr>
+            <tr><td>레벨테스트</td><td>/level-test.html</td></tr>
+            <tr><td>무료 체험</td><td>/trial.html</td></tr>
+            <tr><td>수강 후기</td><td>/reviews.html</td></tr>
+            <tr><td>상담 신청</td><td>/contact.html</td></tr>
+            <tr><td>FAQ</td><td>/faq.html</td></tr>
+            <tr><td>체크리스트</td><td>/checklist.html</td></tr>
+          </tbody>
+        </table>
+
+        <h2>5. 개발 우선순위</h2>
+        <ul>
+          <li><strong>Phase 1 (Week 1-2)</strong>: 메인 + 상담 + 레벨테스트 (MVP)</li>
+          <li><strong>Phase 2 (Week 3-4)</strong>: 커리큘럼 + 프로덕트 + FAQ</li>
+          <li><strong>Phase 3 (Week 5-6)</strong>: 무료 체험 + 후기 + 블로그</li>
+        </ul>
+
+        <p><strong>작성</strong>: 그러쥬 | <strong>날짜</strong>: 2026-02-01</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="max-w-4xl mx-auto px-4 pb-8 text-center text-gray-500 text-sm">
+    <p>AI 마스터 클래스 - 제작 문서</p>
+  </footer>
+</body>
+</html>

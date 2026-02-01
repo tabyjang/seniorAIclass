@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lv.1 주차별 로드맵 | AI 마스터 클래스</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Noto Sans KR', sans-serif; }
+    .prose { max-width: 100%; }
+    .prose h1 { font-size: 2rem; font-weight: 800; margin-bottom: 1rem; color: #1f2937; }
+    .prose h2 { font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; color: #374151; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.5rem; }
+    .prose h3 { font-size: 1.25rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; color: #4b5563; }
+    .prose p { margin-bottom: 1rem; line-height: 1.8; color: #374151; }
+    .prose ul, .prose ol { margin-bottom: 1rem; padding-left: 1.5rem; }
+    .prose li { margin-bottom: 0.5rem; line-height: 1.6; }
+    .prose blockquote { border-left: 4px solid #D4A853; padding-left: 1rem; margin: 1rem 0; background: #FFFBEB; padding: 1rem; border-radius: 0.5rem; }
+    .week-box { background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border: 2px solid #7dd3fc; border-radius: 1rem; padding: 1.5rem; margin: 1rem 0; }
+    .day-item { background: white; border-left: 4px solid #0ea5e9; padding: 0.75rem 1rem; margin: 0.5rem 0; border-radius: 0 0.5rem 0.5rem 0; }
+    .product-complete { display: inline-block; background: #dcfce7; color: #166534; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.875rem; font-weight: 600; margin: 0.25rem; }
+    .timeline-bar { background: #e5e7eb; height: 0.5rem; border-radius: 9999px; overflow: hidden; margin: 1rem 0; }
+    .timeline-fill { background: linear-gradient(90deg, #0ea5e9, #22d3ee); height: 100%; border-radius: 9999px; }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <header class="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm border-b border-gray-200">
+    <div class="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <a href="/checklist.html" class="flex items-center gap-2 text-gray-600 hover:text-amber-600">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+          체크리스트로
+        </a>
+      </div>
+      <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">완료됨</span>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 pt-24 pb-16">
+    <div class="bg-white rounded-2xl shadow-lg p-8">
+      <div class="prose">
+        <h1>Lv.1 초보자 - 주차별 로드맵</h1>
+        <blockquote>
+          <strong>대상</strong>: Lv.1 초보자 (15강 / 10프로덕트 / 3주)<br>
+          <strong>목적</strong>: 시간순 강의-프로덕트 흐름 파악
+        </blockquote>
+
+        <h2>전체 로드맵</h2>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 1.5rem 0;">
+          <!-- Week 1 -->
+          <div style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); border-radius: 0.75rem; padding: 1rem; border: 2px solid #60a5fa;">
+            <h3 style="color: #1e40af; margin: 0 0 0.5rem 0; font-size: 1.1rem;">Week 1</h3>
+            <p style="color: #3b82f6; font-size: 0.9rem; margin: 0 0 0.75rem 0;">디지털 기초 (5강)</p>
+            <div style="background: white; border-radius: 0.5rem; padding: 0.75rem; margin-bottom: 0.5rem;">
+              <div style="padding: 0.25rem 0; border-bottom: 1px solid #e5e7eb;">01강 오리엔테이션</div>
+              <div style="padding: 0.25rem 0; border-bottom: 1px solid #e5e7eb; font-weight: 600;">02강 Gmail 만들기</div>
+              <div style="padding: 0.25rem 0; border-bottom: 1px solid #e5e7eb; font-weight: 600;">03강 폰세팅</div>
+              <div style="padding: 0.25rem 0; border-bottom: 1px solid #e5e7eb;">04강 마우스/키보드</div>
+              <div style="padding: 0.25rem 0; font-weight: 600;">05강 클릭 정석</div>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 0.25rem;">
+              <span style="background: #dcfce7; color: #166534; padding: 0.25rem 0.5rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;">📧 Gmail 계정 완성!</span>
+              <span style="background: #dcfce7; color: #166534; padding: 0.25rem 0.5rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;">📱 스마트폰 세팅 완성!</span>
+              <span style="background: #dcfce7; color: #166534; padding: 0.25rem 0.5rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;">🖱️ 클릭 마스터 인증!</span>
+            </div>
+          </div>
+
+          <!-- Week 2 -->
+          <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-radius: 0.75rem; padding: 1rem; border: 2px solid #fbbf24;">
+            <h3 style="color: #92400e; margin: 0 0 0.5rem 0; font-size: 1.1rem;">Week 2</h3>
+            <p style="color: #b45309; font-size: 0.9rem; margin: 0 0 0.75rem 0;">AI 첫 만남 (5강)</p>
+            <div style="background: white; border-radius: 0.5rem; padding: 0.75rem; margin-bottom: 0.5rem;">
+              <div style="padding: 0.25rem 0; border-bottom: 1px solid #e5e7eb; font-weight: 600;">06강 ChatGPT 첫대화</div>
+              <div style="padding: 0.25rem 0; border-bottom: 1px solid #e5e7eb;">07강 질문법</div>
+              <div style="padding: 0.25rem 0; border-bottom: 1px solid #e5e7eb; font-weight: 600;">08강 AI 그림</div>
+              <div style="padding: 0.25rem 0; border-bottom: 1px solid #e5e7eb;">09강 대화 저장</div>
+              <div style="padding: 0.25rem 0;">10강 실패 대응</div>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 0.25rem;">
+              <span style="background: #dcfce7; color: #166534; padding: 0.25rem 0.5rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;">💬 ChatGPT 대화 완성!</span>
+              <span style="background: #dcfce7; color: #166534; padding: 0.25rem 0.5rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;">🎨 AI 그림 5종 완성!</span>
+              <span style="background: #fef3c7; color: #92400e; padding: 0.25rem 0.5rem; border-radius: 9999px; font-size: 0.75rem;">📝 7일 일기 진행중</span>
+            </div>
+          </div>
+
+          <!-- Week 3 -->
+          <div style="background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%); border-radius: 0.75rem; padding: 1rem; border: 2px solid #c084fc;">
+            <h3 style="color: #6b21a8; margin: 0 0 0.5rem 0; font-size: 1.1rem;">Week 3</h3>
+            <p style="color: #7e22ce; font-size: 0.9rem; margin: 0 0 0.75rem 0;">가족과 공유 (5강)</p>
+            <div style="background: white; border-radius: 0.5rem; padding: 0.75rem; margin-bottom: 0.5rem;">
+              <div style="padding: 0.25rem 0; border-bottom: 1px solid #e5e7eb; font-weight: 600;">11강 이메일 보내기</div>
+              <div style="padding: 0.25rem 0; border-bottom: 1px solid #e5e7eb; font-weight: 600;">12강 구글포토</div>
+              <div style="padding: 0.25rem 0; border-bottom: 1px solid #e5e7eb; font-weight: 600;">13강 AI 편지쓰기</div>
+              <div style="padding: 0.25rem 0; border-bottom: 1px solid #e5e7eb;">14강 그림 심화</div>
+              <div style="padding: 0.25rem 0; font-weight: 600; color: #7c3aed;">15강 🎓 수료식</div>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 0.25rem;">
+              <span style="background: #dcfce7; color: #166534; padding: 0.25rem 0.5rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;">✉️ 첫 이메일 3통 발송!</span>
+              <span style="background: #dcfce7; color: #166534; padding: 0.25rem 0.5rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;">📷 디지털 앨범 완성!</span>
+              <span style="background: #dcfce7; color: #166534; padding: 0.25rem 0.5rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;">💌 AI 감사 편지 3통!</span>
+              <span style="background: #dcfce7; color: #166534; padding: 0.25rem 0.5rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;">📝 7일 일기 완성!</span>
+              <span style="background: #dcfce7; color: #166534; padding: 0.25rem 0.5rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;">🎓 수료 포트폴리오!</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 진행 화살표 -->
+        <div style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin: 1rem 0; color: #6b7280; font-size: 1.5rem;">
+          <span>Week 1</span>
+          <span>→</span>
+          <span>Week 2</span>
+          <span>→</span>
+          <span>Week 3</span>
+        </div>
+
+        <h2>Week 1: 디지털 기초 다지기 (1-5강)</h2>
+        <div class="week-box">
+          <p style="color: #0369a1; font-weight: 600; margin-bottom: 1rem;">🎯 목표: 디지털 문해력 확보 | 📦 완성: 3개 프로덕트</p>
+          
+          <div class="day-item">
+            <strong>Day 1-2: 01-02강</strong> (월-화)<br>
+            01강 오리엔테이션 → 02강 Gmail 만들기<br>
+            <span class="product-complete">📧 #01 Gmail 완성!</span>
+          </div>
+
+          <div class="day-item">
+            <strong>Day 3-4: 03-04강</strong> (수-목)<br>
+            03강 스마트폰 세팅 → 04강 마우스/키보드<br>
+            <span class="product-complete">📱 #02 폰세팅 완성!</span>
+          </div>
+
+          <div class="day-item">
+            <strong>Day 5: 05강</strong> (금)<br>
+            05강 클릭 정석<br>
+            <span class="product-complete">🖱️ #03 클릭마스터 완성!</span>
+          </div>
+
+          <div style="background: #ecfdf5; padding: 1rem; border-radius: 0.5rem; margin-top: 1rem;">
+            <strong>🎉 Week 1 완성!</strong><br>
+            완성 프로덕트: 3개 | 진행률: 30% | 다음: AI와 첫 만남
+          </div>
+        </div>
+
+        <h2>Week 2: AI 첫 만남 (6-10강)</h2>
+        <div class="week-box">
+          <p style="color: #0369a1; font-weight: 600; margin-bottom: 1rem;">🎯 목표: AI 기본 활용 | 📦 완성: 2개 + 진행중 1개</p>
+          
+          <div class="day-item">
+            <strong>Day 1-2: 06-07강</strong> (월-화)<br>
+            06강 ChatGPT 첫대화 → 07강 질문법<br>
+            <span class="product-complete">💬 #04 대화록 완성!</span>
+          </div>
+
+          <div class="day-item">
+            <strong>Day 3-4: 08-09강</strong> (수-목)<br>
+            08강 AI 그림 → 09강 대화 저장<br>
+            <span class="product-complete">🎨 #05 그림5종 완성!</span>
+            <span style="display: inline-block; background: #fef3c7; color: #92400e; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.875rem; margin: 0.25rem;">📝 #09 일기장 진행중</span>
+          </div>
+
+          <div class="day-item">
+            <strong>Day 5: 10강</strong> (금)<br>
+            10강 실패해도 괜찮아요
+          </div>
+
+          <div style="background: #ecfdf5; padding: 1rem; border-radius: 0.5rem; margin-top: 1rem;">
+            <strong>🎉 Week 2 완성!</strong><br>
+            완성 프로덕트: 5개 | 진행률: 50% | 다음: 가족과 공유
+          </div>
+        </div>
+
+        <h2>Week 3: 가족과 공유하기 (11-15강)</h2>
+        <div class="week-box">
+          <p style="color: #0369a1; font-weight: 600; margin-bottom: 1rem;">🎯 목표: 디지털 소통 | 📦 완성: 5개</p>
+          
+          <div class="day-item">
+            <strong>Day 1-2: 11-12강</strong> (월-화)<br>
+            11강 이메일 보내기 → 12강 구글포토<br>
+            <span class="product-complete">✉️ #06 이메일3통 완성!</span>
+            <span class="product-complete">📷 #07 앨범 완성!</span>
+          </div>
+
+          <div class="day-item">
+            <strong>Day 3-4: 13-14강</strong> (수-목)<br>
+            13강 AI 편지쓰기 → 14강 AI 그림심화<br>
+            <span class="product-complete">💌 #08 편지3통 완성!</span>
+          </div>
+
+          <div class="day-item">
+            <strong>Day 5: 15강 수료식</strong> (금)<br>
+            15강 초보자 수료, 다음 단계로!<br>
+            <span class="product-complete">📝 #09 일기장 완료!</span>
+            <span class="product-complete">🎓 #10 수료포트폴리오 완성!</span>
+          </div>
+
+          <div style="background: linear-gradient(135deg, #dcfce7, #bbf7d0); padding: 1.5rem; border-radius: 0.5rem; margin-top: 1rem; text-align: center;">
+            <strong style="font-size: 1.25rem; color: #166534;">🎉🎉🎉 Week 3 완성! 수료 축하! 🎉🎉🎉</strong><br>
+            <p style="margin-top: 0.5rem;">총 완성: 10/10 (100%) | 소요 기간: 3주</p>
+            <p style="font-weight: 600; color: #059669;">"나는 AI 초보자를 수료했다!"</p>
+          </div>
+        </div>
+
+        <h2>일정표 (캘린더 뷰)</h2>
+        <table style="font-size: 0.9rem;">
+          <thead>
+            <tr><th>주차</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th></tr>
+          </thead>
+          <tbody>
+            <tr style="background: #f0f9ff;">
+              <td><strong>W1</strong></td>
+              <td>01 오리엔</td>
+              <td>02 Gmail<br><span style="color: #059669; font-weight: bold;">●#01</span></td>
+              <td>03 폰세팅<br><span style="color: #059669; font-weight: bold;">●#02</span></td>
+              <td>04 마우스</td>
+              <td>05 클릭<br><span style="color: #059669; font-weight: bold;">●#03</span></td>
+            </tr>
+            <tr style="background: #fef3c7;">
+              <td><strong>W2</strong></td>
+              <td>06 ChatGPT<br><span style="color: #059669; font-weight: bold;">●#04</span></td>
+              <td>07 질문법</td>
+              <td>08 AI그림<br><span style="color: #059669; font-weight: bold;">●#05</span></td>
+              <td>09 저장</td>
+              <td>10 실패</td>
+            </tr>
+            <tr style="background: #f3e8ff;">
+              <td><strong>W3</strong></td>
+              <td>11 이메일<br><span style="color: #059669; font-weight: bold;">●#06</span></td>
+              <td>12 포토<br><span style="color: #059669; font-weight: bold;">●#07</span></td>
+              <td>13 편지<br><span style="color: #059669; font-weight: bold;">●#08</span></td>
+              <td>14 그림심화</td>
+              <td>15 수료<br><span style="color: #059669; font-weight: bold;">●#09#10</span></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>학생용 로드맵 (공유용)</h2>
+        <div style="background: linear-gradient(135deg, #0f172a, #1e293b); color: white; padding: 1.5rem; border-radius: 1rem; margin: 1rem 0;">
+          <h3 style="color: #fbbf24; margin-top: 0;">🗺️ 당신의 3주 AI 여정</h3>
+          
+          <p style="color: #94a3b8; margin-bottom: 0.5rem;"><strong>Week 1: 디지털 기초</strong></p>
+          <p style="margin-left: 1rem;">📧 Gmail 만들기 → 📱 스마트폰 세팅 → 🖱️ 클릭 마스터</p>
+          
+          <p style="color: #94a3b8; margin-bottom: 0.5rem;"><strong>Week 2: AI 첫 만남</strong></p>
+          <p style="margin-left: 1rem;">💬 ChatGPT 첫 대화 → 🎨 AI 그림 그리기 → 📝 AI 일기</p>
+          
+          <p style="color: #94a3b8; margin-bottom: 0.5rem;"><strong>Week 3: 가족과 공유</strong></p>
+          <p style="margin-left: 1rem;">✉️ 이메일 보내기 → 📷 디지털 앨범 → 💌 AI 감사 편지 → 🎓 수료식!</p>
+          
+          <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 0.5rem; margin-top: 1rem;">
+            <strong style="color: #fbbf24;">3주 후 당신은...</strong><br>
+            ✅ 10개 프로덕트 완성<br>
+            ✅ AI 초보자 수료증<br>
+            ✅ 가족과의 디지털 소통
+          </div>
+        </div>
+
+        <p><strong>작성</strong>: 그러쥬 | <strong>날짜</strong>: 2026-02-01</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="max-w-4xl mx-auto px-4 pb-8 text-center text-gray-500 text-sm">
+    <p>AI 마스터 클래스 - 제작 문서</p>
+  </footer>
+</body>
+</html>

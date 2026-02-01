@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>4단계 커리큘럼 | AI 마스터 클래스</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Noto Sans KR', sans-serif; }
+    .prose h1 { font-size: 2rem; font-weight: 800; margin-bottom: 1rem; color: #1f2937; }
+    .prose h2 { font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; color: #374151; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.5rem; }
+    .prose h3 { font-size: 1.25rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; color: #4b5563; }
+    .prose p { margin-bottom: 1rem; line-height: 1.8; color: #374151; }
+    .prose ul { margin-bottom: 1rem; padding-left: 1.5rem; }
+    .prose li { margin-bottom: 0.5rem; line-height: 1.6; }
+    .prose blockquote { border-left: 4px solid #D4A853; padding-left: 1rem; margin: 1rem 0; background: #FDF8ED; padding: 1rem; border-radius: 0.5rem; }
+    .prose hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+    /* 미드나잇 럭셔리 팔레트 */
+    .level-card { border-radius: 1rem; padding: 1.5rem; margin-bottom: 1rem; }
+    .level-1-card { background: #F8FAFC; border: 2px solid #0F172A; }
+    .level-2-card { background: #F1F5F9; border: 2px solid #334155; }
+    .level-3-card { background: #FDF8ED; border: 2px solid #D4A853; }
+    .level-4-card { background: #F8FAFC; border: 2px solid #1E293B; }
+    .lecture-item { background: #f9fafb; padding: 1rem; border-radius: 0.5rem; margin-bottom: 0.75rem; border-left: 4px solid #D4A853; }
+    .lecture-item h4 { color: #0F172A; font-weight: 600; margin-bottom: 0.5rem; }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <header class="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm border-b border-gray-200">
+    <div class="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
+      <a href="/checklist.html" class="flex items-center gap-2 text-gray-600 hover:text-amber-500">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        체크리스트로
+      </a>
+      <div class="flex items-center gap-2">
+        <span class="px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-sm font-medium">진행중</span>
+        <a href="/docs/03_curriculum/curriculum.md" class="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm font-medium hover:bg-slate-200">.md 원본</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 pt-24 pb-16">
+    <article class="bg-white rounded-2xl shadow-lg p-8 prose">
+      <div class="mb-6 pb-4 border-b border-gray-200">
+        <span class="text-sm text-gray-500">docs/03_curriculum/</span>
+        <h1 class="mt-2">시니어 AI 클래스 - 4단계 커리큘럼</h1>
+        <div class="flex flex-wrap gap-4 text-sm text-gray-500">
+          <span>작성일: 2026-02-01</span>
+          <span>버전: v2.0</span>
+          <span>총 50강 | 12주 완성</span>
+        </div>
+      </div>
+
+      <hr>
+
+      <!-- 레벨별 구조 개요 -->
+      <h2>레벨별 구조 개요</h2>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse">
+          <thead>
+            <tr class="bg-slate-900 text-white">
+              <th class="p-3 text-left">레벨</th>
+              <th class="p-3 text-left">이름</th>
+              <th class="p-3 text-left">슬로건</th>
+              <th class="p-3 text-center">주차</th>
+              <th class="p-3 text-center">강의수</th>
+              <th class="p-3 text-center">프로덕트</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b" style="background: #F8FAFC;">
+              <td class="p-3 font-bold" style="color: #0F172A;">Lv.1</td>
+              <td class="p-3">초보자</td>
+              <td class="p-3">AI에 도전하는 용기</td>
+              <td class="p-3 text-center">3주</td>
+              <td class="p-3 text-center font-bold">15강</td>
+              <td class="p-3 text-center">10개</td>
+            </tr>
+            <tr class="border-b" style="background: #F1F5F9;">
+              <td class="p-3 font-bold" style="color: #334155;">Lv.2</td>
+              <td class="p-3">중급자</td>
+              <td class="p-3">AI와 즐겁게 놀기</td>
+              <td class="p-3 text-center">3주</td>
+              <td class="p-3 text-center font-bold">12강</td>
+              <td class="p-3 text-center">10개</td>
+            </tr>
+            <tr class="border-b" style="background: #FDF8ED;">
+              <td class="p-3 font-bold" style="color: #D4A853;">Lv.3</td>
+              <td class="p-3">고급자</td>
+              <td class="p-3">AI로 능력자 되기</td>
+              <td class="p-3 text-center">3주</td>
+              <td class="p-3 text-center font-bold">12강</td>
+              <td class="p-3 text-center">10개</td>
+            </tr>
+            <tr style="background: #F8FAFC;">
+              <td class="p-3 font-bold" style="color: #1E293B;">Lv.4</td>
+              <td class="p-3">전문가</td>
+              <td class="p-3">AI로 수익 만들기</td>
+              <td class="p-3 text-center">3주</td>
+              <td class="p-3 text-center font-bold">11강</td>
+              <td class="p-3 text-center">10개</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr class="bg-amber-50 font-bold">
+              <td class="p-3" colspan="3">합계</td>
+              <td class="p-3 text-center">12주</td>
+              <td class="p-3 text-center">50강</td>
+              <td class="p-3 text-center">40개</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <hr>
+
+      <!-- LV.1 초보자 -->
+      <div class="level-card level-1-card">
+        <h2 style="color: #0F172A; border-bottom-color: #0F172A; margin-top: 0;">LV.1 초보자 (15강)</h2>
+        <blockquote>
+          <strong>"AI에 도전하는 용기"</strong><br>
+          목표: 디지털 기초부터 첫 성취감까지, AI에 대한 거부감 없애고 "나도 할 수 있다"는 자신감 심어주기
+        </blockquote>
+
+        <div class="grid gap-2 mt-4">
+          <div class="lecture-item">
+            <h4>강의 01 | 디지털, 두려워하지 마세요</h4>
+            <p class="text-sm text-gray-600 mb-0">디지털 시대의 시니어 생존 전략 | 60분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 02 | 구글 계정, 첫걸음</h4>
+            <p class="text-sm text-gray-600 mb-0">구글 계정 생성 및 기본 설정 | 60분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 03 | ChatGPT 첫 대화</h4>
+            <p class="text-sm text-gray-600 mb-0">ChatGPT에 처음 입장하기 | 60분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 04 | 마우스와 키보드, 내 손에 익히기</h4>
+            <p class="text-sm text-gray-600 mb-0">기본 조작법 마스터 | 60분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 05 | 스마트폰, AI의 첫 동반자</h4>
+            <p class="text-sm text-gray-600 mb-0">스마트폰 기본 기능 + AI 활용 | 60분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 06 | 질문하는 법, AI와의 대화 예의</h4>
+            <p class="text-sm text-gray-600 mb-0">AI에게 잘 물어보는 법 (프롬프트 기초) | 60분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 07 | 무서워하지 마세요, 실패는 성공의 어머니</h4>
+            <p class="text-sm text-gray-600 mb-0">실패해도 괜찮아요 | 60분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 08 | 내가 만든 첫 AI 결과물</h4>
+            <p class="text-sm text-gray-600 mb-0">첫 성취감 맛보기 | 60분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 09 | 편지쓰기, AI가 내 비서</h4>
+            <p class="text-sm text-gray-600 mb-0">감동적인 편지 작성하기 | 60분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 10 | 오늘 뭐 먹지? AI 요리사</h4>
+            <p class="text-sm text-gray-600 mb-0">AI에게 메뉴 추천받기 | 60분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 11 | 동화책 만들기, 나도 작가</h4>
+            <p class="text-sm text-gray-600 mb-0">손주를 위한 맞춤 동화 | 60분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 12 | 여행계획, AI와 떠나는 여행</h4>
+            <p class="text-sm text-gray-600 mb-0">AI가 짜주는 여행 일정 | 60분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 13 | SNS 포스팅, 나도 인플루언서</h4>
+            <p class="text-sm text-gray-600 mb-0">블로그/카톡/인스타 글쓰기 | 60분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 14 | 복습과 Q&A</h4>
+            <p class="text-sm text-gray-600 mb-0">13강 내용 복습 및 질의응답 | 60분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 15 | 레벨 1 완료, 다음 단계로!</h4>
+            <p class="text-sm text-gray-600 mb-0">레벨 1 성취 축하 & 레벨 2 소개 | 60분</p>
+          </div>
+        </div>
+
+        <div class="mt-4 p-4 bg-white rounded-lg">
+          <h4 class="font-bold mb-2" style="color: #0F172A;">레벨 1 성과물 (10개)</h4>
+          <div class="grid grid-cols-2 gap-2 text-sm">
+            <span>&#10003; 개인 구글 계정</span>
+            <span>&#10003; ChatGPT 계정</span>
+            <span>&#10003; 첫 AI 이미지 2개</span>
+            <span>&#10003; 감동 편지 2통</span>
+            <span>&#10003; AI 요리 레시피 1개</span>
+            <span>&#10003; 맞춤 동화 1권</span>
+            <span>&#10003; 여행계획서 1개</span>
+            <span>&#10003; SNS 포스트 1개</span>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <!-- LV.2 중급자 -->
+      <div class="level-card level-2-card">
+        <h2 style="color: #334155; border-bottom-color: #334155; margin-top: 0;">LV.2 중급자 (12강)</h2>
+        <blockquote>
+          <strong>"AI와 즐겁게 놀기"</strong><br>
+          목표: 생활에 AI를 녹이는 단계, 원하는 결과 100% 얻기
+        </blockquote>
+
+        <div class="grid gap-2 mt-4">
+          <div class="lecture-item">
+            <h4>강의 16 | 이력서/자기소개서, 경력은 내 자산</h4>
+            <p class="text-sm text-gray-600 mb-0">퇴직 후에도 빛나는 이력서 | 60분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 17 | 시/글짓기, 잠든 문재능 깨우기</h4>
+            <p class="text-sm text-gray-600 mb-0">AI가 도와주는 창작활동 | 60분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 18 | AI 이미지 더 멋지게 만들기</h4>
+            <p class="text-sm text-gray-600 mb-0">이미지 생성 고급 테크닉 | 60분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 19 | 프레젠테이션, PPT 걱정 끝!</h4>
+            <p class="text-sm text-gray-600 mb-0">AI가 만들어주는 PPT | 60분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 20 | 번역, 세계와 소통하기</h4>
+            <p class="text-sm text-gray-600 mb-0">언어 장벽 없애기 | 60분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 21 | 프로필사진, 나도 전문 모델</h4>
+            <p class="text-sm text-gray-600 mb-0">AI로 멋진 프로필 만들기 | 60분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 22 | 로고/명함 디자인, 나만의 브랜드</h4>
+            <p class="text-sm text-gray-600 mb-0">개인 브랜딩하기 | 60분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 23 | 운세카드, 재미있는 나만의 카드</h4>
+            <p class="text-sm text-gray-600 mb-0">AI로 운세카드 만들기 | 60분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 24 | 일러스트/포스터, 시각적 메시지</h4>
+            <p class="text-sm text-gray-600 mb-0">눈에 보이는 메시지 만들기 | 60분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 25 | 쇼핑리스트, 똑똑한 장보기</h4>
+            <p class="text-sm text-gray-600 mb-0">AI로 쇼핑 최적화 | 60분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 26 | 함께 만들어보기 - 작품 발표회</h4>
+            <p class="text-sm text-gray-600 mb-0">레벨 2 동안 만든 작품 공유 | 60분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 27 | 레벨 2 완료, 나만의 AI 작품집</h4>
+            <p class="text-sm text-gray-600 mb-0">레벨 2 성취 정리 | 60분</p>
+          </div>
+        </div>
+
+        <div class="mt-4 p-4 bg-white rounded-lg">
+          <h4 class="font-bold mb-2" style="color: #334155;">레벨 2 성과물 (10개)</h4>
+          <div class="grid grid-cols-2 gap-2 text-sm">
+            <span>&#10003; 이력서/자기소개서 1개</span>
+            <span>&#10003; 시/4행시 2편</span>
+            <span>&#10003; AI 고급 이미지 3개</span>
+            <span>&#10003; PPT 템플릿 1개</span>
+            <span>&#10003; 번역 문서 1개</span>
+            <span>&#10003; 프로필 이미지 1개</span>
+            <span>&#10003; 로고/명함 1세트</span>
+            <span>&#10003; 운세카드/포스터 2개</span>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <!-- LV.3 고급자 -->
+      <div class="level-card level-3-card">
+        <h2 style="color: #D4A853; border-bottom-color: #D4A853; margin-top: 0;">LV.3 고급자 (12강)</h2>
+        <blockquote>
+          <strong>"AI로 능력자 되기"</strong><br>
+          목표: 전문가급 콘텐츠 제작, AI 콘텐츠 제작 독립
+        </blockquote>
+
+        <div class="grid gap-2 mt-4">
+          <div class="lecture-item">
+            <h4>강의 28 | 일정관리, 잊지 않는 비서</h4>
+            <p class="text-sm text-gray-600 mb-0">AI가 알려주는 일정 관리 | 60분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 29 | 건강관리, AI 헬스 트레이너</h4>
+            <p class="text-sm text-gray-600 mb-0">건강 정보 확인하기 | 60분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 30 | 유튜브 쇼츠 만들기, 숏폼 크리에이터</h4>
+            <p class="text-sm text-gray-600 mb-0">1분 영상 콘텐츠 제작 | 90분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 31 | 자막달기, 접근성 전문가</h4>
+            <p class="text-sm text-gray-600 mb-0">영상에 자막 입히기 | 90분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 32 | 홈페이지 만들기, 나만의 공간</h4>
+            <p class="text-sm text-gray-600 mb-0">노코드로 웹사이트 제작 | 90분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 33 | 데이터분석, 숫자로 보는 세상</h4>
+            <p class="text-sm text-gray-600 mb-0">엑셀/스프레드시트 + AI | 90분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 34 | 업무자동화, 반복업무 줄이기</h4>
+            <p class="text-sm text-gray-600 mb-0">AI로 귀찮은 일 자동화 | 90분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 35 | 보고서/기안서 작성, 문서 전문가</h4>
+            <p class="text-sm text-gray-600 mb-0">비즈니스 문서 작성 | 90분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 36 | 책쓰기, 나도 작가가 될 수 있다</h4>
+            <p class="text-sm text-gray-600 mb-0">AI로 책 집필하기 | 90분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 37 | 발표/스피치, AI 코치</h4>
+            <p class="text-sm text-gray-600 mb-0">발표 준비와 연습 | 90분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 38 | 프로젝트 관리, 체계적인 일처리</h4>
+            <p class="text-sm text-gray-600 mb-0">AI로 프로젝트 관리 | 90분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 39 | 레벨 3 완료, 전문가의 품격</h4>
+            <p class="text-sm text-gray-600 mb-0">레벨 3 성취 정리 | 90분</p>
+          </div>
+        </div>
+
+        <div class="mt-4 p-4 bg-white rounded-lg">
+          <h4 class="font-bold mb-2" style="color: #D4A853;">레벨 3 성과물 (10개)</h4>
+          <div class="grid grid-cols-2 gap-2 text-sm">
+            <span>&#10003; 일정/건강 관리 시스템</span>
+            <span>&#10003; 유튜브 쇼츠 1개</span>
+            <span>&#10003; 개인 홈페이지 1개</span>
+            <span>&#10003; 데이터 분석 리포트 1개</span>
+            <span>&#10003; 템플릿 라이브러리 3개</span>
+            <span>&#10003; 기획서/보고서 1개</span>
+            <span>&#10003; 책 목차 기획 1개</span>
+            <span>&#10003; 발표 대본 1개</span>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <!-- LV.4 전문가 -->
+      <div class="level-card level-4-card">
+        <h2 style="color: #1E293B; border-bottom-color: #1E293B; margin-top: 0;">LV.4 전문가 (11강)</h2>
+        <blockquote>
+          <strong>"AI로 수익 만들기"</strong><br>
+          목표: 가르치고 수익화하는 단계, 월 100만원 추가 수입
+        </blockquote>
+
+        <div class="grid gap-2 mt-4">
+          <div class="lecture-item">
+            <h4>강의 40 | 아이디어정리, 복잡함을 단순하게</h4>
+            <p class="text-sm text-gray-600 mb-0">AI로 생각 정리하기 | 90분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 41 | 문서검색, 방대한 자료 속 필요한 정보</h4>
+            <p class="text-sm text-gray-600 mb-0">대용량 문서 분석 | 90분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 42 | 워크플로우 구축, 체계화된 시스템</h4>
+            <p class="text-sm text-gray-600 mb-0">AI 활용 업무 시스템 만들기 | 90분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 43 | 남에게 가르치기, 교육의 기초</h4>
+            <p class="text-sm text-gray-600 mb-0">AI 강사가 되기 위한 준비 | 90분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 44 | 동영상강의 제작, 온라인 강사</h4>
+            <p class="text-sm text-gray-600 mb-0">온라인 강의 콘텐츠 만들기 | 90분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 45 | 컨설팅/코칭, 전문가로서의 역할</h4>
+            <p class="text-sm text-gray-600 mb-0">1:1 AI 코칭 방법 | 90분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 46 | 수익모델, AI로 돈 벌기</h4>
+            <p class="text-sm text-gray-600 mb-0">AI 활용 비즈니스 모델 | 90분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 47 | 홍보/마케팅, 나를 알리기</h4>
+            <p class="text-sm text-gray-600 mb-0">개인 브랜딩과 마케팅 | 90분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 48 | 커뮤니티 운영, 함께 성장하기</h4>
+            <p class="text-sm text-gray-600 mb-0">AI 학습 커뮤니티 만들기 | 90분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 49 | 실전 강의 연습</h4>
+            <p class="text-sm text-gray-600 mb-0">실전 강의 리허설 | 120분</p>
+          </div>
+          <div class="lecture-item">
+            <h4>강의 50 | 레벨 4 완료, AI 마스터의 출발</h4>
+            <p class="text-sm text-gray-600 mb-0">수료식 및 졸업 | 120분</p>
+          </div>
+        </div>
+
+        <div class="mt-4 p-4 bg-white rounded-lg">
+          <h4 class="font-bold mb-2" style="color: #1E293B;">레벨 4 성과물 (10개)</h4>
+          <div class="grid grid-cols-2 gap-2 text-sm">
+            <span>&#10003; 아이디어 마인드맵 1개</span>
+            <span>&#10003; 업무 워크플로우 시스템</span>
+            <span>&#10003; 강의 시나리오 2개</span>
+            <span>&#10003; 샘플 강의 영상 1개</span>
+            <span>&#10003; 수익모델 기획서 1개</span>
+            <span>&#10003; 마케팅 전략서 1개</span>
+            <span>&#10003; 커뮤니티 운영 계획 1개</span>
+            <span>&#10003; 시연 강의 1회</span>
+            <span class="font-bold text-amber-600">&#10003; AI 마스터 수료증</span>
+            <span class="font-bold text-amber-600">&#10003; 강사 등록증</span>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <!-- 수료 기준 -->
+      <h2>수료 기준</h2>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse">
+          <thead>
+            <tr class="bg-slate-900 text-white">
+              <th class="p-3 text-left">레벨</th>
+              <th class="p-3 text-left">수료 조건</th>
+              <th class="p-3 text-left">인증</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b bg-gray-50">
+              <td class="p-3 font-bold">Lv.1</td>
+              <td class="p-3">12/15 강 이수 + 프로덕트 8개</td>
+              <td class="p-3">초보자 수료증</td>
+            </tr>
+            <tr class="border-b">
+              <td class="p-3 font-bold">Lv.2</td>
+              <td class="p-3">10/12 강 이수 + 프로덕트 8개</td>
+              <td class="p-3">중급자 수료증</td>
+            </tr>
+            <tr class="border-b bg-gray-50">
+              <td class="p-3 font-bold">Lv.3</td>
+              <td class="p-3">10/12 강 이수 + 프로덕트 8개</td>
+              <td class="p-3">고급자 수료증</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-bold">Lv.4</td>
+              <td class="p-3">11/11 강 이수 + 프로덕트 8개 + 강의 1회</td>
+              <td class="p-3 font-bold text-amber-600">AI 마스터 인증</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <hr>
+
+      <!-- 비즈니스 모델 -->
+      <h2>비즈니스 모델</h2>
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="p-4 bg-gray-50 rounded-lg">
+          <h4 class="font-bold mb-2">유료 멤버십</h4>
+          <ul class="text-sm space-y-1">
+            <li>레벨별 30만원</li>
+            <li>전체 패키지 100만원</li>
+            <li>4단계 모두 수료 시 20만원 할인</li>
+          </ul>
+        </div>
+        <div class="p-4 bg-amber-50 rounded-lg">
+          <h4 class="font-bold mb-2">강사 양성</h4>
+          <ul class="text-sm space-y-1">
+            <li>AI 마스터 수료 필수</li>
+            <li>강사 인증 과정</li>
+            <li>수익 배분 (강의료 70%)</li>
+          </ul>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="mt-8 p-4 bg-gray-50 rounded-lg text-sm text-gray-500">
+        <p><strong>문서 버전</strong>: v2.0</p>
+        <p><strong>작성일</strong>: 2026년 2월 1일</p>
+        <p><strong>총 강의수</strong>: 50강 (Lv.1: 15강 / Lv.2: 12강 / Lv.3: 12강 / Lv.4: 11강)</p>
+        <p><strong>총 소요시간</strong>: 63시간</p>
+      </div>
+    </article>
+  </main>
+</body>
+</html>

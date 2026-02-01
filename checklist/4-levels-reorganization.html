@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>4단계 재구성 및 프로덕트 | AI 마스터 클래스</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Noto Sans KR', sans-serif; }
+    .prose h1 { font-size: 2rem; font-weight: 800; margin-bottom: 1rem; color: #1f2937; }
+    .prose h2 { font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; color: #374151; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.5rem; }
+    .prose h3 { font-size: 1.25rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; color: #4b5563; }
+    .prose p { margin-bottom: 1rem; line-height: 1.8; color: #374151; }
+    .prose ul, .prose ol { margin-bottom: 1rem; padding-left: 1.5rem; }
+    .prose li { margin-bottom: 0.5rem; line-height: 1.6; }
+    .prose blockquote { border-left: 4px solid #f97316; padding-left: 1rem; margin: 1rem 0; background: #fff7ed; padding: 1rem; border-radius: 0.5rem; }
+    .prose table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+    .prose th, .prose td { border: 1px solid #e5e7eb; padding: 0.75rem; text-align: left; }
+    .prose th { background: #f9fafb; font-weight: 600; }
+    .prose pre { background: #1f2937; color: #f9fafb; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; margin: 1rem 0; font-size: 0.9rem; }
+    .prose hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+    .product-card { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 0.75rem; padding: 1rem; margin-bottom: 1rem; }
+    .product-header { font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem; }
+    .product-result { background: #f0fdf4; border-radius: 0.5rem; padding: 0.75rem; margin-top: 0.75rem; font-family: monospace; font-size: 0.9rem; }
+    .level-1 { border-left: 4px solid #E85D04; }
+    .level-2 { border-left: 4px solid #FFD93D; }
+    .level-3 { border-left: 4px solid #4D96FF; }
+    .level-4 { border-left: 4px solid #9B59B6; }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <header class="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm border-b border-gray-200">
+    <div class="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
+      <a href="/checklist.html" class="flex items-center gap-2 text-gray-600 hover:text-orange-500">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        체크리스트로
+      </a>
+      <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">프로덕트 상세</span>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 pt-24 pb-16">
+    <article class="bg-white rounded-2xl shadow-lg p-8 prose">
+      <div class="mb-6 pb-4 border-b border-gray-200">
+        <span class="text-sm text-gray-500">docs/</span>
+        <h1 class="mt-2">시니어 AI 클래스 - 4단계 재구성 및 프로덕트</h1>
+      </div>
+
+      <blockquote>
+        <strong>"AI는 어렵지 않다, 차근차근 따라오세요"</strong><br>
+        4단계 레벨 | 50강 | 초보자 중심 프로덕트 중심 설계
+      </blockquote>
+
+      <hr>
+
+      <h2>새로운 4단계 구조</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>레벨</th>
+            <th>이름</th>
+            <th>대상자</th>
+            <th>강의수</th>
+            <th>핵심 목표</th>
+            <th>소요기간</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background: #fff7ed;">
+            <td><strong>Lv.1</strong></td>
+            <td>초보자</td>
+            <td>완전 처음이신 분</td>
+            <td>15강</td>
+            <td>디지털 기초 + AI 첫 만남</td>
+            <td>3주</td>
+          </tr>
+          <tr style="background: #fefce8;">
+            <td><strong>Lv.2</strong></td>
+            <td>중급자</td>
+            <td>AI를 배우고 싶은 분</td>
+            <td>12강</td>
+            <td>생활에 AI 녹이기</td>
+            <td>3주</td>
+          </tr>
+          <tr style="background: #eff6ff;">
+            <td><strong>Lv.3</strong></td>
+            <td>고급자</td>
+            <td>능력을 키우고 싶은 분</td>
+            <td>12강</td>
+            <td>전문가급 콘텐츠 제작</td>
+            <td>3주</td>
+          </tr>
+          <tr style="background: #faf5ff;">
+            <td><strong>Lv.4</strong></td>
+            <td>전문가</td>
+            <td>강사/사업가로 성장할 분</td>
+            <td>11강</td>
+            <td>가르치고 수익화</td>
+            <td>3주</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p><strong>총 50강 | 12주 완성 프로그램</strong></p>
+
+      <hr>
+
+      <h2>Lv.1 초보자 - 15강 커리큘럼</h2>
+
+      <blockquote>"처음이 어렵지, 두 번째는 쉬워요"</blockquote>
+
+      <pre>
+Part 1: 디지털 기초 다지기 (5강)
+├─ 01강 | 디지털, 두려워하지 마세요
+├─ 02강 | 구글 계정 만들기 - 첫 디지털 자산
+├─ 03강 | 스마트폰 기본기 - 손가락 하나로 하는 모든 것
+├─ 04강 | 마우스와 키보드 - 컴퓨터와 대화하기
+└─ 05강 | 화면 클릭의 정석 - 터치부터 드래그까지
+
+Part 2: AI 첫 만남 (5강)
+├─ 06강 | ChatGPT 첫 대화 - "안녕하세요"
+├─ 07강 | AI에게 잘 물어보는 법
+├─ 08강 | AI가 그려주는 그림 첫 경험
+├─ 09강 | AI와의 대화 저장하기
+└─ 10강 | 실패해도 괜찮아요 - 재시도의 힘
+
+Part 3: 가족과 공유하기 (5강)
+├─ 11강 | 첫 이메일 보내기 - 가족에게 디지털 안부
+├─ 12강 | 사진 정리하기 - 구글 포토 시작
+├─ 13강 | AI가 써주는 편지 - 감사 인사 전하기
+├─ 14강 | 나만의 AI 그림 만들기
+└─ 15강 | 초보자 수료, 다음 단계로!
+      </pre>
+
+      <hr>
+
+      <h2>Lv.1 초보자 완성 프로덕트 (10개)</h2>
+
+      <blockquote>
+        <strong>초보자에게는 "작은 성공"이 중요합니다</strong><br>
+        총 10개 프로덕트 - 한 강의당 하나씩 완성
+      </blockquote>
+
+      <div class="product-card level-1">
+        <div class="product-header">1. 나의 첫 Gmail - 디지털 신분증</div>
+        <p><strong>완성물</strong>: 본인명의 Gmail 계정 + 프로필 설정</p>
+        <ul>
+          <li>@gmail.com 주소 (본인 이름 또는 별명)</li>
+          <li>프로필 사진 업로드</li>
+          <li>기본 설정 완료 (언어, 테마 등)</li>
+          <li><strong>수료증에 기재</strong>: "디지털 신분증 취득"</li>
+        </ul>
+        <div class="product-result">
+Lv.1 프로덕트 #1 완료
+이메일: kimyounghee62@gmail.com
+생성일: 2026.02.15
+상태: 활성화
+        </div>
+      </div>
+
+      <div class="product-card level-1">
+        <div class="product-header">2. 스마트폰 세팅 완료 - 나만의 폰</div>
+        <p><strong>완성물</strong>: 개인화된 스마트폰 설정 10가지</p>
+        <ul>
+          <li>배경화면 (가족사진 또는 AI 그림)</li>
+          <li>글자 크기 조정 (시니어용 크게)</li>
+          <li>주요 앱 배치 (카톡, 전화, 카메라, 구글)</li>
+          <li>알림 설정 (소리/진동 조절)</li>
+        </ul>
+      </div>
+
+      <div class="product-card level-1">
+        <div class="product-header">3. 클릭 마스터 - 10가지 클릭 동작</div>
+        <p><strong>완성물</strong>: 10가지 클릭 동작 인증</p>
+        <ul>
+          <li>한 번 클릭, 두 번 클릭, 길게 누르기</li>
+          <li>드래그, 스와이프, 우클릭</li>
+          <li>더블클릭, 스크롤, 확대/축소, 드롭</li>
+        </ul>
+      </div>
+
+      <div class="product-card level-1">
+        <div class="product-header">4. ChatGPT 첫 대화록 - AI와의 첫 만남</div>
+        <p><strong>완성물</strong>: ChatGPT 첫 5개 대화 저장본</p>
+        <ul>
+          <li>"안녕하세요" 인사 대화</li>
+          <li>"오늘 날씨 어때요?" 대화</li>
+          <li>"재미있는 이야기 해줘" 대화</li>
+          <li>"건강한 식단 추천해줘" 대화</li>
+        </ul>
+      </div>
+
+      <div class="product-card level-1">
+        <div class="product-header">5. 첫 AI 그림 5종세트 - AI 예술가의 시작</div>
+        <p><strong>완성물</strong>: AI가 그려준 그림 5장 모음</p>
+        <ul>
+          <li>"봄 꽃 그려줘" (자연)</li>
+          <li>"강아지 그려줘" (동물)</li>
+          <li>"커피 한 잔 그려줘" (음식)</li>
+          <li>"할머니/할아버지 캐릭터 그려줘" (인물)</li>
+          <li>"우리 집 그려줘" (상상)</li>
+        </ul>
+      </div>
+
+      <div class="product-card level-1">
+        <div class="product-header">6. 첫 이메일 3통 - 디지털 우편발송</div>
+        <p><strong>완성물</strong>: 가족 3명에게 보낸 첫 이메일</p>
+        <ul>
+          <li>자녀에게 보낸 "잘 지내니?" 이메일</li>
+          <li>손주에게 보낸 "사랑해" 이메일</li>
+          <li>배우자에게 보낸 "감사해" 이메일</li>
+        </ul>
+      </div>
+
+      <div class="product-card level-1">
+        <div class="product-header">7. 디지털 앨범 시즌1 - 사진 정리의 시작</div>
+        <p><strong>완성물</strong>: 구글 포토 앨범 3개 + 30장 이상</p>
+        <ul>
+          <li>"우리 가족" 앨범 (10장)</li>
+          <li>"손주 모음" 앨범 (10장)</li>
+          <li>"추억의 사진" 앨범 (10장)</li>
+        </ul>
+      </div>
+
+      <div class="product-card level-1">
+        <div class="product-header">8. AI 감사 편지 3통 - 따뜻한 디지털 마음</div>
+        <p><strong>완성물</strong>: AI가 도와쓴 감사 편지 3통 + 손글씨 사인</p>
+        <ul>
+          <li>부모님께 (돌아가신 분은 추모)</li>
+          <li>자녀에게 (키워줘서 고마워)</li>
+          <li>배우자에게 (평생 함께해줘서)</li>
+          <li><strong>프린트</strong>: A4용지에 출력 + 서명</li>
+        </ul>
+      </div>
+
+      <div class="product-card level-1">
+        <div class="product-header">9. 나의 AI 일기장 - 첫 주간 기록</div>
+        <p><strong>완성물</strong>: AI 대화를 활용한 7일 일기</p>
+        <ul>
+          <li>3월 1일: 오늘의 기분 (AI 대화)</li>
+          <li>3월 2일: 오늘의 할 일 (AI 추천)</li>
+          <li>3월 3일: 오늘의 감사 (AI 편지)</li>
+          <li>3월 4일: 오늘의 질문 (AI 답변)</li>
+          <li>3월 5일: 오늘의 요리 (AI 레시피)</li>
+          <li>3월 6일: 오늘의 계획 (AI 정리)</li>
+          <li>3월 7일: 일주일 돌아보기</li>
+        </ul>
+      </div>
+
+      <div class="product-card level-1">
+        <div class="product-header">10. 초보자 수료 포트폴리오 - 15강 성취 증명</div>
+        <p><strong>완성물</strong>: Lv.1 완료 증명서 + 9개 프로덕트 모음집</p>
+        <ul>
+          <li>디지털 신분증 (Gmail)</li>
+          <li>스마트폰 세팅 인증샷</li>
+          <li>클릭 마스터 체크리스트</li>
+          <li>첫 AI 대화록 PDF</li>
+          <li>AI 그림 5종세트</li>
+          <li>이메일 발송 증명</li>
+          <li>디지털 앨범 3개</li>
+          <li>AI 감사 편지 3통</li>
+          <li>7일 AI 일기장</li>
+          <li><strong>수료증</strong>: "AI 초보자 수료"</li>
+        </ul>
+      </div>
+
+      <hr>
+
+      <h2>초보자 핵심 메시지</h2>
+
+      <div style="background: #f0fdf4; padding: 1.5rem; border-radius: 1rem; text-align: center;">
+        <p style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem;">"3주만에 10개 완성!<br>나도 AI 할 수 있어요"</p>
+        <ul style="text-align: left; display: inline-block;">
+          <li>Gmail 만듦</li>
+          <li>사진 정리함</li>
+          <li>AI와 대화함</li>
+          <li>편지 보냄</li>
+          <li>그림 그림</li>
+          <li>일기 씀</li>
+          <li>수료함!</li>
+        </ul>
+      </div>
+
+      <hr>
+
+      <div class="mt-8 p-4 bg-gray-50 rounded-lg text-sm text-gray-500">
+        <p><strong>버전</strong>: 2.0 (4단계 재구성)</p>
+        <p><strong>작성일</strong>: 2026-02-01</p>
+        <p><strong>총 프로덕트</strong>: 40개 (초보자 10개 포함)</p>
+        <p><strong>다음 작업</strong>: 각 프로덕트별 상세 제작 가이드</p>
+      </div>
+    </article>
+  </main>
+</body>
+</html>

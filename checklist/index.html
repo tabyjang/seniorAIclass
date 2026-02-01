@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>문서 목록 | AI 마스터 클래스</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Noto Sans KR', sans-serif; }
+    .doc-card { transition: all 0.2s ease; }
+    .doc-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <header class="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm border-b border-gray-200">
+    <div class="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <a href="/" class="flex items-center gap-2">
+          <div class="w-10 h-10 bg-slate-900 rounded-full flex items-center justify-center">
+            <span class="text-amber-400 font-bold">AI</span>
+          </div>
+          <span class="text-lg font-bold text-gray-800">AI <span class="text-amber-500">마스터</span> 클래스</span>
+        </a>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="/checklist.html" class="px-4 py-2 text-sm text-gray-600 hover:text-amber-500 transition-colors">
+          체크리스트
+        </a>
+        <a href="/" class="px-4 py-2 bg-amber-500 text-slate-900 rounded-lg font-medium hover:bg-amber-400 transition-colors">
+          홈으로
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 pt-24 pb-16">
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold text-gray-800 mb-2">프로젝트 문서 목록</h1>
+      <p class="text-gray-600">시니어 AI 클래스 프로젝트의 모든 문서를 열람할 수 있습니다.</p>
+    </div>
+
+    <!-- 기획 문서 -->
+    <section class="mb-8">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold">1</div>
+        <h2 class="text-xl font-bold text-gray-800">기획 문서</h2>
+      </div>
+      <div class="grid gap-3">
+        <a href="PRD.html" class="doc-card flex items-center gap-4 p-4 bg-white rounded-xl border border-gray-200">
+          <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          </div>
+          <div class="flex-1">
+            <h3 class="font-bold text-gray-800">PRD (제품 요구사항)</h3>
+            <p class="text-sm text-gray-500">시니어 AI 클래스 프로젝트의 전체 요구사항 정의</p>
+          </div>
+          <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">완료</span>
+        </a>
+
+        <a href="4단계_레벨_구조_변경_설계.html" class="doc-card flex items-center gap-4 p-4 bg-white rounded-xl border border-gray-200">
+          <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/></svg>
+          </div>
+          <div class="flex-1">
+            <h3 class="font-bold text-gray-800">4단계 레벨 구조 변경 설계</h3>
+            <p class="text-sm text-gray-500">5단계에서 4단계로의 구조 변경 설계 문서</p>
+          </div>
+          <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">완료</span>
+        </a>
+
+        <a href="성공_실행_플랜.html" class="doc-card flex items-center gap-4 p-4 bg-white rounded-xl border border-gray-200">
+          <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+            <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+          </div>
+          <div class="flex-1">
+            <h3 class="font-bold text-gray-800">성공 실행 플랜</h3>
+            <p class="text-sm text-gray-500">12개월 월별 실행 로드맵 및 KPI</p>
+          </div>
+          <span class="px-3 py-1 bg-red-100 text-red-700 rounded-full text-xs font-medium">긴급</span>
+        </a>
+
+        <a href="4-levels-reorganization.html" class="doc-card flex items-center gap-4 p-4 bg-white rounded-xl border border-gray-200">
+          <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+          </div>
+          <div class="flex-1">
+            <h3 class="font-bold text-gray-800">4단계 재구성 및 프로덕트</h3>
+            <p class="text-sm text-gray-500">4단계 커리큘럼 및 40개 프로덕트 상세</p>
+          </div>
+          <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">참고</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- 홈페이지 문서 -->
+    <section class="mb-8">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center text-purple-600 font-bold">2</div>
+        <h2 class="text-xl font-bold text-gray-800">홈페이지 문서</h2>
+      </div>
+      <div class="grid gap-3">
+        <a href="홈페이지_카피_문구.html" class="doc-card flex items-center gap-4 p-4 bg-white rounded-xl border border-gray-200">
+          <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+          </div>
+          <div class="flex-1">
+            <h3 class="font-bold text-gray-800">홈페이지 카피 문구</h3>
+            <p class="text-sm text-gray-500">히어로, 레벨카드, FAQ 등 전체 카피 모음</p>
+          </div>
+          <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">완료</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- 빠른 링크 -->
+    <section class="mt-12 p-6 bg-gradient-to-r from-slate-900 to-slate-800 rounded-2xl text-white">
+      <h2 class="text-xl font-bold mb-4">빠른 링크</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <a href="/checklist.html" class="p-4 bg-white/20 rounded-xl text-center hover:bg-white/30 transition-colors">
+          <div class="text-2xl mb-2">&#x2713;</div>
+          <div class="font-medium">체크리스트</div>
+        </a>
+        <a href="/products.html" class="p-4 bg-white/20 rounded-xl text-center hover:bg-white/30 transition-colors">
+          <div class="text-2xl mb-2">&#x1F381;</div>
+          <div class="font-medium">40개 프로덕트</div>
+        </a>
+        <a href="/" class="p-4 bg-white/20 rounded-xl text-center hover:bg-white/30 transition-colors">
+          <div class="text-2xl mb-2">&#x1F3E0;</div>
+          <div class="font-medium">홈페이지</div>
+        </a>
+        <a href="PRD.html" class="p-4 bg-white/20 rounded-xl text-center hover:bg-white/30 transition-colors">
+          <div class="text-2xl mb-2">&#x1F4CB;</div>
+          <div class="font-medium">PRD 문서</div>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-gray-800 text-white py-8">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <p class="text-gray-400">&copy; 2026 AI 마스터 클래스. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>
