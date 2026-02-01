@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, MessageCircle } from 'lucide-react';
+import { ChevronDown, Send } from 'lucide-react';
 
 interface FAQItem {
   question: string;
@@ -124,13 +124,11 @@ const FAQ: React.FC = () => {
               💬 더 궁금한 점이 있으시면?
             </p>
             <a
-              href="https://pf.kakao.com/_example"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 px-6 py-3 bg-yellow-400 text-text-primary rounded-button font-bold hover:bg-yellow-300 transition-colors"
+              href="#contact"
+              className="flex items-center gap-2 px-6 py-3 bg-primary-500 text-white rounded-button font-bold hover:bg-primary-600 transition-colors"
             >
-              <MessageCircle size={20} />
-              카카오톡으로 문의하기
+              <Send size={20} />
+              문의하기
             </a>
           </div>
         </motion.div>

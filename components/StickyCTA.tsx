@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageCircle, Send, X } from 'lucide-react';
+import { Send, X } from 'lucide-react';
 
 const StickyCTA: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -43,43 +43,24 @@ const StickyCTA: React.FC = () => {
                   <p className="text-lg font-medium text-text-primary">궁금한 점이 있으신가요?</p>
                 </div>
 
-                {/* 버튼 그룹 */}
-                <div className="flex gap-3">
-                  <a
-                    href="https://pf.kakao.com/_example"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 flex items-center justify-center gap-2 py-4 bg-yellow-400 text-text-primary rounded-button font-bold text-lg shadow-lg hover:bg-yellow-300 transition-colors"
-                  >
-                    <MessageCircle size={24} />
-                    카톡 상담
-                  </a>
-                  <a
-                    href="#contact"
-                    className="flex-1 flex items-center justify-center gap-2 py-4 bg-primary-500 text-white rounded-button font-bold text-lg shadow-lg hover:bg-primary-600 transition-colors"
-                  >
-                    <Send size={24} />
-                    문의하기
-                  </a>
-                </div>
+                {/* 버튼 */}
+                <a
+                  href="#contact"
+                  className="flex items-center justify-center gap-2 py-4 bg-primary-500 text-white rounded-button font-bold text-lg shadow-lg hover:bg-primary-600 transition-colors w-full"
+                >
+                  <Send size={24} />
+                  문의하기
+                </a>
               </div>
             </div>
           ) : (
             /* 축소된 상태 - 플로팅 버튼 */
-            <div className="flex justify-center gap-4 pb-6">
-              <a
-                href="https://pf.kakao.com/_example"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-16 h-16 bg-yellow-400 text-text-primary rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform"
-              >
-                <MessageCircle size={28} />
-              </a>
+            <div className="flex justify-center pb-6">
               <button
                 onClick={() => setIsExpanded(true)}
                 className="w-16 h-16 bg-primary-500 text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform text-sm font-bold"
               >
-                상담
+                문의
               </button>
             </div>
           )}
@@ -92,17 +73,8 @@ const StickyCTA: React.FC = () => {
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0, opacity: 0 }}
-          className="hidden lg:flex fixed bottom-8 right-8 z-50 flex-col gap-4"
+          className="hidden lg:flex fixed bottom-8 right-8 z-50"
         >
-          <a
-            href="https://pf.kakao.com/_example"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group flex items-center gap-3 px-6 py-4 bg-yellow-400 text-text-primary rounded-full shadow-2xl hover:shadow-3xl hover:scale-105 transition-all"
-          >
-            <MessageCircle size={24} />
-            <span className="font-bold text-lg">카톡 상담</span>
-          </a>
           <a
             href="#contact"
             className="group flex items-center gap-3 px-6 py-4 bg-primary-500 text-white rounded-full shadow-2xl hover:shadow-3xl hover:scale-105 transition-all"

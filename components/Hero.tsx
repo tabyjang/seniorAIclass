@@ -60,7 +60,7 @@ const Hero: React.FC = () => {
               </a>
               <a href="#contact" className="btn-secondary flex items-center justify-center gap-2 text-xl">
                 <MessageCircle size={24} />
-                카톡으로 상담하기
+                문의하기
               </a>
             </motion.div>
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { MessageCircle, Clock, Gift, Users, CheckCircle, Send, Youtube, Video } from 'lucide-react';
+import { Clock, Gift, Users, CheckCircle, Send, Youtube, Video } from 'lucide-react';
 
 const ContactCTA: React.FC = () => {
   const benefits = [
@@ -25,28 +25,25 @@ const ContactCTA: React.FC = () => {
               {/* 왼쪽: 상담 신청 */}
               <div className="p-8 md:p-12">
                 <h2 className="text-h2-mobile md:text-h2 text-text-primary mb-4">
-                  💬 편하게<br /><span className="text-accent-400">상담</span>하세요
+                  💬 편하게<br /><span className="text-accent-400">문의</span>하세요
                 </h2>
                 <p className="text-body-lg text-text-secondary mb-8">
-                  카카오톡으로 언제든 문의해주세요.<br />
+                  궁금한 점이 있으시면 언제든 문의해주세요.<br />
                   친절하게 안내해드립니다.
                 </p>
 
-                {/* 카카오톡 상담 */}
-                <a
-                  href="https://pf.kakao.com/_example"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-4 p-6 bg-yellow-50 rounded-card mb-6 hover:bg-yellow-100 transition-colors group"
-                >
-                  <div className="w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center text-text-primary group-hover:scale-110 transition-transform">
-                    <MessageCircle size={32} />
+                {/* 문의하기 안내 */}
+                <div className="p-6 bg-primary-50 rounded-card mb-6">
+                  <div className="flex items-center gap-4">
+                    <div className="w-16 h-16 bg-primary-500 rounded-full flex items-center justify-center text-white">
+                      <Send size={32} />
+                    </div>
+                    <div>
+                      <p className="text-sm text-text-secondary">간편 문의</p>
+                      <p className="text-xl font-bold text-text-primary">24시간 접수 가능</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-sm text-text-secondary">카카오톡 채널</p>
-                    <p className="text-2xl font-bold text-text-primary">@AI마스터클래스</p>
-                  </div>
-                </a>
+                </div>
 
                 {/* 응답 시간 안내 */}
                 <div className="flex items-start gap-3 mb-8 text-text-secondary">
@@ -58,16 +55,14 @@ const ContactCTA: React.FC = () => {
                   </div>
                 </div>
 
-                {/* 상담 버튼 */}
+                {/* 문의 버튼 */}
                 <div className="flex flex-col sm:flex-row gap-4">
                   <a
-                    href="https://pf.kakao.com/_example"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 px-6 py-4 bg-yellow-400 text-text-primary rounded-button font-bold hover:bg-yellow-300 transition-colors flex-1"
+                    href="mailto:contact@senioraiclass.com"
+                    className="flex items-center justify-center gap-2 px-6 py-4 bg-primary-500 text-white rounded-button font-bold hover:bg-primary-600 transition-colors flex-1"
                   >
-                    <MessageCircle size={24} />
-                    카톡 상담 시작하기
+                    <Send size={24} />
+                    문의하기
                   </a>
                 </div>
               </div>
