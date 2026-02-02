@@ -14,8 +14,8 @@ body {
     font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 16px;
     line-height: 1.6;
-    color: #2C2C2C;
-    background-color: #FFFFFF;
+    color: #3D3D3D;
+    background-color: #F8F6F3;
 }
 
 /* 컨테이너 */
@@ -30,12 +30,12 @@ body {
     font-size: 2rem;
     font-weight: 700;
     margin-bottom: 30px;
-    color: #2C2C2C;
+    color: #3D3D3D;
 }
 
 /* 링크 */
 a {
-    color: #D4A52C;
+    color: #7A8B6E;
     text-decoration: none;
 }
 
@@ -55,20 +55,20 @@ img {
 }
 
 ::-webkit-scrollbar-track {
-    background: #F5F5F5;
+    background: #EDE9E3;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #D4A52C;
+    background: #7A8B6E;
     border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #B8941F;
+    background: #6A7B5E;
 }
 
 /* 선택 영역 스타일 */
 ::selection {
-    background: #D4A52C;
+    background: #7A8B6E;
     color: white;
 }
