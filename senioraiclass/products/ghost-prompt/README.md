@@ -37,6 +37,7 @@ python ghost_prompt.py
 
 ## 관련 문서
 
-- [PRD (제품 요구사항)](docs/PRD_2026-02-02_고스트프롬프트.md)
-- [기술 설계](docs/TECH_DESIGN.md)
-- [로드맵](docs/ROADMAP.md)
+- [01. PRD (제품 요구사항)](docs/01_PRD_2026-02-02_고스트프롬프트.md)
+- [02. 기술 설계](docs/02_TECH_2026-02-02_고스트프롬프트.md)
+- [03. 로드맵](docs/03_ROADMAP_2026-02-02_고스트프롬프트.md)
+- [04. 체크리스트](docs/04_CHECKLIST_2026-02-02_고스트프롬프트.md)

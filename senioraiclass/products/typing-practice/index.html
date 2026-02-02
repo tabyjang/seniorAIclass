@@ -380,6 +380,8 @@
         let correctChars = 0;
         let isPlaying = false;
         let isComposing = false; // 한글 조합 중인지 체크
+        let isChecking = false; // 중복 체크 방지 플래그
+        let lastInput = ''; // 마지막 완성된 입력값
 
         function shuffleArray(array) {
             const newArray = [...array];
@@ -438,16 +440,26 @@
             const display = document.getElementById('sentenceDisplay');
             const input = document.getElementById('typingInput').value;
             
+            // 한글 정규화 (NFC 방식으로 통일)
+            const normalizedInput = input.normalize('NFC');
+            const normalizedSentence = currentSentence.normalize('NFC');
+            
+            // 완성된 글자 수 계산 (조합 중이면 마지막 글자는 조합 중인 상태)
+            const completedLength = isComposing && normalizedInput.length > 0 
+                ? normalizedInput.length - 1 
+                : normalizedInput.length;
+            
             let html = '';
-            for (let i = 0; i < currentSentence.length; i++) {
+            for (let i = 0; i < normalizedSentence.length; i++) {
                 let className = 'char';
-                if (i < input.length) {
-                    if (input[i] === currentSentence[i]) {
+                if (i < completedLength) {
+                    // 완성된 글자 비교 (정규화된 값으로 비교)
+                    if (normalizedInput[i] === normalizedSentence[i]) {
                         className += ' correct';
                     } else {
                         className += ' incorrect';
                     }
-                } else if (i === input.length) {
+                } else if (i === completedLength) {
                     // 현재 입력 위치
                     if (isComposing) {
                         className += ' composing';
@@ -455,7 +467,7 @@
                         className += ' current';
                     }
                 }
-                html += `<span class="${className}">${currentSentence[i]}</span>`;
+                html += `<span class="${className}">${normalizedSentence[i]}</span>`;
             }
             display.innerHTML = html;
         }
@@ -484,33 +496,57 @@
         }
 
         function checkInput() {
-            // 한글 조합 중이면 체크하지 않음
+            // 중복 체크 방지
+            if (isChecking) return;
+            
+            // 한글 조합 중이면 체크하지 않고 화면 표시만 업데이트
             if (isComposing) {
                 displaySentence();
                 return;
             }
             
-            const input = document.getElementById('typingInput').value;
-            displaySentence();
+            isChecking = true;
             
-            // 정확히 일치하면 정답!
-            if (input === currentSentence) {
-                sentenceCount++;
-                totalChars += currentSentence.length;
-                correctChars += currentSentence.length;
+            try {
+                const input = document.getElementById('typingInput').value;
+                lastInput = input;
                 
-                updateStats();
+                // 한글 정규화 (NFC 방식으로 통일)
+                const normalizedInput = input.normalize('NFC');
+                const normalizedSentence = currentSentence.normalize('NFC');
                 
-                if (sentenceCount >= totalSentences) {
-                    endGame();
-                } else {
-                    showMessage('잘하셨어요! 👏', 'success');
-                    setTimeout(() => {
-                        document.getElementById('message').className = 'message';
-                        currentIndex++;
-                        loadSentence();
-                    }, 800);
+                displaySentence();
+                
+                // 정확히 일치하면 정답!
+                if (normalizedInput === normalizedSentence) {
+                    sentenceCount++;
+                    
+                    // 정확도 계산 - 글자 단위로 정확히 계산
+                    let correct = 0;
+                    for (let i = 0; i < normalizedSentence.length; i++) {
+                        if (normalizedInput[i] === normalizedSentence[i]) {
+                            correct++;
+                        }
+                    }
+                    
+                    totalChars += normalizedSentence.length;
+                    correctChars += correct;
+                    
+                    updateStats();
+                    
+                    if (sentenceCount >= totalSentences) {
+                        endGame();
+                    } else {
+                        showMessage('잘하셨어요! 👏', 'success');
+                        setTimeout(() => {
+                            document.getElementById('message').className = 'message';
+                            currentIndex++;
+                            loadSentence();
+                        }, 800);
+                    }
                 }
+            } finally {
+                isChecking = false;
             }
         }
 
@@ -519,11 +555,15 @@
             
             const input = document.getElementById('typingInput').value;
             
+            // 한글 정규화 (NFC 방식으로 통일)
+            const normalizedInput = input.normalize('NFC');
+            const normalizedSentence = currentSentence.normalize('NFC');
+            
             // 입력한 글자 수만큼 통계에 반영
-            if (input.length > 0) {
-                totalChars += input.length;
-                for (let i = 0; i < input.length && i < currentSentence.length; i++) {
-                    if (input[i] === currentSentence[i]) {
+            if (normalizedInput.length > 0) {
+                totalChars += normalizedInput.length;
+                for (let i = 0; i < normalizedInput.length && i < normalizedSentence.length; i++) {
+                    if (normalizedInput[i] === normalizedSentence[i]) {
                         correctChars++;
                     }
                 }
@@ -573,17 +613,23 @@
         });
         
         // 한글 조합 끝
-        typingInput.addEventListener('compositionend', function() {
+        typingInput.addEventListener('compositionend', function(e) {
             isComposing = false;
-            checkInput(); // 조합 완료 후 체크
+            lastInput = e.target.value;
+            // 약간의 지연으로 input 이벤트와 중복되지 않도록
+            setTimeout(() => {
+                checkInput();
+            }, 0);
         });
         
         // 일반 입력 이벤트 (영어, 숫자 등)
-        typingInput.addEventListener('input', function() {
+        typingInput.addEventListener('input', function(e) {
             if (!isComposing) {
+                lastInput = e.target.value;
                 checkInput();
             } else {
-                displaySentence(); // 조합 중에는 화면만 업데이트
+                // 조합 중에는 화면만 업데이트
+                displaySentence();
             }
         });
         
