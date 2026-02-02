@@ -1,0 +1,42 @@
+# 고스트프롬프트 (Ghost Prompt)
+
+> 화면에는 보이지만, 녹화에는 안 잡히는 마법의 프롬프터
+
+## 한 줄 소개
+
+유튜브/강의 촬영 시 대본을 보면서 녹화할 수 있는 "투명 프롬프터" 앱
+
+## 핵심 가치
+
+- **내 화면**: 대본이 보임
+- **녹화 영상**: 대본이 안 보임
+- **결과**: 자연스러운 눈 맞춤 + 대본 참고 가능
+
+## 지원 프로그램
+
+| 프로그램 | 지원 |
+|---------|------|
+| OBS Studio | ✅ |
+| 캡컷 (화면녹화) | ✅ |
+| Zoom | ✅ |
+| Google Meet | ✅ |
+| Discord | ✅ |
+| 기타 화면캡처 | ✅ |
+
+## 기술 원리
+
+Windows API `SetWindowDisplayAffinity(WDA_EXCLUDEFROMCAPTURE)` 사용
+- Windows 10 버전 2004 이상 지원
+- 하드웨어 레벨에서 캡처 제외
+
+## 빠른 시작
+
+```bash
+python ghost_prompt.py
+```
+
+## 관련 문서
+
+- [PRD (제품 요구사항)](docs/PRD.md)
+- [기술 설계](docs/TECH_DESIGN.md)
+- [로드맵](docs/ROADMAP.md)
