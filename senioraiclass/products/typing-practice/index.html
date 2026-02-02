@@ -31,8 +31,34 @@
         .subtitle {
             color: white;
             font-size: 1.2rem;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             opacity: 0.9;
+        }
+
+        .mode-selector {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .mode-selector a {
+            padding: 12px 25px;
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .mode-selector a:hover {
+            background: rgba(255, 255, 255, 0.5);
+            transform: scale(1.05);
+        }
+
+        .mode-selector a.active {
+            background: white;
+            color: #FF8C42;
         }
 
         .container {
@@ -259,6 +285,11 @@
 <body>
     <h1>🎹 시니어 타자 연습</h1>
     <p class="subtitle">천천히, 정확하게, 즐겁게!</p>
+
+    <div class="mode-selector">
+        <a href="index.html" class="active">📚 문장 연습</a>
+        <a href="venezia.html">🎮 베네치아 게임</a>
+    </div>
 
     <div class="container">
         <div class="level-selector">

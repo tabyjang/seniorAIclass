@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎮 베네치아 게임 - 시니어 타자 연습</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            background: linear-gradient(135deg, #020617 0%, #1e293b 100%);
+            min-height: 100vh;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* 헤더 */
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #D4A52C;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            color: #D4A52C;
+        }
+
+        .header-stats {
+            display: flex;
+            gap: 30px;
+            font-size: 1.5rem;
+        }
+
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stat-label {
+            color: #87CEEB;
+        }
+
+        .stat-value {
+            color: #D4A52C;
+            font-weight: bold;
+        }
+
+        .lives {
+            color: #FF4444;
+            font-size: 1.8rem;
+        }
+
+        /* 메인 컨테이너 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* 게임 레이아웃 (게임 + 설정 패널) */
+        .game-layout {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .game-section {
+            flex: 1;
+        }
+
+        /* 설정 패널 */
+        .settings-panel {
+            width: 250px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid #D4A52C;
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .settings-panel h3 {
+            color: #D4A52C;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            text-align: center;
+        }
+
+        .setting-item {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+
+        .setting-label {
+            display: block;
+            color: #87CEEB;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .setting-value {
+            color: #D4A52C;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* 속도 슬라이더 */
+        .speed-slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.3);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .speed-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #D4A52C;
+            cursor: pointer;
+        }
+
+        .speed-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #D4A52C;
+            cursor: pointer;
+            border: none;
+        }
+
+        /* 생명 조절 버튼 */
+        .lives-control {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .lives-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lives-btn.minus {
+            background: #FF4444;
+            color: white;
+        }
+
+        .lives-btn.plus {
+            background: #28a745;
+            color: white;
+        }
+
+        .lives-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .lives-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .lives-count {
+            font-size: 1.5rem;
+            color: #FF4444;
+            font-weight: bold;
+        }
+
+        /* 게임 영역 */
+        .game-area {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 3px solid #D4A52C;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        /* 떨어지는 단어 */
+        .falling-word {
+            position: absolute;
+            font-size: 2rem;
+            color: white;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            will-change: top;
+            transform: translateZ(0);
+            transition: color 0.3s;
+        }
+
+        .falling-word.danger {
+            color: #FF6B6B;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translateZ(0) scale(1); }
+            50% { transform: translateZ(0) scale(1.1); }
+        }
+
+        /* 바닥선 */
+        .bottom-line {
+            position: absolute;
+            bottom: 50px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #FF4444, #FF6B6B);
+            box-shadow: 0 0 10px #FF4444;
+        }
+
+        .bottom-label {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #FF4444;
+            font-size: 0.9rem;
+        }
+
+        /* 입력 영역 */
+        .input-area {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        #typingInput {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            font-size: 1.5rem;
+            border: 3px solid #87CEEB;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            text-align: center;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        #typingInput:focus {
+            border-color: #D4A52C;
+            box-shadow: 0 0 20px rgba(212, 165, 44, 0.3);
+        }
+
+        #typingInput::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        #typingInput:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* 버튼 */
+        .buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        button {
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            font-family: inherit;
+        }
+
+        .btn-start {
+            background: #FF8C42;
+            color: white;
+        }
+
+        .btn-start:hover {
+            background: #e67832;
+            transform: scale(1.05);
+        }
+
+        .btn-restart {
+            background: #87CEEB;
+            color: white;
+            display: none;
+        }
+
+        .btn-restart:hover {
+            background: #6bb8d9;
+            transform: scale(1.05);
+        }
+
+        .btn-home {
+            background: transparent;
+            color: #87CEEB;
+            border: 2px solid #87CEEB;
+            padding: 10px 30px;
+            font-size: 1rem;
+        }
+
+        .btn-home:hover {
+            background: #87CEEB;
+            color: #020617;
+        }
+
+        /* 게임오버 화면 */
+        .game-over {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .game-over-content {
+            text-align: center;
+            padding: 40px;
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            border-radius: 20px;
+            border: 3px solid #D4A52C;
+        }
+
+        .game-over h2 {
+            font-size: 3rem;
+            color: #FF4444;
+            margin-bottom: 20px;
+        }
+
+        .final-score {
+            font-size: 2rem;
+            color: #D4A52C;
+            margin-bottom: 30px;
+        }
+
+        /* 파괴 효과 */
+        .destroy-effect {
+            position: absolute;
+            font-size: 1.5rem;
+            color: #28a745;
+            font-weight: bold;
+            pointer-events: none;
+            animation: destroyPop 0.5s ease-out forwards;
+        }
+
+        @keyframes destroyPop {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.5) translateY(-30px);
+                opacity: 0;
+            }
+        }
+
+        /* 힌트 */
+        .hint {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 10px;
+            font-size: 1rem;
+        }
+
+        /* 난이도 선택 */
+        .difficulty-selector {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .difficulty-selector label {
+            font-size: 1.2rem;
+            margin-right: 15px;
+            color: #87CEEB;
+        }
+
+        .difficulty-selector select {
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            border-radius: 10px;
+            border: 2px solid #D4A52C;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            cursor: pointer;
+        }
+
+        .difficulty-selector select option {
+            background: #1e293b;
+        }
+
+        /* 반응형 */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .header-stats {
+                font-size: 1.2rem;
+                gap: 15px;
+            }
+            
+            .game-area {
+                height: 400px;
+            }
+            
+            .falling-word {
+                font-size: 1.5rem;
+            }
+            
+            #typingInput {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 헤더 -->
+    <header class="header">
+        <h1>🎮 베네치아 게임</h1>
+        <div class="header-stats">
+            <div class="stat">
+                <span class="stat-label">점수:</span>
+                <span class="stat-value" id="scoreDisplay">0</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">생명:</span>
+                <span class="lives" id="livesDisplay">♥♥♥</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- 메인 컨테이너 -->
+    <div class="container">
+        <!-- 난이도 선택 -->
+        <div class="difficulty-selector">
+            <label for="difficulty">난이도:</label>
+            <select id="difficulty">
+                <option value="easy">🌱 쉬움</option>
+                <option value="medium" selected>🌿 보통</option>
+                <option value="hard">🌳 어려움</option>
+            </select>
+        </div>
+
+        <!-- 게임 레이아웃 (게임 + 설정 패널) -->
+        <div class="game-layout">
+            <!-- 게임 섹션 -->
+            <div class="game-section">
+                <!-- 게임 영역 -->
+                <div class="game-area" id="gameArea">
+                    <div class="bottom-line"></div>
+                    <div class="bottom-label">⚠️ 바닥에 닿으면 생명이 감소합니다</div>
+                </div>
+
+                <!-- 입력 영역 -->
+                <div class="input-area">
+                    <input 
+                        type="text" 
+                        id="typingInput" 
+                        placeholder="단어를 입력하고 Enter를 누르세요..." 
+                        disabled
+                        autocomplete="off"
+                    >
+                    <p class="hint">💡 화면의 단어와 똑같이 입력하면 파괴됩니다!</p>
+                </div>
+            </div>
+
+            <!-- 설정 패널 -->
+            <div class="settings-panel">
+                <h3>⚙️ 게임 설정</h3>
+                
+                <!-- 속도 조절 -->
+                <div class="setting-item">
+                    <label class="setting-label">
+                        단어 속도: <span class="setting-value" id="speedValue">보통</span>
+                    </label>
+                    <input 
+                        type="range" 
+                        class="speed-slider" 
+                        id="speedSlider"
+                        min="0.5" 
+                        max="8" 
+                        step="0.5" 
+                        value="2.5"
+                    >
+                    <div style="display: flex; justify-content: space-between; margin-top: 5px; font-size: 0.8rem; color: rgba(255,255,255,0.6);">
+                        <span>느림</span>
+                        <span>빠름</span>
+                    </div>
+                </div>
+
+                <!-- 생명 조절 -->
+                <div class="setting-item">
+                    <label class="setting-label">시작 생명:</label>
+                    <div class="lives-control">
+                        <button class="lives-btn minus" id="livesMinus" onclick="adjustLives(-1)">−</button>
+                        <span class="lives-count" id="settingsLives">3</span>
+                        <button class="lives-btn plus" id="livesPlus" onclick="adjustLives(1)">+</button>
+                    </div>
+                    <p style="font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-top: 8px;">
+                        ♥ 최대 10개, 최소 1개
+                    </p>
+                </div>
+
+                <!-- 현재 설정 표시 -->
+                <div class="setting-item" style="background: rgba(212, 165, 44, 0.1); padding: 10px; border-radius: 8px;">
+                    <label class="setting-label" style="margin-bottom: 5px;">현재 적용값:</label>
+                    <div style="font-size: 0.9rem; color: white;">
+                        속도: <span id="currentSpeed">2.5</span> px/프레임<br>
+                        생명: <span id="currentLives">3</span> 개
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 버튼 -->
+        <div class="buttons">
+            <button class="btn-start" id="startBtn" onclick="startGame()">🚀 게임 시작</button>
+            <button class="btn-restart" id="restartBtn" onclick="resetGame()">🔄 다시 시작</button>
+            <button class="btn-home" onclick="location.href='index.html'">← 메인으로</button>
+        </div>
+    </div>
+
+    <!-- 게임오버 화면 -->
+    <div class="game-over" id="gameOverScreen">
+        <div class="game-over-content">
+            <h2>게임 오버!</h2>
+            <div class="final-score">
+                최종 점수: <span id="finalScore">0</span>
+            </div>
+            <button class="btn-start" onclick="resetGame()" style="display: inline-block;">🔄 다시 시작</button>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // Phase 1: 데이터 준비
+        // ==========================================
+        
+        // 난이도별 단어 데이터
+        const wordData = {
+            easy: [
+                "안녕", "감사", "사랑", "행복", "좋은",
+                "반가", "건강", "수고", "잘자", "맛있",
+                "환영", "축하", "대박", "화이팅", "신나"
+            ],
+            medium: [
+                "좋은하루", "건강하세요", "맛있게드세요",
+                "반갑습니다", "수고하셨어요", "행복하세요",
+                "안녕하세요", "감사합니다", "사랑합니다",
+                "잘자요", "오늘도힘내요", "항상응원해요"
+            ],
+            hard: [
+                "산토끼토끼야", "동해물과백두산",
+                "천리길도한걸음", "가는말이고와야",
+                "낮말은새가듣고", "꿩먹고알먹는다",
+                "세살버릇여든까지", "티끌모아태산",
+                "호랑이도제말하면", "소잃고외양간고친다"
+            ]
+        };
+
+        // 게임 설정
+        const GAME_CONFIG = {
+            GAME_AREA_HEIGHT: 500,
+            GAME_AREA_WIDTH: 1000,
+            BOTTOM_MARGIN: 50,
+            SPAWN_INTERVAL_EASY: 2500,    // 2.5초
+            SPAWN_INTERVAL_MEDIUM: 1800,  // 1.8초
+            SPAWN_INTERVAL_HARD: 1200,    // 1.2초
+            WORD_SPEED_EASY: 1.5,         // px/frame (60fps 기준)
+            WORD_SPEED_MEDIUM: 2.5,
+            WORD_SPEED_HARD: 4.0,
+            INITIAL_LIVES: 3,
+            SCORE_PER_CHAR: 100
+        };
+
+        // ==========================================
+        // Phase 3: 클래스 및 상태 관리
+        // ==========================================
+        
+        // Word 클래스
+        class Word {
+            constructor(text, x, speed) {
+                this.text = text;
+                this.x = x;
+                this.y = 0;
+                this.speed = speed;
+                this.element = null;
+                this.width = 0;
+            }
+            
+            update() {
+                this.y += this.speed;
+            }
+            
+            createElement() {
+                this.element = document.createElement('div');
+                this.element.className = 'falling-word';
+                this.element.textContent = this.text;
+                this.element.style.left = `${this.x}px`;
+                this.element.style.top = `${this.y}px`;
+                
+                // 바닥 근처면 danger 클래스 추가
+                const gameArea = document.getElementById('gameArea');
+                const dangerZone = gameArea.clientHeight - GAME_CONFIG.BOTTOM_MARGIN - 100;
+                
+                if (this.y > dangerZone) {
+                    this.element.classList.add('danger');
+                }
+                
+                return this.element;
+            }
+            
+            render() {
+                if (this.element) {
+                    this.element.style.top = `${this.y}px`;
+                    
+                    // 바닥 근처 체크
+                    const gameArea = document.getElementById('gameArea');
+                    const dangerZone = gameArea.clientHeight - GAME_CONFIG.BOTTOM_MARGIN - 100;
+                    
+                    if (this.y > dangerZone && !this.element.classList.contains('danger')) {
+                        this.element.classList.add('danger');
+                    }
+                }
+            }
+            
+            destroy() {
+                if (this.element && this.element.parentNode) {
+                    this.element.parentNode.removeChild(this.element);
+                }
+            }
+        }
+
+        // 게임 상태
+        let gameState = {
+            isPlaying: false,
+            score: 0,
+            lives: 3,
+            words: [],
+            lastSpawnTime: 0,
+            animationId: null,
+            difficulty: 'medium'
+        };
+
+        // DOM 요소 참조
+        const elements = {
+            gameArea: document.getElementById('gameArea'),
+            scoreDisplay: document.getElementById('scoreDisplay'),
+            livesDisplay: document.getElementById('livesDisplay'),
+            typingInput: document.getElementById('typingInput'),
+            startBtn: document.getElementById('startBtn'),
+            restartBtn: document.getElementById('restartBtn'),
+            gameOverScreen: document.getElementById('gameOverScreen'),
+            finalScore: document.getElementById('finalScore'),
+            difficulty: document.getElementById('difficulty'),
+            speedSlider: document.getElementById('speedSlider'),
+            speedValue: document.getElementById('speedValue'),
+            settingsLives: document.getElementById('settingsLives'),
+            currentSpeed: document.getElementById('currentSpeed'),
+            currentLives: document.getElementById('currentLives'),
+            livesMinus: document.getElementById('livesMinus'),
+            livesPlus: document.getElementById('livesPlus')
+        };
+
+        // 설정값 (사용자가 조절 가능)
+        let gameSettings = {
+            wordSpeed: 2.5,  // 슬라이더 값 (px/frame)
+            initialLives: 3  // 시작 생명
+        };
+
+        // ==========================================
+        // 설정 패널 기능
+        // ==========================================
+
+        // 속도 슬라이더 이벤트
+        elements.speedSlider.addEventListener('input', function() {
+            const speed = parseFloat(this.value);
+            gameSettings.wordSpeed = speed;
+            
+            // 속도 표시 업데이트
+            let speedText;
+            if (speed <= 1.5) speedText = '매우 느림';
+            else if (speed <= 2.5) speedText = '느림';
+            else if (speed <= 3.5) speedText = '보통';
+            else if (speed <= 5) speedText = '빠름';
+            else speedText = '매우 빠름';
+            
+            elements.speedValue.textContent = speedText;
+            elements.currentSpeed.textContent = speed;
+            
+            // 게임 중이면 실시간으로 적용 (기존 단어는 제외, 새 단어부터)
+            if (gameState.isPlaying) {
+                // 새로 생성되는 단어에만 적용됨
+            }
+        });
+
+        // 생명 조절 함수
+        function adjustLives(delta) {
+            const newLives = gameSettings.initialLives + delta;
+            
+            // 최소 1, 최대 10 제한
+            if (newLives >= 1 && newLives <= 10) {
+                gameSettings.initialLives = newLives;
+                elements.settingsLives.textContent = newLives;
+                elements.currentLives.textContent = newLives;
+                
+                // 버튼 상태 업데이트
+                elements.livesMinus.disabled = (newLives <= 1);
+                elements.livesPlus.disabled = (newLives >= 10);
+                
+                // 게임 중이 아닐 때만 현재 생명도 업데이트
+                if (!gameState.isPlaying) {
+                    gameState.lives = newLives;
+                    updateLivesDisplay();
+                }
+            }
+        }
+
+        // 초기 버튼 상태 설정
+        elements.livesMinus.disabled = (gameSettings.initialLives <= 1);
+        elements.livesPlus.disabled = (gameSettings.initialLives >= 10);
+
+        // ==========================================
+        // Phase 3: 게임 엔진 구현
+        // ==========================================
+        
+        // 단어 생성
+        function spawnWord() {
+            const words = wordData[gameState.difficulty];
+            const randomText = words[Math.floor(Math.random() * words.length)];
+            
+            // 게임 영역 너비 가져오기
+            const gameWidth = elements.gameArea.clientWidth;
+            const maxX = gameWidth - 150; // 단어 너비 고려
+            const randomX = Math.random() * maxX;
+            
+            // 사용자가 설정한 속도 사용 (슬라이더 값)
+            const speed = gameSettings.wordSpeed;
+            
+            const word = new Word(randomText, randomX, speed);
+            const wordElement = word.createElement();
+            elements.gameArea.appendChild(wordElement);
+            
+            // 너비 계산 (중복 방지용)
+            word.width = wordElement.offsetWidth;
+            
+            gameState.words.push(word);
+        }
+
+        // 모든 단어 업데이트
+        function updateWords() {
+            gameState.words.forEach(word => {
+                word.update();
+                word.render();
+            });
+        }
+
+        // 바닥 충돌 체크
+        function checkBottomCollision() {
+            const gameAreaHeight = elements.gameArea.clientHeight;
+            const bottomY = gameAreaHeight - GAME_CONFIG.BOTTOM_MARGIN;
+            
+            for (let i = gameState.words.length - 1; i >= 0; i--) {
+                const word = gameState.words[i];
+                
+                if (word.y >= bottomY) {
+                    // 단어 제거
+                    word.destroy();
+                    gameState.words.splice(i, 1);
+                    
+                    // 생명 감소
+                    loseLife();
+                }
+            }
+        }
+
+        // 생명 감소
+        function loseLife() {
+            gameState.lives--;
+            updateLivesDisplay();
+            
+            // 화면 흔들림 효과
+            elements.gameArea.style.animation = 'shake 0.5s';
+            setTimeout(() => {
+                elements.gameArea.style.animation = '';
+            }, 500);
+            
+            if (gameState.lives <= 0) {
+                gameOver();
+            }
+        }
+
+        // 생명 UI 업데이트
+        function updateLivesDisplay() {
+            const maxLives = Math.max(gameSettings.initialLives, gameState.lives);
+            const hearts = '♥'.repeat(gameState.lives) + '♡'.repeat(maxLives - gameState.lives);
+            elements.livesDisplay.textContent = hearts;
+        }
+
+        // ==========================================
+        // Phase 4: 입력 및 파괴 (한글 입력 문제 해결)
+        // ==========================================
+        
+        // 입력 처리 - Enter 키 + 정규화 방식
+        function handleInput(event) {
+            // Enter 키만 처리
+            if (event.key !== 'Enter') return;
+            
+            if (!gameState.isPlaying) return;
+            
+            // 입력값 가져오기 및 정규화 (한글 입력 문제 해결!)
+            let input = elements.typingInput.value.trim();
+            
+            // 🔑 핵심: 한글 정규화 (NFC 방식으로 통일)
+            input = input.normalize('NFC');
+            
+            if (!input) return;
+            
+            // 화면에 있는 단어 중 일치하는 것 찾기
+            // 정규화된 값으로 비교
+            const matchIndex = gameState.words.findIndex(
+                word => word.text.normalize('NFC') === input
+            );
+            
+            if (matchIndex !== -1) {
+                // 단어 파괴
+                const word = gameState.words[matchIndex];
+                
+                // 파괴 효과
+                showDestroyEffect(word.x, word.y);
+                
+                // 단어 제거
+                word.destroy();
+                gameState.words.splice(matchIndex, 1);
+                
+                // 점수 추가
+                const points = input.length * GAME_CONFIG.SCORE_PER_CHAR;
+                addScore(points);
+                
+                // 입력창 초기화
+                elements.typingInput.value = '';
+            }
+        }
+
+        // 파괴 효과 표시
+        function showDestroyEffect(x, y) {
+            const effect = document.createElement('div');
+            effect.className = 'destroy-effect';
+            effect.textContent = '파괴! 💥';
+            effect.style.left = `${x}px`;
+            effect.style.top = `${y}px`;
+            elements.gameArea.appendChild(effect);
+            
+            setTimeout(() => {
+                if (effect.parentNode) {
+                    effect.parentNode.removeChild(effect);
+                }
+            }, 500);
+        }
+
+        // 점수 추가
+        function addScore(points) {
+            gameState.score += points;
+            elements.scoreDisplay.textContent = gameState.score.toLocaleString();
+        }
+
+        // ==========================================
+        // Phase 5: 게임 상태 관리
+        // ==========================================
+        
+        // 게임 루프
+        function gameLoop(timestamp) {
+            if (!gameState.isPlaying) return;
+            
+            // 1. 모든 단어 업데이트
+            updateWords();
+            
+            // 2. 바닥 충돌 체크
+            checkBottomCollision();
+            
+            // 3. 새 단어 생성
+            let spawnInterval;
+            switch(gameState.difficulty) {
+                case 'easy': spawnInterval = GAME_CONFIG.SPAWN_INTERVAL_EASY; break;
+                case 'hard': spawnInterval = GAME_CONFIG.SPAWN_INTERVAL_HARD; break;
+                default: spawnInterval = GAME_CONFIG.SPAWN_INTERVAL_MEDIUM;
+            }
+            
+            if (timestamp - gameState.lastSpawnTime > spawnInterval) {
+                spawnWord();
+                gameState.lastSpawnTime = timestamp;
+            }
+            
+            // 4. 다음 프레임 요청
+            gameState.animationId = requestAnimationFrame(gameLoop);
+        }
+
+        // 게임 시작
+        function startGame() {
+            if (gameState.isPlaying) return;
+            
+            // 초기화
+            gameState.isPlaying = true;
+            gameState.score = 0;
+            gameState.lives = gameSettings.initialLives;
+            gameState.words = [];
+            gameState.lastSpawnTime = 0;
+            gameState.difficulty = elements.difficulty.value;
+            
+            // UI 업데이트
+            elements.scoreDisplay.textContent = '0';
+            updateLivesDisplay();
+            elements.typingInput.disabled = false;
+            elements.typingInput.value = '';
+            elements.typingInput.focus();
+            elements.startBtn.style.display = 'none';
+            elements.restartBtn.style.display = 'none';
+            elements.difficulty.disabled = true;
+            
+            // 게임오버 화면 숨기기
+            elements.gameOverScreen.style.display = 'none';
+            
+            // 게임 루프 시작
+            gameState.animationId = requestAnimationFrame(gameLoop);
+        }
+
+        // 게임오버
+        function gameOver() {
+            gameState.isPlaying = false;
+            
+            if (gameState.animationId) {
+                cancelAnimationFrame(gameState.animationId);
+            }
+            
+            // 입력창 비활성화
+            elements.typingInput.disabled = true;
+            
+            // 모든 단어 제거
+            gameState.words.forEach(word => word.destroy());
+            gameState.words = [];
+            
+            // 게임오버 화면 표시
+            elements.finalScore.textContent = gameState.score.toLocaleString();
+            elements.gameOverScreen.style.display = 'flex';
+            elements.restartBtn.style.display = 'inline-block';
+            elements.difficulty.disabled = false;
+        }
+
+        // 게임 재시작
+        function resetGame() {
+            // 모든 단어 제거
+            gameState.words.forEach(word => word.destroy());
+            gameState.words = [];
+            
+            // 게임오버 환면 숨기기
+            elements.gameOverScreen.style.display = 'none';
+            
+            // 게임 시작
+            startGame();
+        }
+
+        // ==========================================
+        // Phase 6: 이벤트 연결
+        // ==========================================
+        
+        // 이벤트 리스너 설정
+        function setupEventListeners() {
+            // 입력 이벤트 (Enter 키)
+            elements.typingInput.addEventListener('keydown', handleInput);
+            
+            // 게임 영역 클릭 시 입력창 포커스
+            elements.gameArea.addEventListener('click', () => {
+                if (gameState.isPlaying) {
+                    elements.typingInput.focus();
+                }
+            });
+        }
+
+        // 초기 설정값 UI 업데이트
+        elements.currentSpeed.textContent = gameSettings.wordSpeed;
+        elements.currentLives.textContent = gameSettings.initialLives;
+
+        // 초기화
+        setupEventListeners();
+
+        // CSS 애니메이션 추가
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-10px); }
+                75% { transform: translateX(10px); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
