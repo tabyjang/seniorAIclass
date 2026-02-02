@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>시니어 타자 연습 🎹</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+            background: linear-gradient(135deg, #FF8C42 0%, #87CEEB 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .subtitle {
+            color: white;
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .stat-box {
+            background: #f8f9fa;
+            padding: 15px 25px;
+            border-radius: 15px;
+            text-align: center;
+            min-width: 120px;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #FF8C42;
+        }
+
+        .sentence-display {
+            background: #fff9f5;
+            border: 3px solid #FF8C42;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            font-size: 2rem;
+            line-height: 1.8;
+            text-align: center;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .char {
+            transition: all 0.1s;
+        }
+
+        .char.correct {
+            color: #28a745;
+        }
+
+        .char.incorrect {
+            color: #dc3545;
+            text-decoration: underline;
+        }
+
+        .char.current {
+            background: #FFE4B5;
+            border-radius: 3px;
+        }
+
+        .char.composing {
+            background: #E0E0E0;
+            border-radius: 3px;
+        }
+
+        .input-area {
+            margin-bottom: 20px;
+        }
+
+        #typingInput {
+            width: 100%;
+            padding: 20px;
+            font-size: 1.8rem;
+            border: 3px solid #ddd;
+            border-radius: 15px;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        #typingInput:focus {
+            border-color: #87CEEB;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 15px 40px;
+            font-size: 1.3rem;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background: #FF8C42;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #e67832;
+            transform: scale(1.05);
+        }
+
+        .btn-secondary {
+            background: #87CEEB;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #6bb8d9;
+            transform: scale(1.05);
+        }
+
+        .level-selector {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .level-selector label {
+            font-size: 1.2rem;
+            margin-right: 15px;
+            color: #333;
+        }
+
+        .level-selector select {
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            border-radius: 10px;
+            border: 2px solid #ddd;
+            cursor: pointer;
+        }
+
+        .message {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 15px;
+            display: none;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            display: block;
+        }
+
+        .message.info {
+            background: #fff3cd;
+            color: #856404;
+            display: block;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #eee;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FF8C42, #FFB347);
+            border-radius: 10px;
+            transition: width 0.3s;
+        }
+
+        .hint {
+            text-align: center;
+            font-size: 1rem;
+            color: #888;
+            margin-top: 10px;
+        }
+
+        footer {
+            margin-top: 30px;
+            color: white;
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .sentence-display {
+                font-size: 1.4rem;
+                padding: 20px;
+            }
+            
+            #typingInput {
+                font-size: 1.4rem;
+            }
+            
+            .stat-value {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>🎹 시니어 타자 연습</h1>
+    <p class="subtitle">천천히, 정확하게, 즐겁게!</p>
+
+    <div class="container">
+        <div class="level-selector">
+            <label for="level">난이도 선택:</label>
+            <select id="level" onchange="changeLevel()">
+                <option value="easy">🌱 쉬움 (짧은 문장)</option>
+                <option value="medium">🌿 보통 (중간 문장)</option>
+                <option value="hard">🌳 어려움 (긴 문장)</option>
+                <option value="proverb">📚 속담/명언</option>
+            </select>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-box">
+                <div class="stat-label">⏱️ 시간</div>
+                <div class="stat-value" id="timer">0초</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">📝 진행</div>
+                <div class="stat-value" id="progress">0/10</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">🎯 정확도</div>
+                <div class="stat-value" id="accuracy">100%</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">⚡ 타수</div>
+                <div class="stat-value" id="speed">0</div>
+            </div>
+        </div>
+
+        <div class="sentence-display" id="sentenceDisplay">
+            아래 '시작' 버튼을 눌러주세요! 😊
+        </div>
+
+        <div class="input-area">
+            <input type="text" id="typingInput" placeholder="여기에 입력하세요..." disabled>
+            <p class="hint" id="hint"></p>
+        </div>
+
+        <div class="buttons">
+            <button class="btn-primary" id="startBtn" onclick="startGame()">🚀 시작!</button>
+            <button class="btn-secondary" onclick="nextSentence()">⏭️ 다음 문장</button>
+        </div>
+
+        <div class="message" id="message"></div>
+    </div>
+
+    <footer>
+        시니어 AI 클래스 | 만든이: 범식님 & 골디 🥂
+    </footer>
+
+    <script>
+        // 난이도별 문장
+        const sentences = {
+            easy: [
+                "안녕하세요",
+                "감사합니다",
+                "사랑합니다",
+                "좋은 하루",
+                "행복하세요",
+                "반갑습니다",
+                "건강하세요",
+                "수고하셨어요",
+                "맛있게 드세요",
+                "잘 자요"
+            ],
+            medium: [
+                "오늘 날씨가 좋습니다",
+                "맛있는 점심 드세요",
+                "건강이 최고입니다",
+                "가족이 보고 싶어요",
+                "산책하기 좋은 날이에요",
+                "커피 한 잔 할까요",
+                "오늘도 화이팅입니다",
+                "좋은 꿈 꾸세요",
+                "행복한 하루 보내세요",
+                "내일 또 만나요"
+            ],
+            hard: [
+                "산토끼 토끼야 어디를 가느냐",
+                "깊은 산속 옹달샘 누가 와서 먹나요",
+                "푸른 하늘 은하수 하얀 쪽배에",
+                "고향의 봄 나의 살던 고향은",
+                "동해물과 백두산이 마르고 닳도록",
+                "꽃 피는 봄이 오면 산에 들에",
+                "아침 이슬을 맞으며 산책을 합니다",
+                "손주들과 함께하는 시간이 행복합니다",
+                "오늘 배운 것을 내일 연습합니다",
+                "천천히 하면 누구나 할 수 있습니다"
+            ],
+            proverb: [
+                "낮말은 새가 듣고 밤말은 쥐가 듣는다",
+                "백문이 불여일견",
+                "천 리 길도 한 걸음부터",
+                "콩 심은 데 콩 나고 팥 심은 데 팥 난다",
+                "가는 말이 고와야 오는 말이 곱다",
+                "꿩 먹고 알 먹는다",
+                "세 살 버릇 여든까지 간다",
+                "호랑이도 제 말하면 온다",
+                "티끌 모아 태산",
+                "소 잃고 외양간 고친다"
+            ]
+        };
+
+        let currentLevel = 'easy';
+        let currentSentences = [...sentences.easy];
+        let currentSentence = '';
+        let currentIndex = 0;
+        let sentenceCount = 0;
+        let totalSentences = 10;
+        let startTime = null;
+        let timerInterval = null;
+        let totalChars = 0;
+        let correctChars = 0;
+        let isPlaying = false;
+        let isComposing = false; // 한글 조합 중인지 체크
+
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        function changeLevel() {
+            currentLevel = document.getElementById('level').value;
+            currentSentences = shuffleArray(sentences[currentLevel]);
+            currentIndex = 0;
+            if (isPlaying) {
+                loadSentence();
+            }
+        }
+
+        function startGame() {
+            isPlaying = true;
+            sentenceCount = 0;
+            totalChars = 0;
+            correctChars = 0;
+            currentSentences = shuffleArray(sentences[currentLevel]);
+            currentIndex = 0;
+            
+            document.getElementById('typingInput').disabled = false;
+            document.getElementById('typingInput').value = '';
+            document.getElementById('typingInput').focus();
+            document.getElementById('startBtn').textContent = '🔄 다시 시작';
+            document.getElementById('message').className = 'message';
+            document.getElementById('hint').textContent = '💡 다 입력하면 자동으로 다음 문장으로 넘어가요!';
+            
+            startTime = new Date();
+            if (timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(updateTimer, 1000);
+            
+            loadSentence();
+            updateStats();
+        }
+
+        function loadSentence() {
+            if (currentIndex >= currentSentences.length) {
+                currentSentences = shuffleArray(sentences[currentLevel]);
+                currentIndex = 0;
+            }
+            
+            currentSentence = currentSentences[currentIndex];
+            displaySentence();
+            document.getElementById('typingInput').value = '';
+            document.getElementById('typingInput').focus();
+        }
+
+        function displaySentence() {
+            const display = document.getElementById('sentenceDisplay');
+            const input = document.getElementById('typingInput').value;
+            
+            let html = '';
+            for (let i = 0; i < currentSentence.length; i++) {
+                let className = 'char';
+                if (i < input.length) {
+                    if (input[i] === currentSentence[i]) {
+                        className += ' correct';
+                    } else {
+                        className += ' incorrect';
+                    }
+                } else if (i === input.length) {
+                    // 현재 입력 위치
+                    if (isComposing) {
+                        className += ' composing';
+                    } else {
+                        className += ' current';
+                    }
+                }
+                html += `<span class="${className}">${currentSentence[i]}</span>`;
+            }
+            display.innerHTML = html;
+        }
+
+        function updateTimer() {
+            if (!startTime) return;
+            const elapsed = Math.floor((new Date() - startTime) / 1000);
+            const minutes = Math.floor(elapsed / 60);
+            const seconds = elapsed % 60;
+            document.getElementById('timer').textContent = 
+                minutes > 0 ? `${minutes}분 ${seconds}초` : `${seconds}초`;
+        }
+
+        function updateStats() {
+            document.getElementById('progress').textContent = `${sentenceCount}/${totalSentences}`;
+            document.getElementById('progressFill').style.width = `${(sentenceCount / totalSentences) * 100}%`;
+            
+            const accuracy = totalChars > 0 ? Math.round((correctChars / totalChars) * 100) : 100;
+            document.getElementById('accuracy').textContent = `${accuracy}%`;
+            
+            if (startTime) {
+                const elapsed = (new Date() - startTime) / 1000 / 60; // 분
+                const speed = elapsed > 0 ? Math.round(correctChars / elapsed) : 0;
+                document.getElementById('speed').textContent = speed;
+            }
+        }
+
+        function checkInput() {
+            // 한글 조합 중이면 체크하지 않음
+            if (isComposing) {
+                displaySentence();
+                return;
+            }
+            
+            const input = document.getElementById('typingInput').value;
+            displaySentence();
+            
+            // 정확히 일치하면 정답!
+            if (input === currentSentence) {
+                sentenceCount++;
+                totalChars += currentSentence.length;
+                correctChars += currentSentence.length;
+                
+                updateStats();
+                
+                if (sentenceCount >= totalSentences) {
+                    endGame();
+                } else {
+                    showMessage('잘하셨어요! 👏', 'success');
+                    setTimeout(() => {
+                        document.getElementById('message').className = 'message';
+                        currentIndex++;
+                        loadSentence();
+                    }, 800);
+                }
+            }
+        }
+
+        function nextSentence() {
+            if (!isPlaying) return;
+            
+            const input = document.getElementById('typingInput').value;
+            
+            // 입력한 글자 수만큼 통계에 반영
+            if (input.length > 0) {
+                totalChars += input.length;
+                for (let i = 0; i < input.length && i < currentSentence.length; i++) {
+                    if (input[i] === currentSentence[i]) {
+                        correctChars++;
+                    }
+                }
+            }
+            
+            currentIndex++;
+            loadSentence();
+            updateStats();
+        }
+
+        function showMessage(text, type) {
+            const msg = document.getElementById('message');
+            msg.textContent = text;
+            msg.className = `message ${type}`;
+        }
+
+        function endGame() {
+            isPlaying = false;
+            clearInterval(timerInterval);
+            document.getElementById('typingInput').disabled = true;
+            document.getElementById('hint').textContent = '';
+            
+            const elapsed = Math.floor((new Date() - startTime) / 1000);
+            const accuracy = totalChars > 0 ? Math.round((correctChars / totalChars) * 100) : 100;
+            const speed = elapsed > 0 ? Math.round(correctChars / (elapsed / 60)) : 0;
+            
+            let grade = '';
+            if (accuracy >= 95 && speed >= 100) grade = '🏆 최고예요!';
+            else if (accuracy >= 90) grade = '🥇 훌륭해요!';
+            else if (accuracy >= 80) grade = '🥈 잘하셨어요!';
+            else grade = '🥉 좋아요!';
+            
+            showMessage(
+                `${grade}\n완료! 정확도 ${accuracy}%, 분당 ${speed}타`,
+                'success'
+            );
+            
+            document.getElementById('startBtn').textContent = '🚀 다시 시작!';
+        }
+
+        // 입력 요소 가져오기
+        const typingInput = document.getElementById('typingInput');
+        
+        // 한글 조합 시작
+        typingInput.addEventListener('compositionstart', function() {
+            isComposing = true;
+        });
+        
+        // 한글 조합 끝
+        typingInput.addEventListener('compositionend', function() {
+            isComposing = false;
+            checkInput(); // 조합 완료 후 체크
+        });
+        
+        // 일반 입력 이벤트 (영어, 숫자 등)
+        typingInput.addEventListener('input', function() {
+            if (!isComposing) {
+                checkInput();
+            } else {
+                displaySentence(); // 조합 중에는 화면만 업데이트
+            }
+        });
+        
+        // 키보드 이벤트 (엔터로 다음)
+        typingInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                nextSentence();
+            }
+        });
+    </script>
+</body>
+</html>
