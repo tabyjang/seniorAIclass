@@ -24,7 +24,7 @@ const Navbar: React.FC = () => {
               <span className="text-accent-400 font-bold text-lg">AI</span>
             </div>
             <span className="text-xl font-bold text-text-primary">
-              AI <span className="text-accent-400">마스터</span> 클래스
+              시니어<span className="text-accent-400">AI</span>클래스
             </span>
           </a>
 
@@ -144,7 +144,7 @@ const Footer: React.FC = () => (
               <span className="text-primary-500 font-bold text-lg">AI</span>
             </div>
             <span className="text-xl font-bold">
-              AI <span className="text-accent-400">마스터</span> 클래스
+              시니어<span className="text-accent-400">AI</span>클래스
             </span>
           </div>
           <p className="text-warm-100 text-lg leading-relaxed mb-6">
