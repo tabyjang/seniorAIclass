@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>제작 전 문서 체크리스트 | AI 마스터 클래스</title>
+  <title>제작 전 문서 체크리스트 | 시니어AI클래스</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
   <style>
@@ -64,6 +64,42 @@
         <div class="progress-bar h-full bg-gradient-to-r from-amber-400 to-amber-500 rounded-full" id="progressBar" style="width: 0%"></div>
       </div>
       <p class="text-right text-sm text-gray-500 mt-2"><span id="progressPercent">0</span>% 완료</p>
+    </div>
+
+    <!-- 문서 트리 구조 -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+      <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+        <span class="text-2xl">📂</span> 문서 구조 보기
+      </h2>
+      <div class="font-mono text-sm text-gray-700 bg-gray-50 rounded-xl p-4 overflow-x-auto">
+        <div class="space-y-1">
+          <div>📁 project/</div>
+          <div class="ml-4">📁 docs/</div>
+          <div class="ml-8">📁 01_planning/ (기획)</div>
+          <div class="ml-12"><span class="text-green-600">✓</span> <a href="/checklist/PRD.html" class="hover:text-amber-600">PRD.md</a> - 제품 요구사항</div>
+          <div class="ml-12"><span class="text-green-600">✓</span> <a href="/checklist/4단계_레벨_구조_변경_설계.html" class="hover:text-amber-600">4단계_레벨_구조_변경_설계.md</a></div>
+          <div class="ml-12"><span class="text-amber-600">○</span> 성공_실행_플랜.md</div>
+          <div class="ml-8">📁 02_homepage/ (홈페이지)</div>
+          <div class="ml-12"><span class="text-green-600">✓</span> <a href="/checklist/홈페이지_카피_문구.html" class="hover:text-amber-600">홈페이지_카피_문구.md</a></div>
+          <div class="ml-12"><span class="text-green-600">✓</span> <a href="/checklist/사이트맵_페이지흐름도.html" class="hover:text-amber-600">사이트맵_페이지흐름도.md</a></div>
+          <div class="ml-12"><span class="text-green-600">✓</span> 레벨테스트_질문_정중한버전.md</div>
+          <div class="ml-8">📁 03_curriculum/ (커리큘럼)</div>
+          <div class="ml-12"><span class="text-green-600">✓</span> <a href="/checklist/50강_커리큘럼_대시보드.html" class="hover:text-amber-600">50강_커리큘럼_대시보드.md</a></div>
+          <div class="ml-12"><span class="text-green-600">✓</span> <a href="/checklist/Lv1_강의_프로덕트_매트릭스.html" class="hover:text-amber-600">Lv1_강의_프로덕트_매트릭스.md</a></div>
+          <div class="ml-12"><span class="text-green-600">✓</span> <a href="/checklist/Lv1_주차별_로드맵.html" class="hover:text-amber-600">Lv1_주차별_로드맵.md</a></div>
+          <div class="ml-8">📁 04_products/ (프로덕트)</div>
+          <div class="ml-12"><span class="text-gray-400">○</span> 40프로덕트_제작_가이드.md</div>
+          <div class="ml-8">📁 05_marketing/ (마케팅)</div>
+          <div class="ml-12"><span class="text-gray-400">○</span> 상담_스크립트.md</div>
+          <div class="ml-4">📁 gruju/</div>
+          <div class="ml-8"><span class="text-green-600">✓</span> 실행_순서_조언.md</div>
+          <div class="ml-4">📁 checklist/ (HTML 변환)</div>
+          <div class="ml-8 text-blue-600">└── HTML 뷰어 파일들</div>
+        </div>
+      </div>
+      <p class="text-sm text-gray-500 mt-3">
+        <span class="text-green-600 font-bold">✓</span> 완료 | <span class="text-amber-600 font-bold">○</span> 진행중 | 클릭하면 문서 열림
+      </p>
     </div>
 
     <!-- 우선순위 필터 -->

@@ -167,7 +167,7 @@ const Footer: React.FC = () => (
               className="flex items-center gap-3 text-lg text-warm-100 hover:text-accent-400 transition-colors"
             >
               <MessageCircle size={24} className="text-accent-400" />
-              <span className="font-bold text-xl">카카오톡 @AI마스터클래스</span>
+              <span className="font-bold text-xl">카카오톡 @시니어AI클래스</span>
             </a>
             <a
               href="https://youtube.com/@example"
@@ -176,7 +176,7 @@ const Footer: React.FC = () => (
               className="flex items-center gap-3 text-lg text-warm-100 hover:text-accent-300 transition-colors"
             >
               <Youtube size={24} className="text-accent-300" />
-              유튜브: AI마스터클래스
+              유튜브: 시니어AI클래스
             </a>
             <a
               href="https://instagram.com/example"
@@ -210,7 +210,7 @@ const Footer: React.FC = () => (
       {/* 하단 */}
       <div className="pt-8 border-t border-warm-100/20 flex flex-col md:flex-row justify-between items-center gap-4">
         <p className="text-warm-100 text-base">
-          © 2026 AI 마스터 클래스. All rights reserved.
+          © 2026 시니어AI클래스. All rights reserved.
         </p>
         <div className="flex gap-6 text-warm-100 text-base">
           <a href="#" className="hover:text-accent-400 transition-colors">개인정보처리방침</a>

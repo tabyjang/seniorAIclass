@@ -389,12 +389,12 @@ const ProductsPage: React.FC = () => {
         },
         {
           id: 35,
-          name: "AI 마스터 인증",
+          name: "AI 전문가 인증",
           description: "공식 강사 등록",
           icon: <Trophy size={24} />,
           completionCriteria: "공식 강사 등록",
           proofMethod: "명함 + 등록번호",
-          details: ["AI 마스터 수료증", "강사 네트워크 가입"]
+          details: ["AI 전문가 수료증", "강사 네트워크 가입"]
         },
         {
           id: 36,
