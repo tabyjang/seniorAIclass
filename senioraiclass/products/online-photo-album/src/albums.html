@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>온라인 포토 앨범</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="src/css/base.css">
+    <link rel="stylesheet" href="src/css/components.css">
+    <link rel="stylesheet" href="src/css/albums.css">
+</head>
+<body>
+    <!-- 헤더 -->
+    <header class="header">
+        <div class="logo" onclick="window.location.href='albums.html'">
+            <span class="logo-icon">📷</span>
+            <span>온라인 포토 앨범</span>
+        </div>
+        <button class="btn btn-primary" onclick="openCreateModal()">
+            + 새 앨범
+        </button>
+    </header>
+
+    <!-- 메인 컨텐츠 -->
+    <main class="container">
+        <h1 class="page-title">내 앨범</h1>
+        
+        <!-- 앨범 그리드 -->
+        <div id="albumGrid" class="album-grid">
+            <!-- 앨범 카드들이 여기에 동적으로 추가됨 -->
+        </div>
+
+        <!-- 빈 상태 -->
+        <div id="emptyState" class="empty-state" style="display: none;">
+            <div class="empty-icon">📁</div>
+            <h3>앨범이 없습니다</h3>
+            <p>새 앨범을 만들어 사진을 정리핳세요</p>
+            <button class="btn btn-primary" onclick="openCreateModal()">
+                첫 앨범 만들기
+            </button>
+        </div>
+    </main>
+
+    <!-- 푸터 -->
+    <footer class="footer">
+        <p>📷 온라인 포토 앨범 - 소중한 추억을 안전하게 보관하세요</p>
+    </footer>
+
+    <!-- 앨범 생성 모달 -->
+    <div id="createModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>새 앨범 만들기</h2>
+                <button class="modal-close" onclick="closeCreateModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="albumName">앨범 이름 *</label>
+                    <input type="text" id="albumName" placeholder="예: 손주 사진">
+                </div>
+                <div class="form-group">
+                    <label for="albumDesc">설명</label>
+                    <textarea id="albumDesc" rows="3" placeholder="예: 2024년 손주 성장 기록"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="albumDate">날짜</label>
+                    <input type="date" id="albumDate">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeCreateModal()">취소</button>
+                <button class="btn btn-primary" onclick="createAlbum()">앨범 만들기</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 토스트 알림 -->
+    <div id="toast" class="toast"></div>
+
+    <!-- 스크립트 -->
+    <script src="src/js/storage.js"></script>
+    <script src="src/js/albumManager.js"></script>
+    <script src="src/js/albums.js"></script>
+</body>
+</html>

@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>온라인 포토 앨범</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #FFFFFF;
+            color: #2C2C2C;
+        }
+
+        /* 헤더 */
+        .header {
+            background: #FFFFFF;
+            border-bottom: 1px solid #E0E0E0;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2C2C2C;
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+        }
+
+        .btn-primary {
+            background: #D4A52C;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: #B8941F;
+        }
+
+        /* 메인 컨테이너 */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
+        /* 페이지 제목 */
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666666;
+        }
+
+        /* 앨범 정보 */
+        .album-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .album-info h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .album-info p {
+            color: #666666;
+            font-size: 1rem;
+        }
+
+        .album-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-secondary {
+            background: #F5F5F5;
+            color: #2C2C2C;
+            border: 1px solid #E0E0E0;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: #E0E0E0;
+        }
+
+        /* Masonry 갤러리 */
+        .gallery {
+            column-count: 4;
+            column-gap: 20px;
+        }
+
+        @media (max-width: 1200px) {
+            .gallery { column-count: 4; }
+        }
+
+        @media (max-width: 900px) {
+            .gallery { column-count: 3; }
+        }
+
+        @media (max-width: 600px) {
+            .gallery { column-count: 2; column-gap: 10px; }
+            .container { padding: 20px; }
+        }
+
+        /* 사진 카드 */
+        .photo-card {
+            break-inside: avoid;
+            margin-bottom: 20px;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .photo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .photo-card:hover .photo-overlay {
+            opacity: 1;
+        }
+
+        .photo-wrapper {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .photo-wrapper img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* 호버 오버레이 */
+        .photo-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .view-btn {
+            background: rgba(255,255,255,0.95);
+            color: #2C2C2C;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .favorite-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255,255,255,0.9);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .photo-card:hover .favorite-btn {
+            opacity: 1;
+        }
+
+        /* 카드 정보 */
+        .card-info {
+            padding: 12px 15px;
+            background: white;
+        }
+
+        .card-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 0.85rem;
+            color: #666666;
+            margin-bottom: 5px;
+        }
+
+        .card-description {
+            font-size: 0.9rem;
+            color: #2C2C2C;
+            line-height: 1.4;
+        }
+
+        /* 앨범 목록 */
+        .album-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .album-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .album-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .album-cover {
+            aspect-ratio: 4/3;
+            background: linear-gradient(135deg, #F5F5F5 0%, #E0E0E0 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .album-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .photo-count {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .album-info-card {
+            padding: 20px;
+        }
+
+        .album-info-card h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .album-info-card p {
+            color: #666666;
+            font-size: 0.9rem;
+        }
+
+        /* 새 앨범 카드 */
+        .new-album-card {
+            background: #F5F5F5;
+            border: 2px dashed #D4A52C;
+            border-radius: 16px;
+            aspect-ratio: 4/3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-height: 200px;
+        }
+
+        .new-album-card:hover {
+            background: #FFF9E6;
+            border-style: solid;
+        }
+
+        .new-album-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            color: #D4A52C;
+        }
+
+        .new-album-text {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #D4A52C;
+        }
+
+        /* 라이트박스 */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.95);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2.5rem;
+            cursor: pointer;
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            font-size: 2rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox-prev { left: 20px; }
+        .lightbox-next { right: 20px; }
+
+        .lightbox-content {
+            max-width: 80%;
+            max-height: 80%;
+            text-align: center;
+        }
+
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 70vh;
+            border-radius: 8px;
+        }
+
+        .lightbox-info {
+            color: white;
+            margin-top: 20px;
+        }
+
+        .lightbox-counter {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            opacity: 0.8;
+        }
+
+        .lightbox-date {
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+
+        .lightbox-location {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        .lightbox-description {
+            font-size: 1.1rem;
+        }
+
+        .lightbox-actions {
+            margin-top: 20px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .lightbox-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .lightbox-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* 푸터 */
+        .footer {
+            text-align: center;
+            padding: 40px;
+            color: #666666;
+            border-top: 1px solid #E0E0E0;
+            margin-top: 60px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 헤더 -->
+    <header class="header">
+        <div class="logo">
+            <span class="logo-icon">📷</span>
+            <span>온라인 포토 앨범</span>
+        </div>
+        <button class="btn-primary">+ 새 앨범</button>
+    </header>
+
+    <!-- 메인 컨텐츠 -->
+    <main class="container">
+        <!-- 앨범 상세 페이지 (갤러리) -->
+        <div class="album-header">
+            <div class="album-info">
+                <h1>손주 사진</h1>
+                <p>2024년 손주 성장 기록 • 12장의 사진</p>
+            </div>
+            <div class="album-actions">
+                <button class="btn-secondary">▶️ 슬라이드쇼</button>
+                <button class="btn-secondary">📤 공유</button>
+                <button class="btn-secondary">📥 다운로드</button>
+            </div>
+        </div>
+
+        <!-- Masonry 갤러리 -->
+        <div class="gallery">
+            <!-- 사진 1 -->
+            <div class="photo-card" onclick="openLightbox(1)">
+                <div class="photo-wrapper">
+                    <img src="https://picsum.photos/400/600?random=1" alt="사진 1">
+                    <div class="photo-overlay">
+                        <button class="view-btn">🔍 크게 보기</button>
+                    </div>
+                    <button class="favorite-btn">🤍</button>
+                </div>
+                <div class="card-info">
+                    <div class="card-meta">
+                        <span>📍 제주도</span>
+                        <span>📅 2024.02.15</span>
+                    </div>
+                    <p class="card-description">손주랑 처음 바다 구경</p>
+                </div>
+            </div>
+
+            <!-- 사진 2 -->
+            <div class="photo-card" onclick="openLightbox(2)">
+                <div class="photo-wrapper">
+                    <img src="https://picsum.photos/400/300?random=2" alt="사진 2">
+                    <div class="photo-overlay">
+                        <button class="view-btn">🔍 크게 보기</button>
+                    </div>
+                    <button class="favorite-btn">🤍</button>
+                </div>
+                <div class="card-info">
+                    <div class="card-meta">
+                        <span>📍 집</span>
+                        <span>📅 2024.02.10</span>
+                    </div>
+                    <p class="card-description">생일 케이크 앞에서</p>
+                </div>
+            </div>
+
+            <!-- 사진 3 -->
+            <div class="photo-card" onclick="openLightbox(3)">
+                <div class="photo-wrapper">
+                    <img src="https://picsum.photos/400/500?random=3" alt="사진 3">
+                    <div class="photo-overlay">
+                        <button class="view-btn">🔍 크게 보기</button>
+                    </div>
+                    <button class="favorite-btn">🤍</button>
+                </div>
+                <div class="card-info">
+                    <div class="card-meta">
+                        <span>📍 공원</span>
+                        <span>📅 2024.02.05</span>
+                    </div>
+                    <p class="card-description">봄나들이</p>
+                </div>
+            </div>
+
+            <!-- 사진 4 -->
+            <div class="photo-card" onclick="openLightbox(4)">
+                <div class="photo-wrapper">
+                    <img src="https://picsum.photos/400/350?random=4" alt="사진 4">
+                    <div class="photo-overlay">
+                        <button class="view-btn">🔍 크게 보기</button>
+                    </div>
+                    <button class="favorite-btn">🤍</button>
+                </div>
+                <div class="card-info">
+                    <div class="card-meta">
+                        <span>📍 학교</span>
+                        <span>📅 2024.01.20</span>
+                    </div>
+                    <p class="card-description">입학식</p>
+                </div>
+            </div>
+
+            <!-- 사진 5 -->
+            <div class="photo-card" onclick="openLightbox(5)">
+                <div class="photo-wrapper">
+                    <img src="https://picsum.photos/400/550?random=5" alt="사진 5">
+                    <div class="photo-overlay">
+                        <button class="view-btn">🔍 크게 보기</button>
+                    </div>
+                    <button class="favorite-btn">🤍</button>
+                </div>
+                <div class="card-info">
+                    <div class="card-meta">
+                        <span>📍 카페</span>
+                        <span>📅 2024.01.15</span>
+                    </div>
+                    <p class="card-description">할머니랑 카페 데이트</p>
+                </div>
+            </div>
+
+            <!-- 사진 6 -->
+            <div class="photo-card" onclick="openLightbox(6)">
+                <div class="photo-wrapper">
+                    <img src="https://picsum.photos/400/400?random=6" alt="사진 6">
+                    <div class="photo-overlay">
+                        <button class="view-btn">🔍 크게 보기</button>
+                    </div>
+                    <button class="favorite-btn">🤍</button>
+                </div>
+                <div class="card-info">
+                    <div class="card-meta">
+                        <span>📍 집</span>
+                        <span>📅 2024.01.10</span>
+                    </div>
+                    <p class="card-description">신나게 노는 모습</p>
+                </div>
+            </div>
+
+            <!-- 사진 7 -->
+            <div class="photo-card" onclick="openLightbox(7)">
+                <div class="photo-wrapper">
+                    <img src="https://picsum.photos/400/450?random=7" alt="사진 7">
+                    <div class="photo-overlay">
+                        <button class="view-btn">🔍 크게 보기</button>
+                    </div>
+                    <button class="favorite-btn">🤍</button>
+                </div>
+                <div class="card-info">
+                    <div class="card-meta">
+                        <span>📍 여행</span>
+                        <span>📅 2024.01.05</span>
+                    </div>
+                    <p class="card-description">가족 여행</p>
+                </div>
+            </div>
+
+            <!-- 사진 8 -->
+            <div class="photo-card" onclick="openLightbox(8)">
+                <div class="photo-wrapper">
+                    <img src="https://picsum.photos/400/320?random=8" alt="사진 8">
+                    <div class="photo-overlay">
+                        <button class="view-btn">🔍 크게 보기</button>
+                    </div>
+                    <button class="favorite-btn">🤍</button>
+                </div>
+                <div class="card-info">
+                    <div class="card-meta">
+                        <span>📍 집</span>
+                        <span>📅 2023.12.25</span>
+                    </div>
+                    <p class="card-description">크리스마스</p>
+                </div>
+            </div>
+
+            <!-- 사진 9 -->
+            <div class="photo-card" onclick="openLightbox(9)">
+                <div class="photo-wrapper">
+                    <img src="https://picsum.photos/400/580?random=9" alt="사진 9">
+                    <div class="photo-overlay">
+                        <button class="view-btn">🔍 크게 보기</button>
+                    </div>
+                    <button class="favorite-btn">🤍</button>
+                </div>
+                <div class="card-info">
+                    <div class="card-meta">
+                        <span>📍 놀이공원</span>
+                        <span>📅 2023.12.20</span>
+                    </div>
+                    <p class="card-description">놀이기구 타는 중</p>
+                </div>
+            </div>
+
+            <!-- 사진 10 -->
+            <div class="photo-card" onclick="openLightbox(10)">
+                <div class="photo-wrapper">
+                    <img src="https://picsum.photos/400/380?random=10" alt="사진 10">
+                    <div class="photo-overlay">
+                        <button class="view-btn">🔍 크게 보기</button>
+                    </div>
+                    <button class="favorite-btn">🤍</button>
+                </div>
+                <div class="card-info">
+                    <div class="card-meta">
+                        <span>📍 병원</span>
+                        <span>📅 2023.12.15</span>
+                    </div>
+                    <p class="card-description">건강검진</p>
+                </div>
+            </div>
+
+            <!-- 사진 11 -->
+            <div class="photo-card" onclick="openLightbox(11)">
+                <div class="photo-wrapper">
+                    <img src="https://picsum.photos/400/480?random=11" alt="사진 11">
+                    <div class="photo-overlay">
+                        <button class="view-btn">🔍 크게 보기</button>
+                    </div>
+                    <button class="favorite-btn">🤍</button>
+                </div>
+                <div class="card-info">
+                    <div class="card-meta">
+                        <span>📍 마트</span>
+                        <span>📅 2023.12.10</span>
+                    </div>
+                    <p class="card-description">장보기</p>
+                </div>
+            </div>
+
+            <!-- 사진 12 -->
+            <div class="photo-card" onclick="openLightbox(12)">
+                <div class="photo-wrapper">
+                    <img src="https://picsum.photos/400/360?random=12" alt="사진 12">
+                    <div class="photo-overlay">
+                        <button class="view-btn">🔍 크게 보기</button>
+                    </div>
+                    <button class="favorite-btn">🤍</button>
+                </div>
+                <div class="card-info">
+                    <div class="card-meta">
+                        <span>📍 집</span>
+                        <span>📅 2023.12.05</span>
+                    </div>
+                    <p class="card-description">그림 그리기</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 푸터 -->
+    <footer class="footer">
+        <p>📷 온라인 포토 앨범 - 소중한 추억을 안전하게 보관하세요</p>
+    </footer>
+
+    <!-- 라이트박스 -->
+    <div id="lightbox" class="lightbox">
+        <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+        <button class="lightbox-nav lightbox-prev" onclick="prevPhoto()">&lt;</button>
+        <button class="lightbox-nav lightbox-next" onclick="nextPhoto()">&gt;</button>
+        <div class="lightbox-content">
+            <img id="lightbox-img" src="" alt="큰 사진">
+            <div class="lightbox-info">
+                <div class="lightbox-counter" id="lightbox-counter">1 / 12</div>
+                <div class="lightbox-date" id="lightbox-date">📅 2024.02.15</div>
+                <div class="lightbox-location" id="lightbox-location">📍 제주도</div>
+                <div class="lightbox-description" id="lightbox-description">손주랑 처음 바다 구경</div>
+                <div class="lightbox-actions">
+                    <button class="lightbox-btn">❤️</button>
+                    <button class="lightbox-btn">💾 다운로드</button>
+                    <button class="lightbox-btn">🗑️ 삭제</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentPhoto = 1;
+        const totalPhotos = 12;
+
+        const photoData = [
+            { src: "https://picsum.photos/800/1200?random=1", date: "2024.02.15", location: "제주도", desc: "손주랑 처음 바다 구경" },
+            { src: "https://picsum.photos/800/600?random=2", date: "2024.02.10", location: "집", desc: "생일 케이크 앞에서" },
+            { src: "https://picsum.photos/800/1000?random=3", date: "2024.02.05", location: "공원", desc: "봄나들이" },
+            { src: "https://picsum.photos/800/700?random=4", date: "2024.01.20", location: "학교", desc: "입학식" },
+            { src: "https://picsum.photos/800/1100?random=5", date: "2024.01.15", location: "카페", desc: "할머니랑 카페 데이트" },
+            { src: "https://picsum.photos/800/800?random=6", date: "2024.01.10", location: "집", desc: "신나게 노는 모습" },
+            { src: "https://picsum.photos/800/900?random=7", date: "2024.01.05", location: "여행", desc: "가족 여행" },
+            { src: "https://picsum.photos/800/640?random=8", date: "2023.12.25", location: "집", desc: "크리스마스" },
+            { src: "https://picsum.photos/800/1160?random=9", date: "2023.12.20", location: "놀이공원", desc: "놀이기구 타는 중" },
+            { src: "https://picsum.photos/800/760?random=10", date: "2023.12.15", location: "병원", desc: "건강검진" },
+            { src: "https://picsum.photos/800/960?random=11", date: "2023.12.10", location: "마트", desc: "장보기" },
+            { src: "https://picsum.photos/800/720?random=12", date: "2023.12.05", location: "집", desc: "그림 그리기" }
+        ];
+
+        function openLightbox(num) {
+            currentPhoto = num;
+            updateLightbox();
+            document.getElementById('lightbox').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function prevPhoto() {
+            currentPhoto = currentPhoto > 1 ? currentPhoto - 1 : totalPhotos;
+            updateLightbox();
+        }
+
+        function nextPhoto() {
+            currentPhoto = currentPhoto < totalPhotos ? currentPhoto + 1 : 1;
+            updateLightbox();
+        }
+
+        function updateLightbox() {
+            const data = photoData[currentPhoto - 1];
+            document.getElementById('lightbox-img').src = data.src;
+            document.getElementById('lightbox-counter').textContent = `${currentPhoto} / ${totalPhotos}`;
+            document.getElementById('lightbox-date').textContent = `📅 ${data.date}`;
+            document.getElementById('lightbox-location').textContent = `📍 ${data.location}`;
+            document.getElementById('lightbox-description').textContent = data.desc;
+        }
+
+        // 키보드 네비게이션
+        document.addEventListener('keydown', function(e) {
+            if (!document.getElementById('lightbox').classList.contains('active')) return;
+            
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowLeft') prevPhoto();
+            if (e.key === 'ArrowRight') nextPhoto();
+        });
+    </script>
+</body>
+</html>
