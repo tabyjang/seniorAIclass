@@ -8,78 +8,414 @@
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/albums.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
     <!-- 헤더 -->
     <header class="header">
-        <div class="logo" onclick="window.location.href='albums.html'">
+        <div class="logo">
             <span class="logo-icon">📷</span>
             <span>온라인 포토 앨범</span>
         </div>
-        <button class="btn btn-primary" onclick="openCreateModal()">
-            + 새 앨범
-        </button>
+        <div class="header-right">
+            <span id="userInfo" class="user-info"></span>
+            <button id="authBtn" class="btn btn-secondary">로그인</button>
+            <button id="newAlbumBtn" class="btn btn-primary">+ 새 앨범</button>
+        </div>
     </header>
 
-    <!-- 메인 컨텐츠 -->
+    <!-- 메인 -->
     <main class="container">
         <h1 class="page-title">내 앨범</h1>
-        
-        <!-- 앨범 그리드 -->
-        <div id="albumGrid" class="album-grid">
-            <!-- 앨범 카드들이 여기에 동적으로 추가됨 -->
+
+        <!-- 로그인 폼 (바로 표시) -->
+        <div id="loginPrompt" class="login-box">
+            <div class="login-icon">🔐</div>
+            <h2>로그인</h2>
+            <div class="form-group">
+                <label>아이디</label>
+                <input type="text" id="loginId" placeholder="아이디">
+            </div>
+            <div class="form-group">
+                <label>비밀번호</label>
+                <input type="password" id="loginPw" placeholder="비밀번호">
+            </div>
+            <button id="loginBtn" class="btn btn-primary btn-full">로그인</button>
+            <div class="login-hint">💡 테스트: <strong>test</strong> / <strong>1234</strong></div>
         </div>
 
-        <!-- 빈 상태 -->
-        <div id="emptyState" class="empty-state" style="display: none;">
+        <!-- 앨범 그리드 -->
+        <div id="albumGrid" class="album-grid"></div>
+
+        <!-- 앨범 없음 -->
+        <div id="emptyState" class="empty-state" style="display:none;">
             <div class="empty-icon">📁</div>
             <h3>앨범이 없습니다</h3>
-            <p>새 앨범을 만들어 사진을 정리핳세요</p>
-            <button class="btn btn-primary" onclick="openCreateModal()">
-                첫 앨범 만들기
-            </button>
+            <p>새 앨범을 만들어 사진을 정리하세요</p>
+            <button class="btn btn-primary" onclick="openNewAlbumModal()">첫 앨범 만들기</button>
         </div>
     </main>
 
-    <!-- 푸터 -->
-    <footer class="footer">
-        <p>📷 온라인 포토 앨범 - 소중한 추억을 안전하게 보관하세요</p>
-    </footer>
-
-    <!-- 앨범 생성 모달 -->
-    <div id="createModal" class="modal">
+    <!-- 새 앨범 모달 -->
+    <div id="newAlbumModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
                 <h2>새 앨범 만들기</h2>
-                <button class="modal-close" onclick="closeCreateModal()">&times;</button>
+                <button class="modal-close" onclick="closeNewAlbumModal()">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="albumName">앨범 이름 *</label>
-                    <input type="text" id="albumName" placeholder="예: 손주 사진">
+                    <label>앨범 이름 *</label>
+                    <input type="text" id="albumName" placeholder="예: 가족 사진">
                 </div>
                 <div class="form-group">
-                    <label for="albumDesc">설명</label>
-                    <textarea id="albumDesc" rows="3" placeholder="예: 2024년 손주 성장 기록"></textarea>
+                    <label>설명</label>
+                    <textarea id="albumDesc" rows="3" placeholder="예: 2024년 추억"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="albumDate">날짜</label>
+                    <label>날짜</label>
                     <input type="date" id="albumDate">
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeCreateModal()">취소</button>
+                <button class="btn btn-secondary" onclick="closeNewAlbumModal()">취소</button>
                 <button class="btn btn-primary" onclick="createAlbum()">앨범 만들기</button>
             </div>
         </div>
     </div>
 
-    <!-- 토스트 알림 -->
+    <!-- 토스트 -->
     <div id="toast" class="toast"></div>
 
-    <!-- 스크립트 -->
-    <script src="src/js/storage.js"></script>
-    <script src="src/js/albumManager.js"></script>
-    <script src="src/js/albums.js"></script>
+    <!-- config.js 로드 -->
+    <script src="js/config.js"></script>
+
+    <script>
+    // ==========================================
+    // 하드코딩 로그인 정보
+    // ==========================================
+    const USERS = {
+        'test': '1234',
+        'admin': 'admin',
+        'user': 'user'
+    };
+
+    // ==========================================
+    // 로그인 관련
+    // ==========================================
+    function isLoggedIn() {
+        return localStorage.getItem('album_logged_in') === 'true';
+    }
+
+    function getUser() {
+        return localStorage.getItem('album_user') || '';
+    }
+
+    function login(id, pw) {
+        if (USERS[id] && USERS[id] === pw) {
+            localStorage.setItem('album_logged_in', 'true');
+            localStorage.setItem('album_user', id);
+            return true;
+        }
+        return false;
+    }
+
+    function logout() {
+        localStorage.removeItem('album_logged_in');
+        localStorage.removeItem('album_user');
+        location.reload();
+    }
+
+    // ==========================================
+    // 모달
+    // ==========================================
+    function openNewAlbumModal() {
+        if (!isLoggedIn()) {
+            showToast('먼저 로그인하세요', 'error');
+            return;
+        }
+        document.getElementById('newAlbumModal').classList.add('show');
+    }
+
+    function closeNewAlbumModal() {
+        document.getElementById('newAlbumModal').classList.remove('show');
+        document.getElementById('albumName').value = '';
+        document.getElementById('albumDesc').value = '';
+        document.getElementById('albumDate').value = '';
+    }
+
+    // ==========================================
+    // UI 업데이트
+    // ==========================================
+    function updateUI() {
+        const authBtn = document.getElementById('authBtn');
+        const userInfo = document.getElementById('userInfo');
+        const loginPrompt = document.getElementById('loginPrompt');
+        const albumGrid = document.getElementById('albumGrid');
+        const emptyState = document.getElementById('emptyState');
+
+        if (isLoggedIn()) {
+            authBtn.textContent = '로그아웃';
+            authBtn.style.display = 'inline-flex';
+            authBtn.onclick = logout;
+            userInfo.textContent = '👤 ' + getUser();
+            userInfo.style.display = 'inline';
+            loginPrompt.style.display = 'none';
+        } else {
+            authBtn.style.display = 'none';
+            userInfo.style.display = 'none';
+            loginPrompt.style.display = 'block';
+            albumGrid.style.display = 'none';
+            emptyState.style.display = 'none';
+        }
+    }
+
+    // ==========================================
+    // Supabase
+    // ==========================================
+    var db = null;
+
+    function getSupabase() {
+        if (!db) {
+            if (typeof CONFIG === 'undefined') {
+                alert('설정 파일 로드 실패. Live Server로 실행하세요.');
+                return null;
+            }
+            db = window.supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_ANON_KEY);
+        }
+        return db;
+    }
+
+    // ==========================================
+    // 앨범 로드
+    // ==========================================
+    async function loadAlbums() {
+        console.log('loadAlbums 시작');
+        if (!isLoggedIn()) {
+            console.log('로그인 안됨');
+            return;
+        }
+
+        const client = getSupabase();
+        console.log('Supabase 클라이언트:', client);
+        if (!client) {
+            console.log('클라이언트 없음');
+            return;
+        }
+
+        const albumGrid = document.getElementById('albumGrid');
+        const emptyState = document.getElementById('emptyState');
+
+        try {
+            console.log('앨범 조회 시작...');
+            const { data: albums, error } = await client
+                .from('albums')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            console.log('앨범 결과:', albums, '에러:', error);
+            if (error) throw error;
+
+            // 각 앨범의 사진 수 가져오기 (생략 - 나중에)
+            for (const album of albums) {
+                album.photoCount = 0;
+            }
+
+            console.log('앨범 개수:', albums.length);
+            if (albums.length === 0) {
+                albumGrid.style.display = 'none';
+                emptyState.style.display = 'block';
+            } else {
+                console.log('앨범 표시 시작');
+                albumGrid.style.display = 'grid';
+                emptyState.style.display = 'none';
+                renderAlbums(albums);
+                console.log('렌더링 완료, albumGrid 내용:', albumGrid.innerHTML.substring(0, 200));
+            }
+        } catch (err) {
+            console.error('앨범 로드 오류:', err);
+            showToast('앨범을 불러오는데 실패했습니다: ' + err.message, 'error');
+        }
+    }
+
+    // ==========================================
+    // 앨범 렌더링
+    // ==========================================
+    function renderAlbums(albums) {
+        const grid = document.getElementById('albumGrid');
+        grid.innerHTML = '';
+
+        albums.forEach(album => {
+            console.log('앨범 렌더링:', album); // 디버깅
+            const card = document.createElement('div');
+            card.className = 'album-card';
+            card.onclick = () => {
+                console.log('클릭한 앨범:', album);
+                console.log('앨범 ID:', album.id);
+                const url = `gallery.html#${album.id}`;
+                console.log('이동할 URL:', url);
+                location.href = url;
+            };
+
+            // 커버 이미지
+            const cover = document.createElement('div');
+            cover.className = 'album-cover';
+            if (album.cover_image_url) {
+                cover.style.backgroundImage = `url('${album.cover_image_url}')`;
+            } else {
+                cover.innerHTML = '<span style="font-size:48px;">📷</span>';
+                cover.style.display = 'flex';
+                cover.style.alignItems = 'center';
+                cover.style.justifyContent = 'center';
+                cover.style.background = '#f0f0f0';
+            }
+
+            // 앨범 정보
+            const info = document.createElement('div');
+            info.className = 'album-info';
+            info.innerHTML = `
+                <h3 class="album-name">${album.name}</h3>
+                <p class="album-meta">${album.photoCount}장의 사진</p>
+            `;
+
+            card.appendChild(cover);
+            card.appendChild(info);
+            grid.appendChild(card);
+        });
+    }
+
+    // ==========================================
+    // 앨범 생성
+    // ==========================================
+    async function createAlbum() {
+        const name = document.getElementById('albumName').value.trim();
+        const desc = document.getElementById('albumDesc').value.trim();
+        const date = document.getElementById('albumDate').value;
+
+        if (!name) {
+            showToast('앨범 이름을 입력하세요', 'error');
+            return;
+        }
+
+        const client = getSupabase();
+        if (!client) return;
+
+        try {
+            const { error } = await client
+                .from('albums')
+                .insert({
+                    name: name,
+                    description: desc || '',
+                    date: date || null
+                });
+
+            if (error) throw error;
+
+            showToast('앨범이 생성되었습니다!', 'success');
+            closeNewAlbumModal();
+            loadAlbums();
+        } catch (err) {
+            console.error('앨범 생성 오류:', err);
+            showToast('앨범 생성 실패: ' + err.message, 'error');
+        }
+    }
+
+    // ==========================================
+    // 토스트
+    // ==========================================
+    function showToast(message, type = 'info') {
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.className = 'toast show ' + type;
+        setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    // ==========================================
+    // 이벤트 바인딩
+    // ==========================================
+    document.addEventListener('DOMContentLoaded', () => {
+        // 로그인 버튼
+        document.getElementById('loginBtn').onclick = function() {
+            const id = document.getElementById('loginId').value.trim();
+            const pw = document.getElementById('loginPw').value;
+
+            console.log('로그인 시도:', id, pw);
+
+            if (!id || !pw) {
+                alert('아이디와 비밀번호를 입력하세요');
+                return;
+            }
+
+            if (login(id, pw)) {
+                alert('로그인 성공!');
+                location.reload();
+            } else {
+                alert('아이디 또는 비밀번호가 틀렸습니다');
+            }
+        };
+
+        // 엔터키로 로그인
+        document.getElementById('loginPw').onkeypress = function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('loginBtn').click();
+            }
+        };
+
+        // 새 앨범 버튼
+        document.getElementById('newAlbumBtn').onclick = openNewAlbumModal;
+
+        // 초기화
+        console.log('페이지 로드, 로그인 상태:', isLoggedIn());
+        updateUI();
+        if (isLoggedIn()) {
+            console.log('로그인됨 - loadAlbums 호출');
+            loadAlbums();
+        }
+    });
+    </script>
+
+    <style>
+    .header-right {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .user-info {
+        font-size: 14px;
+        color: #666;
+    }
+    .btn-full {
+        width: 100%;
+        margin-top: 16px;
+    }
+    .login-box {
+        max-width: 400px;
+        margin: 60px auto;
+        padding: 40px;
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        text-align: center;
+    }
+    .login-icon {
+        font-size: 48px;
+        margin-bottom: 16px;
+    }
+    .login-box h2 {
+        margin-bottom: 24px;
+        color: #333;
+    }
+    .login-box .form-group {
+        text-align: left;
+    }
+    .login-hint {
+        margin-top: 20px;
+        padding: 12px;
+        background: #f5f5f5;
+        border-radius: 8px;
+        font-size: 14px;
+        color: #666;
+    }
+    </style>
 </body>
 </html>

@@ -1,0 +1,9 @@
+# 환경설정 (실제 키가 들어있음)
+src/js/config.js
+
+# 노드 모듈
+node_modules/
+
+# 로컬 환경
+.env
+.env.local

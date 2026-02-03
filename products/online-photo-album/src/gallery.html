@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>갤러리 - 온라인 포토 앨범</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/gallery.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <!-- 헤더 -->
+    <header class="header">
+        <div class="logo" onclick="location.href='albums.html'" style="cursor:pointer;">
+            <span class="logo-icon">📷</span>
+            <span>온라인 포토 앨범</span>
+        </div>
+        <div class="header-actions">
+            <button class="btn btn-secondary" onclick="document.getElementById('fileInput').click()">
+                📤 사진 추가
+            </button>
+        </div>
+    </header>
+
+    <!-- 메인 -->
+    <main class="container">
+        <!-- 앨범 정보 -->
+        <div class="album-header">
+            <div>
+                <button class="btn btn-text" onclick="location.href='albums.html'">← 목록으로</button>
+                <h1 id="albumTitle">앨범</h1>
+                <p id="albumInfo"></p>
+            </div>
+            <div class="album-actions">
+                <button class="btn btn-secondary" onclick="startSlideshow()">▶️ 슬라이드쇼</button>
+                <button class="btn btn-danger" onclick="deleteAlbum()">🗑️ 앨범 삭제</button>
+            </div>
+        </div>
+
+        <!-- 업로드 영역 -->
+        <div id="dropZone" class="drop-zone">
+            <div class="drop-content">
+                <span class="drop-icon">📁</span>
+                <p>사진을 여기에 끌어다 놓으세요</p>
+                <p class="drop-hint">또는 클릭해서 선택 (JPG, PNG, GIF, WebP)</p>
+            </div>
+            <input type="file" id="fileInput" multiple accept="image/*" style="display:none;">
+        </div>
+
+        <!-- 갤러리 -->
+        <div id="gallery" class="gallery"></div>
+
+        <!-- 빈 상태 -->
+        <div id="emptyState" class="empty-state" style="display:none;">
+            <div class="empty-icon">🖼️</div>
+            <h3>사진이 없습니다</h3>
+            <p>위에서 사진을 업로드하세요</p>
+        </div>
+    </main>
+
+    <!-- 업로드 진행률 -->
+    <div id="uploadProgress" class="upload-progress" style="display:none;">
+        <h4>📤 업로드 중...</h4>
+        <div class="progress-bar">
+            <div id="progressBar" class="progress-fill"></div>
+        </div>
+        <p id="progressText">0 / 0</p>
+    </div>
+
+    <!-- 라이트박스 -->
+    <div id="lightbox" class="lightbox">
+        <button class="lb-close" onclick="closeLightbox()">&times;</button>
+        <button class="lb-nav lb-prev" onclick="prevPhoto()">‹</button>
+        <button class="lb-nav lb-next" onclick="nextPhoto()">›</button>
+        <div class="lb-content">
+            <img id="lbImage" src="" alt="">
+            <div class="lb-info">
+                <span id="lbCounter">1 / 1</span>
+                <div class="lb-actions">
+                    <button class="btn btn-icon" onclick="toggleFavorite()" id="favBtn">🤍</button>
+                    <button class="btn btn-icon" onclick="downloadPhoto()">💾</button>
+                    <button class="btn btn-icon btn-danger" onclick="deletePhoto()">🗑️</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 토스트 -->
+    <div id="toast" class="toast"></div>
+
+    <!-- config.js -->
+    <script src="js/config.js"></script>
+
+    <script>
+    // ==========================================
+    // 전역 변수
+    // ==========================================
+    let albumId = null;
+    let album = null;
+    let photos = [];
+    let currentIndex = 0;
+    var db = null;
+    let slideshowTimer = null;
+
+    // ==========================================
+    // 초기화
+    // ==========================================
+    document.addEventListener('DOMContentLoaded', () => {
+        console.log('=== index.html 로드 시작 ===');
+
+        // 로그인 체크
+        const loggedIn = localStorage.getItem('album_logged_in');
+        console.log('로그인 상태:', loggedIn);
+        if (loggedIn !== 'true') {
+            alert('로그인이 필요합니다');
+            location.href = 'albums.html';
+            return;
+        }
+
+        // URL에서 앨범 ID (hash 사용: gallery.html#앨범ID)
+        console.log('현재 URL:', location.href);
+        console.log('location.hash:', location.hash);
+        albumId = location.hash.replace('#', '');
+        console.log('앨범 ID:', albumId);
+
+        if (!albumId) {
+            console.log('앨범 ID가 없음! URL을 확인하세요.');
+            alert('앨범 ID 없음. URL: ' + location.href);
+            location.href = 'albums.html';
+            return;
+        }
+
+        // Supabase 초기화
+        console.log('CONFIG:', typeof CONFIG);
+        if (typeof CONFIG === 'undefined') {
+            alert('설정 파일을 불러오지 못했습니다.');
+            return;
+        }
+        db = window.supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_ANON_KEY);
+        console.log('Supabase 초기화 완료');
+
+        // 드래그앤드롭 설정
+        setupDropZone();
+        console.log('드롭존 설정 완료');
+
+        // 데이터 로드
+        loadAlbum();
+        loadPhotos();
+        console.log('=== 초기화 완료 ===');
+    });
+
+    // ==========================================
+    // 앨범 로드
+    // ==========================================
+    async function loadAlbum() {
+        console.log('loadAlbum 시작, albumId:', albumId);
+        try {
+            const { data, error } = await db
+                .from('albums')
+                .select('*')
+                .eq('id', albumId)
+                .single();
+
+            console.log('앨범 조회 결과:', data, error);
+            if (error) throw error;
+
+            album = data;
+            document.getElementById('albumTitle').textContent = data.name;
+            console.log('앨범 로드 성공:', data.name);
+        } catch (err) {
+            console.error('앨범 로드 오류:', err);
+            alert('앨범 로드 실패: ' + err.message);
+            // setTimeout(() => location.href = 'albums.html', 2000);
+        }
+    }
+
+    // ==========================================
+    // 사진 로드
+    // ==========================================
+    async function loadPhotos() {
+        try {
+            const { data, error } = await db
+                .from('photos')
+                .select('*')
+                .eq('album_id', albumId)
+                .order('created_at', { ascending: false });
+
+            if (error) throw error;
+
+            photos = data || [];
+            document.getElementById('albumInfo').textContent = `${photos.length}장의 사진`;
+            renderGallery();
+        } catch (err) {
+            console.error('사진 로드 오류:', err);
+            showToast('사진을 불러오는데 실패했습니다', 'error');
+        }
+    }
+
+    // ==========================================
+    // 갤러리 렌더링
+    // ==========================================
+    function renderGallery() {
+        const gallery = document.getElementById('gallery');
+        const emptyState = document.getElementById('emptyState');
+
+        if (photos.length === 0) {
+            gallery.style.display = 'none';
+            emptyState.style.display = 'block';
+            return;
+        }
+
+        gallery.style.display = 'grid';
+        emptyState.style.display = 'none';
+        gallery.innerHTML = '';
+
+        photos.forEach((photo, index) => {
+            const card = document.createElement('div');
+            card.className = 'photo-card';
+            card.onclick = () => openLightbox(index);
+
+            const img = document.createElement('img');
+            img.src = photo.file_url;
+            img.alt = photo.file_name;
+            img.loading = 'lazy';
+
+            card.appendChild(img);
+
+            if (photo.is_favorite) {
+                const badge = document.createElement('span');
+                badge.className = 'fav-badge';
+                badge.textContent = '❤️';
+                card.appendChild(badge);
+            }
+
+            gallery.appendChild(card);
+        });
+    }
+
+    // ==========================================
+    // 드래그앤드롭
+    // ==========================================
+    function setupDropZone() {
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+
+        // 클릭
+        dropZone.onclick = () => fileInput.click();
+
+        // 파일 선택
+        fileInput.onchange = (e) => {
+            if (e.target.files.length > 0) {
+                uploadFiles(e.target.files);
+            }
+        };
+
+        // 드래그 오버
+        dropZone.ondragover = (e) => {
+            e.preventDefault();
+            dropZone.classList.add('drag-over');
+        };
+
+        // 드래그 떠남
+        dropZone.ondragleave = () => {
+            dropZone.classList.remove('drag-over');
+        };
+
+        // 드롭
+        dropZone.ondrop = (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('drag-over');
+            if (e.dataTransfer.files.length > 0) {
+                uploadFiles(e.dataTransfer.files);
+            }
+        };
+    }
+
+    // ==========================================
+    // 파일 업로드
+    // ==========================================
+    async function uploadFiles(fileList) {
+        const files = Array.from(fileList).filter(f => f.type.startsWith('image/'));
+
+        if (files.length === 0) {
+            showToast('이미지 파일만 업로드 가능합니다', 'error');
+            return;
+        }
+
+        // 진행률 UI
+        const progressUI = document.getElementById('uploadProgress');
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+        progressUI.style.display = 'block';
+
+        let success = 0;
+        let failed = 0;
+
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+
+            // 크기 체크
+            if (file.size > CONFIG.MAX_FILE_SIZE) {
+                showToast(`${file.name}: 10MB 초과`, 'error');
+                failed++;
+                continue;
+            }
+
+            try {
+                // 파일 경로
+                const ext = file.name.split('.').pop().toLowerCase();
+                const filePath = `uploads/${albumId}/${Date.now()}_${i}.${ext}`;
+
+                // Storage 업로드
+                const { error: uploadError } = await db.storage
+                    .from(CONFIG.STORAGE_BUCKET)
+                    .upload(filePath, file);
+
+                if (uploadError) throw uploadError;
+
+                // Public URL
+                const { data: urlData } = db.storage
+                    .from(CONFIG.STORAGE_BUCKET)
+                    .getPublicUrl(filePath);
+
+                // DB 저장
+                const { error: dbError } = await db
+                    .from('photos')
+                    .insert({
+                        album_id: albumId,
+                        file_name: file.name,
+                        file_url: urlData.publicUrl,
+                        file_size: file.size
+                    });
+
+                if (dbError) throw dbError;
+
+                // 첫 사진이면 앨범 커버로
+                if (photos.length === 0 && success === 0) {
+                    await db
+                        .from('albums')
+                        .update({ cover_image_url: urlData.publicUrl })
+                        .eq('id', albumId);
+                }
+
+                success++;
+            } catch (err) {
+                console.error('업로드 오류:', err);
+                failed++;
+            }
+
+            // 진행률 업데이트
+            const percent = Math.round(((i + 1) / files.length) * 100);
+            progressBar.style.width = percent + '%';
+            progressText.textContent = `${i + 1} / ${files.length}`;
+        }
+
+        // 완료
+        progressUI.style.display = 'none';
+        progressBar.style.width = '0%';
+        document.getElementById('fileInput').value = '';
+
+        if (failed > 0) {
+            showToast(`${success}장 성공, ${failed}장 실패`, 'warning');
+        } else {
+            showToast(`${success}장 업로드 완료!`, 'success');
+        }
+
+        loadPhotos();
+    }
+
+    // ==========================================
+    // 라이트박스
+    // ==========================================
+    function openLightbox(index) {
+        currentIndex = index;
+        updateLightbox();
+        document.getElementById('lightbox').classList.add('show');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+        document.getElementById('lightbox').classList.remove('show');
+        document.body.style.overflow = '';
+        if (slideshowTimer) {
+            clearInterval(slideshowTimer);
+            slideshowTimer = null;
+        }
+    }
+
+    function updateLightbox() {
+        const photo = photos[currentIndex];
+        if (!photo) return;
+
+        document.getElementById('lbImage').src = photo.file_url;
+        document.getElementById('lbCounter').textContent = `${currentIndex + 1} / ${photos.length}`;
+        document.getElementById('favBtn').textContent = photo.is_favorite ? '❤️' : '🤍';
+    }
+
+    function prevPhoto() {
+        currentIndex = (currentIndex - 1 + photos.length) % photos.length;
+        updateLightbox();
+    }
+
+    function nextPhoto() {
+        currentIndex = (currentIndex + 1) % photos.length;
+        updateLightbox();
+    }
+
+    // 키보드
+    document.addEventListener('keydown', (e) => {
+        const lb = document.getElementById('lightbox');
+        if (!lb.classList.contains('show')) return;
+
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') prevPhoto();
+        if (e.key === 'ArrowRight') nextPhoto();
+    });
+
+    // ==========================================
+    // 사진 기능
+    // ==========================================
+    async function toggleFavorite() {
+        const photo = photos[currentIndex];
+        const newValue = !photo.is_favorite;
+
+        try {
+            await db
+                .from('photos')
+                .update({ is_favorite: newValue })
+                .eq('id', photo.id);
+
+            photo.is_favorite = newValue;
+            updateLightbox();
+            renderGallery();
+            showToast(newValue ? '즐겨찾기 추가' : '즐겨찾기 해제', 'success');
+        } catch (err) {
+            showToast('오류: ' + err.message, 'error');
+        }
+    }
+
+    function downloadPhoto() {
+        const photo = photos[currentIndex];
+        const link = document.createElement('a');
+        link.href = photo.file_url;
+        link.download = photo.file_name;
+        link.click();
+    }
+
+    async function deletePhoto() {
+        if (!confirm('이 사진을 삭제하시겠습니까?')) return;
+
+        const photo = photos[currentIndex];
+
+        try {
+            // Storage에서 삭제
+            const path = photo.file_url.split('/photos/')[1];
+            if (path) {
+                await db.storage.from(CONFIG.STORAGE_BUCKET).remove([path]);
+            }
+
+            // DB에서 삭제
+            await db.from('photos').delete().eq('id', photo.id);
+
+            showToast('삭제되었습니다', 'success');
+            closeLightbox();
+            loadPhotos();
+        } catch (err) {
+            showToast('삭제 실패: ' + err.message, 'error');
+        }
+    }
+
+    // ==========================================
+    // 슬라이드쇼
+    // ==========================================
+    function startSlideshow() {
+        if (photos.length === 0) {
+            showToast('사진이 없습니다', 'error');
+            return;
+        }
+
+        openLightbox(0);
+        slideshowTimer = setInterval(nextPhoto, 3000);
+        showToast('슬라이드쇼 시작 (ESC로 종료)', 'info');
+    }
+
+    // ==========================================
+    // 앨범 삭제
+    // ==========================================
+    async function deleteAlbum() {
+        if (!confirm('이 앨범과 모든 사진을 삭제하시겠습니까?')) return;
+
+        try {
+            // 모든 사진 삭제
+            for (const photo of photos) {
+                const path = photo.file_url.split('/photos/')[1];
+                if (path) {
+                    await db.storage.from(CONFIG.STORAGE_BUCKET).remove([path]);
+                }
+            }
+
+            await db.from('photos').delete().eq('album_id', albumId);
+            await db.from('albums').delete().eq('id', albumId);
+
+            showToast('앨범이 삭제되었습니다', 'success');
+            setTimeout(() => location.href = 'albums.html', 1500);
+        } catch (err) {
+            showToast('삭제 실패: ' + err.message, 'error');
+        }
+    }
+
+    // ==========================================
+    // 토스트
+    // ==========================================
+    function showToast(message, type = 'info') {
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.className = 'toast show ' + type;
+        setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+    </script>
+
+    <style>
+    .album-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+    .album-actions {
+        display: flex;
+        gap: 8px;
+    }
+    .drop-zone {
+        border: 3px dashed #ccc;
+        border-radius: 16px;
+        padding: 40px;
+        text-align: center;
+        margin-bottom: 24px;
+        cursor: pointer;
+        transition: all 0.3s;
+        background: #fafafa;
+    }
+    .drop-zone:hover, .drop-zone.drag-over {
+        border-color: #7A8B6E;
+        background: #f0f5ee;
+    }
+    .drop-icon { font-size: 48px; }
+    .drop-hint { color: #999; font-size: 14px; margin-top: 8px; }
+
+    .gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 16px;
+    }
+    .photo-card {
+        position: relative;
+        border-radius: 12px;
+        overflow: hidden;
+        cursor: pointer;
+        aspect-ratio: 1;
+    }
+    .photo-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s;
+    }
+    .photo-card:hover img { transform: scale(1.05); }
+    .fav-badge {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        background: white;
+        border-radius: 50%;
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+    }
+
+    .upload-progress {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        min-width: 250px;
+        z-index: 1000;
+    }
+    .progress-bar {
+        height: 8px;
+        background: #eee;
+        border-radius: 4px;
+        overflow: hidden;
+        margin: 12px 0 8px;
+    }
+    .progress-fill {
+        height: 100%;
+        background: #7A8B6E;
+        transition: width 0.3s;
+    }
+
+    .lightbox {
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0,0,0,0.95);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+    }
+    .lightbox.show { display: flex; }
+    .lb-close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 40px;
+        cursor: pointer;
+    }
+    .lb-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255,255,255,0.2);
+        border: none;
+        color: white;
+        font-size: 48px;
+        padding: 20px;
+        cursor: pointer;
+        border-radius: 8px;
+    }
+    .lb-prev { left: 20px; }
+    .lb-next { right: 20px; }
+    .lb-content {
+        text-align: center;
+        max-width: 90%;
+        max-height: 90%;
+    }
+    .lb-content img {
+        max-width: 100%;
+        max-height: 80vh;
+        border-radius: 8px;
+    }
+    .lb-info {
+        margin-top: 16px;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 24px;
+    }
+    .lb-actions {
+        display: flex;
+        gap: 8px;
+    }
+    .btn-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.2);
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+    }
+    .btn-icon:hover { background: rgba(255,255,255,0.3); }
+    </style>
+</body>
+</html>

@@ -99,7 +99,7 @@ function createNewAlbumCard() {
  * 앨범 열기
  */
 function openAlbum(albumId) {
-    window.location.href = `index.html?album=${albumId}`;
+    window.location.href = `gallery.html#${albumId}`;
 }
 
 /**

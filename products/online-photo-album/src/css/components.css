@@ -120,7 +120,8 @@
     padding: 20px;
 }
 
-.modal.active {
+.modal.active,
+.modal.show {
     display: flex;
 }
 
@@ -235,6 +236,10 @@
 
 .toast.error {
     background: #EF4444;
+}
+
+.toast.warning {
+    background: #F59E0B;
 }
 
 /* 빈 상태 */

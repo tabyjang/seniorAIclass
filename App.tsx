@@ -49,8 +49,8 @@ const Navbar: React.FC = () => {
             <a href="#reviews" className="text-text-primary font-medium hover:text-accent-400 transition-colors text-lg">
               수강 후기
             </a>
-            <a href="#contact" className="text-text-primary font-medium hover:text-accent-400 transition-colors text-lg">
-              상담 신청
+            <a href="/results.html" className="text-text-primary font-medium hover:text-accent-400 transition-colors text-lg">
+              수강결과
             </a>
           </div>
 
@@ -113,8 +113,8 @@ const Navbar: React.FC = () => {
               <a href="#reviews" className="text-text-primary font-medium text-lg py-2" onClick={() => setIsMenuOpen(false)}>
                 수강 후기
               </a>
-              <a href="#contact" className="text-text-primary font-medium text-lg py-2" onClick={() => setIsMenuOpen(false)}>
-                상담 신청
+              <a href="/results.html" className="text-text-primary font-medium text-lg py-2" onClick={() => setIsMenuOpen(false)}>
+                수강결과
               </a>
               <a
                 href="https://pf.kakao.com/_example"
