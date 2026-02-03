@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR 코드 생성기 | 시니어AI클래스</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #020617 0%, #0f172a 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 25px 50px -12px rgba(212, 165, 44, 0.25);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #020617;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .header .subtitle {
+            color: #64748b;
+            font-size: 18px;
+        }
+
+        .input-group {
+            margin-bottom: 24px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 20px;
+            font-weight: 700;
+            color: #020617;
+            margin-bottom: 12px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 18px 20px;
+            font-size: 18px;
+            border: 3px solid #e2e8f0;
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #D4A52C;
+            box-shadow: 0 0 0 4px rgba(212, 165, 44, 0.2);
+        }
+
+        .input-group input::placeholder {
+            color: #94a3b8;
+        }
+
+        .btn-generate {
+            width: 100%;
+            padding: 20px;
+            font-size: 22px;
+            font-weight: 700;
+            color: white;
+            background: linear-gradient(135deg, #D4A52C 0%, #b8931f 100%);
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 30px;
+        }
+
+        .btn-generate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(212, 165, 44, 0.4);
+        }
+
+        .btn-generate:active {
+            transform: translateY(0);
+        }
+
+        .result-area {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            min-height: 250px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .result-area.empty {
+            color: #94a3b8;
+            font-size: 18px;
+        }
+
+        .qr-display {
+            margin-bottom: 20px;
+        }
+
+        .qr-display img {
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-download {
+            display: inline-block;
+            padding: 14px 28px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #D4A52C;
+            background: white;
+            border: 2px solid #D4A52C;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .btn-download:hover {
+            background: #D4A52C;
+            color: white;
+        }
+
+        .instructions {
+            margin-top: 30px;
+            padding: 24px;
+            background: #f1f5f9;
+            border-radius: 12px;
+            border-left: 4px solid #D4A52C;
+        }
+
+        .instructions h3 {
+            font-size: 20px;
+            color: #020617;
+            margin-bottom: 12px;
+        }
+
+        .instructions ol {
+            font-size: 17px;
+            color: #475569;
+            padding-left: 24px;
+        }
+
+        .instructions li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .tip {
+            margin-top: 16px;
+            padding: 12px 16px;
+            background: #fef3c7;
+            border-radius: 8px;
+            font-size: 16px;
+            color: #92400e;
+        }
+
+        .tip strong {
+            color: #78350f;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 24px;
+            }
+
+            .header h1 {
+                font-size: 26px;
+            }
+
+            .input-group label {
+                font-size: 18px;
+            }
+
+            .btn-generate {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📱 QR 코드 생성기</h1>
+            <p class="subtitle">링크를 QR 코드로 만들어 보세요</p>
+        </div>
+
+        <div class="input-group">
+            <label for="urlInput">🔗 웹사이트 주소 (URL) 입력</label>
+            <input 
+                type="text" 
+                id="urlInput" 
+                placeholder="예: https://www.naver.com"
+                autocomplete="off"
+            >
+        </div>
+
+        <button class="btn-generate" onclick="generateQR()">
+            ✨ QR 코드 만들기
+        </button>
+
+        <div class="result-area" id="resultArea">
+            <p>👆 위에 주소를 입력하고 버튼을 눌러주세요</p>
+        </div>
+
+        <div class="instructions">
+            <h3>📖 사용 방법</h3>
+            <ol>
+                <li>구글 드라이브에 음성 파일을 업로드하고 공유 링크를 복사합니다</li>
+                <li>위 입력창에 복사한 링크를 붙여넣기 합니다</li>
+                <li>'QR 코드 만들기' 버튼을 클릭합니다</li>
+                <li>생성된 QR 코드를 저장하여 카드나 편지에 넣습니다</li>
+            </ol>
+            <div class="tip">
+                <strong>💡 팁:</strong> QR 코드를 찍으면 해당 음성 파일로 바로 연결됩니다!
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generateQR() {
+            const url = document.getElementById('urlInput').value.trim();
+            const resultArea = document.getElementById('resultArea');
+
+            if (!url) {
+                alert('⚠️ 웹사이트 주소를 입력해주세요!');
+                return;
+            }
+
+            // URL 유효성 검사
+            let validUrl = url;
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                validUrl = 'https://' + url;
+            }
+
+            // 기존 QR 코드 제거
+            resultArea.innerHTML = '';
+            resultArea.classList.remove('empty');
+
+            // QR 코드 생성
+            const qrDiv = document.createElement('div');
+            qrDiv.className = 'qr-display';
+            resultArea.appendChild(qrDiv);
+
+            new QRCode(qrDiv, {
+                text: validUrl,
+                width: 256,
+                height: 256,
+                colorDark: '#020617',
+                colorLight: '#ffffff',
+                correctLevel: QRCode.CorrectLevel.H
+            });
+
+            // 다운로드 버튼 생성 (QR 코드 생성 후 약간 지연)
+            setTimeout(() => {
+                const qrImage = qrDiv.querySelector('img');
+                if (qrImage) {
+                    const downloadBtn = document.createElement('button');
+                    downloadBtn.className = 'btn-download';
+                    downloadBtn.textContent = '💾 QR 코드 저장하기';
+                    downloadBtn.onclick = function() {
+                        const link = document.createElement('a');
+                        link.download = 'QRCode.png';
+                        link.href = qrImage.src;
+                        link.click();
+                    };
+                    resultArea.appendChild(downloadBtn);
+                }
+            }, 100);
+        }
+
+        // Enter 키로도 생성 가능
+        document.getElementById('urlInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                generateQR();
+            }
+        });
+    </script>
+</body>
+</html>
