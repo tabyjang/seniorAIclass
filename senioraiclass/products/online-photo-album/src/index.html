@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>갤러리 - 온라인 포토 앨범</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/gallery.css">
+</head>
+<body>
+    <!-- 헤더 -->
+    <header class="header">
+        <div class="logo" onclick="window.location.href='albums.html'">
+            <span class="logo-icon">📷</span>
+            <span>온라인 포토 앨범</span>
+        </div>
+        <div class="header-actions">
+            <button class="btn btn-secondary" onclick="showUploadModal()">
+                📤 사진 추가
+            </button>
+        </div>
+    </header>
+
+    <!-- 메인 컨텐츠 -->
+    <main class="container">
+        <!-- 앨범 헤더 -->
+        <div class="album-header">
+            <div class="album-info">
+                <button class="btn btn-text" onclick="window.location.href='albums.html'">
+                    ← 목록으로
+                </button>
+                <h1 id="albumName">앨범 이름</h1>
+                <p id="albumMeta">설명 • 0장의 사진</p>
+            </div>
+            <div class="album-actions">
+                <button class="btn btn-secondary" onclick="showSlideshow()">
+                    ▶️ 슬라이드쇼
+                </button>
+                <button class="btn btn-secondary" onclick="shareAlbum()">
+                    🔗 공유
+                </button>
+                <button class="btn btn-danger" onclick="deleteAlbum()">
+                    🗑️ 삭제
+                </button>
+            </div>
+        </div>
+
+        <!-- 업로드 영역 -->
+        <div id="dropZone" class="drop-zone">
+            <div class="drop-zone-content">
+                <span class="drop-icon">📁</span>
+                <p>사진을 여기에 끌어다 놓으세요</p>
+                <p class="drop-hint">또는 클릭해서 선택하세요 (JPG, PNG)</p>
+                <input type="file" id="fileInput" multiple accept="image/*" style="display: none;">
+            </div>
+        </div>
+
+        <!-- 갤러리 -->
+        <div id="gallery" class="gallery">
+            <!-- 사진 카드들이 여기에 동적으로 추가됨 -->
+        </div>
+
+        <!-- 빈 상태 -->
+        <div id="emptyState" class="empty-state" style="display: none;">
+            <div class="empty-icon">🖼️</div>
+            <h3>사진이 없습니다</h3>
+            <p>위에서 사진을 업로드하거나 끌어다 놓으세요</p>
+        </div>
+    </main>
+
+    <!-- 라이트박스 -->
+    <div id="lightbox" class="lightbox">
+        <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+        <button class="lightbox-nav lightbox-prev" onclick="prevPhoto()">‹</button>
+        <button class="lightbox-nav lightbox-next" onclick="nextPhoto()">›</button>
+        
+        <div class="lightbox-content">
+            <img id="lightboxImg" src="" alt="큰 사진">
+            <div class="lightbox-info">
+                <div id="lightboxCounter" class="lightbox-counter">1 / 1</div>
+                <div id="lightboxDate" class="lightbox-date"></div>
+                <div id="lightboxLocation" class="lightbox-location"></div>
+                <div id="lightboxDesc" class="lightbox-description"></div>
+                <div class="lightbox-actions">
+                    <button class="btn btn-icon" onclick="toggleFavorite()" title="즐겨찾기">🤍</button>
+                    <button class="btn btn-icon" onclick="downloadPhoto()" title="다운로드">💾</button>
+                    <button class="btn btn-icon" onclick="editPhoto()" title="수정">✏️</button>
+                    <button class="btn btn-icon btn-danger" onclick="deletePhoto()" title="삭제">🗑️</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 사진 정보 수정 모달 -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>사진 정보 수정</h2>
+                <button class="modal-close" onclick="closeEditModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="photoDate">날짜</label>
+                    <input type="date" id="photoDate">
+                </div>
+                <div class="form-group">
+                    <label for="photoLocation">장소</label>
+                    <input type="text" id="photoLocation" placeholder="예: 제주도">
+                </div>
+                <div class="form-group">
+                    <label for="photoDesc">설명</label>
+                    <textarea id="photoDesc" rows="3" placeholder="사진에 대한 설명"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeEditModal()">취소</button>
+                <button class="btn btn-primary" onclick="savePhotoInfo()">저장</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 토스트 알림 -->
+    <div id="toast" class="toast"></div>
+
+    <!-- 스크립트 -->
+    <script src="js/storage.js"></script>
+    <script src="js/albumManager.js"></script>
+    <script src="js/photoManager.js"></script>
+    <script src="js/lightbox.js"></script>
+    <script src="js/gallery.js"></script>
+</body>
+</html>
