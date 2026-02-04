@@ -13,52 +13,77 @@
 
         body {
             font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
-            background: linear-gradient(135deg, #020617 0%, #1e293b 100%);
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #16213e 100%);
             min-height: 100vh;
-            color: white;
+            color: #e2e8f0;
             overflow-x: hidden;
         }
 
-        /* 헤더 */
+        /* 헤더 - 프리미엄 글래스모피즘 */
         .header {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 20px;
+            background: linear-gradient(135deg, rgba(212, 165, 44, 0.15) 0%, rgba(10, 14, 39, 0.8) 100%);
+            backdrop-filter: blur(20px);
+            padding: 25px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 2px solid #D4A52C;
+            border-bottom: 3px solid;
+            border-image: linear-gradient(90deg, #D4A52C, #f4d03f, #D4A52C) 1;
+            box-shadow: 0 4px 30px rgba(212, 165, 44, 0.3);
         }
 
         .header h1 {
-            font-size: 2rem;
-            color: #D4A52C;
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, #f4d03f 0%, #D4A52C 50%, #f4d03f 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(212, 165, 44, 0.5);
+            letter-spacing: 2px;
         }
 
         .header-stats {
             display: flex;
-            gap: 30px;
-            font-size: 1.5rem;
+            gap: 40px;
+            font-size: 1.4rem;
         }
 
         .stat {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(212, 165, 44, 0.3);
         }
 
         .stat-label {
-            color: #87CEEB;
+            color: #94a3b8;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .stat-value {
-            color: #D4A52C;
+            background: linear-gradient(135deg, #f4d03f 0%, #D4A52C 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             font-weight: bold;
+            font-size: 1.6rem;
         }
 
         .lives {
-            color: #FF4444;
+            color: #ff6b6b;
             font-size: 1.8rem;
+            text-shadow: 0 0 20px rgba(255, 107, 107, 0.6);
+            animation: heartbeat 2s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
 
         /* 메인 컨테이너 */
@@ -79,26 +104,45 @@
             flex: 1;
         }
 
-        /* 설정 패널 */
+        /* 설정 패널 - 프리미엄 스타일 */
         .settings-panel {
-            width: 250px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid #D4A52C;
-            border-radius: 15px;
-            padding: 20px;
+            width: 260px;
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%);
+            border: 2px solid transparent;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 
+                0 10px 40px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            background-clip: padding-box;
+            position: relative;
+        }
+
+        .settings-panel::before {
+            content: '';
+            position: absolute;
+            top: -2px; left: -2px; right: -2px; bottom: -2px;
+            background: linear-gradient(135deg, #D4A52C, #f4d03f, #D4A52C);
+            border-radius: 20px;
+            z-index: -1;
         }
 
         .settings-panel h3 {
-            color: #D4A52C;
-            margin-bottom: 20px;
-            font-size: 1.3rem;
+            background: linear-gradient(135deg, #f4d03f 0%, #D4A52C 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 25px;
+            font-size: 1.2rem;
             text-align: center;
+            letter-spacing: 2px;
+            text-transform: uppercase;
         }
 
         .setting-item {
             margin-bottom: 25px;
             padding-bottom: 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 1px solid rgba(212, 165, 44, 0.2);
         }
 
         .setting-item:last-child {
@@ -107,139 +151,211 @@
 
         .setting-label {
             display: block;
-            color: #87CEEB;
-            margin-bottom: 10px;
-            font-size: 1rem;
+            color: #94a3b8;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
         }
 
         .setting-value {
-            color: #D4A52C;
+            background: linear-gradient(135deg, #f4d03f 0%, #D4A52C 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             font-weight: bold;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
         }
 
-        /* 속도 슬라이더 */
+        /* 속도 슬라이더 - 프리미엄 */
         .speed-slider {
             width: 100%;
-            height: 8px;
-            border-radius: 5px;
-            background: rgba(255, 255, 255, 0.3);
+            height: 10px;
+            border-radius: 10px;
+            background: linear-gradient(90deg, rgba(212, 165, 44, 0.2) 0%, rgba(212, 165, 44, 0.4) 100%);
             outline: none;
             -webkit-appearance: none;
+            cursor: pointer;
         }
 
         .speed-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
-            background: #D4A52C;
+            background: linear-gradient(135deg, #f4d03f 0%, #D4A52C 100%);
             cursor: pointer;
+            box-shadow: 0 0 15px rgba(212, 165, 44, 0.6);
+            border: 2px solid #fff;
+            transition: transform 0.2s;
+        }
+
+        .speed-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
         }
 
         .speed-slider::-moz-range-thumb {
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
-            background: #D4A52C;
+            background: linear-gradient(135deg, #f4d03f 0%, #D4A52C 100%);
             cursor: pointer;
-            border: none;
+            border: 2px solid #fff;
+            box-shadow: 0 0 15px rgba(212, 165, 44, 0.6);
         }
 
-        /* 생명 조절 버튼 */
+        /* 생명 조절 버튼 - 프리미엄 */
         .lives-control {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            gap: 10px;
+            justify-content: center;
+            gap: 15px;
         }
 
         .lives-btn {
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
             border: none;
-            border-radius: 50%;
+            border-radius: 12px;
             font-size: 1.5rem;
             cursor: pointer;
             transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
         .lives-btn.minus {
-            background: #FF4444;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);
             color: white;
         }
 
         .lives-btn.plus {
-            background: #28a745;
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
             color: white;
         }
 
         .lives-btn:hover {
-            transform: scale(1.1);
+            transform: scale(1.1) translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .lives-btn:active {
+            transform: scale(0.95);
         }
 
         .lives-btn:disabled {
-            opacity: 0.5;
+            opacity: 0.3;
             cursor: not-allowed;
             transform: none;
+            box-shadow: none;
         }
 
         .lives-count {
-            font-size: 1.5rem;
-            color: #FF4444;
+            font-size: 1.8rem;
+            color: #ff6b6b;
             font-weight: bold;
+            text-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+            min-width: 40px;
+            text-align: center;
         }
 
-        /* 게임 영역 */
+        /* 게임 영역 - 프리미엄 스타일 */
         .game-area {
             position: relative;
             width: 100%;
             height: 500px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 3px solid #D4A52C;
-            border-radius: 15px;
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 41, 59, 0.8) 100%);
+            border: 3px solid transparent;
+            border-radius: 20px;
             overflow: hidden;
             margin: 20px 0;
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            background-clip: padding-box;
         }
 
-        /* 떨어지는 단어 */
+        .game-area::before {
+            content: '';
+            position: absolute;
+            top: -3px; left: -3px; right: -3px; bottom: -3px;
+            background: linear-gradient(135deg, rgba(212, 165, 44, 0.5), rgba(244, 208, 63, 0.3), rgba(212, 165, 44, 0.5));
+            border-radius: 20px;
+            z-index: -1;
+        }
+
+        /* 떨어지는 단어 - 글로우 효과 */
         .falling-word {
             position: absolute;
-            font-size: 2rem;
-            color: white;
-            font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-            padding: 10px 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
+            font-size: 2.2rem;
+            color: #f8fafc;
+            font-weight: 800;
+            text-shadow: 
+                0 0 10px rgba(255, 255, 255, 0.8),
+                0 0 20px rgba(212, 165, 44, 0.6),
+                2px 2px 4px rgba(0, 0, 0, 0.8);
+            padding: 12px 24px;
+            background: rgba(15, 23, 42, 0.7);
+            border: 2px solid rgba(212, 165, 44, 0.5);
+            border-radius: 12px;
             will-change: top;
             transform: translateZ(0);
-            transition: color 0.3s;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .falling-word:hover {
+            border-color: rgba(212, 165, 44, 0.9);
+            box-shadow: 
+                0 0 30px rgba(212, 165, 44, 0.5),
+                0 4px 20px rgba(0, 0, 0, 0.3);
         }
 
         .falling-word.danger {
-            color: #FF6B6B;
-            animation: pulse 1s infinite;
+            color: #ff6b6b;
+            border-color: rgba(255, 107, 107, 0.8);
+            text-shadow: 
+                0 0 10px rgba(255, 107, 107, 0.8),
+                0 0 20px rgba(255, 107, 107, 0.6);
+            animation: dangerPulse 0.8s infinite;
         }
 
-        @keyframes pulse {
-            0%, 100% { transform: translateZ(0) scale(1); }
-            50% { transform: translateZ(0) scale(1.1); }
+        @keyframes dangerPulse {
+            0%, 100% { 
+                transform: translateZ(0) scale(1);
+                box-shadow: 0 0 20px rgba(255, 107, 107, 0.4);
+            }
+            50% { 
+                transform: translateZ(0) scale(1.08);
+                box-shadow: 0 0 40px rgba(255, 107, 107, 0.8);
+            }
         }
 
-        /* 바닥선 */
+        /* 바닥선 - 네온 효과 */
         .bottom-line {
             position: absolute;
             bottom: 50px;
             left: 0;
             right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #FF4444, #FF6B6B);
-            box-shadow: 0 0 10px #FF4444;
+            height: 4px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                #ff6b6b 20%, 
+                #ff8787 50%, 
+                #ff6b6b 80%, 
+                transparent 100%);
+            box-shadow: 
+                0 0 20px #ff6b6b,
+                0 0 40px rgba(255, 107, 107, 0.5);
+            animation: lineGlow 2s infinite;
+        }
+
+        @keyframes lineGlow {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
         }
 
         .bottom-label {
@@ -247,105 +363,162 @@
             bottom: 10px;
             left: 50%;
             transform: translateX(-50%);
-            color: #FF4444;
+            color: #ff6b6b;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255, 107, 107, 0.6);
             font-size: 0.9rem;
         }
 
-        /* 입력 영역 */
+        /* 입력 영역 - 프리미엄 */
         .input-area {
-            margin: 20px 0;
+            margin: 25px 0;
             text-align: center;
         }
 
         #typingInput {
             width: 100%;
             max-width: 600px;
-            padding: 20px;
-            font-size: 1.5rem;
-            border: 3px solid #87CEEB;
-            border-radius: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
+            padding: 22px 30px;
+            font-size: 1.6rem;
+            border: 3px solid transparent;
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%);
+            color: #f8fafc;
             text-align: center;
             outline: none;
             transition: all 0.3s;
+            box-shadow: 
+                0 10px 40px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            background-clip: padding-box;
+            position: relative;
+        }
+
+        #typingInput::before {
+            content: '';
+            position: absolute;
+            top: -3px; left: -3px; right: -3px; bottom: -3px;
+            background: linear-gradient(135deg, #D4A52C, #f4d03f, #D4A52C);
+            border-radius: 16px;
+            z-index: -1;
         }
 
         #typingInput:focus {
             border-color: #D4A52C;
-            box-shadow: 0 0 20px rgba(212, 165, 44, 0.3);
+            box-shadow: 
+                0 0 30px rgba(212, 165, 44, 0.4),
+                0 10px 40px rgba(0, 0, 0, 0.4);
+            transform: translateY(-2px);
         }
 
         #typingInput::placeholder {
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(148, 163, 184, 0.7);
+            font-weight: 500;
         }
 
         #typingInput:disabled {
-            opacity: 0.5;
+            opacity: 0.4;
             cursor: not-allowed;
+            border-color: rgba(148, 163, 184, 0.3);
         }
 
-        /* 버튼 */
+        /* 버튼 - 프리미엄 스타일 */
         .buttons {
             display: flex;
-            gap: 20px;
+            gap: 25px;
             justify-content: center;
-            margin: 20px 0;
+            margin: 25px 0;
         }
 
         button {
-            padding: 15px 40px;
-            font-size: 1.2rem;
+            padding: 18px 45px;
+            font-size: 1.3rem;
             border: none;
-            border-radius: 30px;
+            border-radius: 16px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
             font-weight: bold;
             font-family: inherit;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 버튼 글로우 효과 */
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        button:hover::before {
+            left: 100%;
         }
 
         .btn-start {
-            background: #FF8C42;
-            color: white;
+            background: linear-gradient(135deg, #f4d03f 0%, #D4A52C 50%, #f4d03f 100%);
+            color: #0f172a;
+            box-shadow: 
+                0 6px 25px rgba(212, 165, 44, 0.5),
+                0 0 0 2px rgba(212, 165, 44, 0.3);
         }
 
         .btn-start:hover {
-            background: #e67832;
-            transform: scale(1.05);
+            transform: scale(1.05) translateY(-3px);
+            box-shadow: 
+                0 10px 40px rgba(212, 165, 44, 0.7),
+                0 0 0 2px rgba(212, 165, 44, 0.5);
+        }
+
+        .btn-start:active {
+            transform: scale(0.98);
         }
 
         .btn-restart {
-            background: #87CEEB;
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 50%, #60a5fa 100%);
             color: white;
             display: none;
+            box-shadow: 
+                0 6px 25px rgba(59, 130, 246, 0.5),
+                0 0 0 2px rgba(59, 130, 246, 0.3);
         }
 
         .btn-restart:hover {
-            background: #6bb8d9;
-            transform: scale(1.05);
+            transform: scale(1.05) translateY(-3px);
+            box-shadow: 
+                0 10px 40px rgba(59, 130, 246, 0.7),
+                0 0 0 2px rgba(59, 130, 246, 0.5);
         }
 
         .btn-home {
             background: transparent;
-            color: #87CEEB;
-            border: 2px solid #87CEEB;
-            padding: 10px 30px;
+            color: #94a3b8;
+            border: 2px solid rgba(148, 163, 184, 0.5);
+            padding: 15px 35px;
             font-size: 1rem;
+            backdrop-filter: blur(10px);
         }
 
         .btn-home:hover {
-            background: #87CEEB;
-            color: #020617;
+            background: rgba(148, 163, 184, 0.1);
+            border-color: #D4A52C;
+            color: #D4A52C;
+            box-shadow: 0 0 20px rgba(212, 165, 44, 0.3);
         }
 
-        /* 게임오버 화면 */
+        /* 게임오버 화면 - 프리미엄 */
         .game-over {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(10, 14, 39, 0.95);
+            backdrop-filter: blur(10px);
             display: none;
             justify-content: center;
             align-items: center;
@@ -354,88 +527,219 @@
 
         .game-over-content {
             text-align: center;
-            padding: 40px;
-            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-            border-radius: 20px;
-            border: 3px solid #D4A52C;
+            padding: 50px 60px;
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.98) 100%);
+            border-radius: 24px;
+            border: 3px solid transparent;
+            background-clip: padding-box;
+            box-shadow: 
+                0 25px 80px rgba(0, 0, 0, 0.6),
+                0 0 0 1px rgba(212, 165, 44, 0.3);
+            position: relative;
+        }
+
+        .game-over-content::before {
+            content: '';
+            position: absolute;
+            top: -3px; left: -3px; right: -3px; bottom: -3px;
+            background: linear-gradient(135deg, #D4A52C, #f4d03f, #ff6b6b, #D4A52C);
+            border-radius: 24px;
+            z-index: -1;
         }
 
         .game-over h2 {
-            font-size: 3rem;
-            color: #FF4444;
-            margin-bottom: 20px;
+            font-size: 3.5rem;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8787 50%, #ff6b6b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 25px;
+            text-shadow: 0 0 40px rgba(255, 107, 107, 0.5);
+            letter-spacing: 3px;
         }
 
         .final-score {
-            font-size: 2rem;
-            color: #D4A52C;
-            margin-bottom: 30px;
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, #f4d03f 0%, #D4A52C 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 40px;
+            font-weight: bold;
         }
 
-        /* 파괴 효과 */
+        /* 레벨 업 알림 - 프리미엄 스타일 */
+        .level-up-notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            padding: 30px 50px;
+            background: linear-gradient(145deg, rgba(212, 165, 44, 0.95) 0%, rgba(244, 208, 63, 0.95) 50%, rgba(212, 165, 44, 0.95) 100%);
+            border-radius: 20px;
+            text-align: center;
+            z-index: 2000;
+            box-shadow: 
+                0 0 60px rgba(212, 165, 44, 0.8),
+                0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: levelUpPop 2.5s ease-out forwards;
+            border: 3px solid rgba(255, 255, 255, 0.5);
+        }
+
+        @keyframes levelUpPop {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 0;
+            }
+            20% {
+                transform: translate(-50%, -50%) scale(1.1);
+                opacity: 1;
+            }
+            30% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+            80% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(0.9);
+                opacity: 0;
+            }
+        }
+
+        .level-up-notification .level-number {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #0f172a;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+            margin-bottom: 10px;
+        }
+
+        .level-up-notification .level-text {
+            font-size: 1.5rem;
+            color: #0f172a;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .level-up-notification .level-desc {
+            font-size: 1rem;
+            color: rgba(15, 23, 42, 0.8);
+        }
+
+        /* 파괴 효과 - 글로우 업그레이드 */
         .destroy-effect {
             position: absolute;
-            font-size: 1.5rem;
-            color: #28a745;
+            font-size: 1.6rem;
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             font-weight: bold;
             pointer-events: none;
-            animation: destroyPop 0.5s ease-out forwards;
+            animation: destroyPop 0.6s ease-out forwards;
+            text-shadow: 0 0 20px rgba(74, 222, 128, 0.8);
         }
 
         @keyframes destroyPop {
             0% {
                 transform: scale(1);
                 opacity: 1;
+                filter: brightness(1);
+            }
+            50% {
+                filter: brightness(1.5);
             }
             100% {
-                transform: scale(1.5) translateY(-30px);
+                transform: scale(1.8) translateY(-50px);
                 opacity: 0;
+                filter: brightness(2);
             }
         }
 
-        /* 힌트 */
+        /* 힌트 - 더 나은 가독성 */
         .hint {
             text-align: center;
-            color: rgba(255, 255, 255, 0.6);
-            margin-top: 10px;
+            color: rgba(148, 163, 184, 0.9);
+            margin-top: 15px;
             font-size: 1rem;
+            letter-spacing: 0.5px;
         }
 
-        /* 난이도 선택 */
+        /* 난이도 선택 - 프리미엄 */
         .difficulty-selector {
             text-align: center;
-            margin: 20px 0;
+            margin: 25px 0;
+            padding: 15px;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 12px;
+            border: 1px solid rgba(212, 165, 44, 0.2);
         }
 
         .difficulty-selector label {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             margin-right: 15px;
-            color: #87CEEB;
+            color: #94a3b8;
+            font-weight: 500;
         }
 
         .difficulty-selector select {
-            padding: 10px 20px;
-            font-size: 1.2rem;
+            padding: 12px 25px;
+            font-size: 1.1rem;
             border-radius: 10px;
-            border: 2px solid #D4A52C;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
+            border: 2px solid rgba(212, 165, 44, 0.5);
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 41, 59, 0.9) 100%);
+            color: #f4d03f;
             cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .difficulty-selector select:hover {
+            border-color: #f4d03f;
+            box-shadow: 0 0 20px rgba(212, 165, 44, 0.3);
         }
 
         .difficulty-selector select option {
-            background: #1e293b;
+            background: #0f172a;
+            color: #e2e8f0;
         }
 
-        /* 반응형 */
+        /* 반응형 - 프리미엄 */
+        @media (max-width: 1100px) {
+            .game-layout {
+                flex-direction: column;
+            }
+            
+            .settings-panel {
+                width: 100%;
+                max-width: 600px;
+                margin: 0 auto;
+            }
+        }
+
         @media (max-width: 768px) {
+            .header {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
             .header h1 {
-                font-size: 1.5rem;
+                font-size: 1.6rem;
+                text-align: center;
             }
             
             .header-stats {
-                font-size: 1.2rem;
+                font-size: 1.1rem;
                 gap: 15px;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .stat {
+                padding: 8px 15px;
             }
             
             .game-area {
@@ -443,12 +747,91 @@
             }
             
             .falling-word {
-                font-size: 1.5rem;
+                font-size: 1.6rem;
+                padding: 8px 16px;
             }
             
             #typingInput {
-                font-size: 1.2rem;
+                font-size: 1.3rem;
+                padding: 18px 20px;
             }
+
+            button {
+                padding: 15px 30px;
+                font-size: 1.1rem;
+            }
+
+            .game-over h2 {
+                font-size: 2.5rem;
+            }
+
+            .final-score {
+                font-size: 1.6rem;
+            }
+
+            .settings-panel {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.3rem;
+            }
+
+            .header-stats {
+                font-size: 1rem;
+                gap: 10px;
+            }
+
+            .stat {
+                padding: 6px 12px;
+            }
+
+            .buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            button {
+                width: 100%;
+                max-width: 280px;
+            }
+
+            .falling-word {
+                font-size: 1.4rem;
+            }
+        }
+
+        /* 프리미엄 배경 글로우 효과 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212, 165, 44, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* 스크롤바 스타일링 */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #D4A52C, #f4d03f);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #f4d03f, #D4A52C);
         }
     </style>
 </head>
@@ -572,29 +955,112 @@
 
     <script>
         // ==========================================
-        // Phase 1: 데이터 준비
+        // Phase 1: 데이터 준비 - 1글자 → 2글자 → 3글자 순서
         // ==========================================
         
-        // 난이도별 단어 데이터
+        // 🎯 1글자 단어 (50개)
+        // 받침 없는 것들 + 받침 있는 것들 섞여 있음
+        const words_1char = [
+            // 받침 없는 한글자 (쉬움)
+            "가", "나", "다", "라", "마", "바", "사", "아", "자", "차",
+            "거", "너", "더", "러", "머", "버", "서", "어", "저", "처",
+            "고", "노", "도", "로", "모", "보", "소", "오", "조", "초",
+            // 받침 있는 한글자 (어려움)
+            "각", "간", "감", "값", "강", "개", "객", "거", "건", "검",
+            "곡", "곤", "곰", "공", "과", "관", "교", "구", "국", "군"
+        ];
+
+        // 🎯 2글자 단어 (사전 단어 50개)
+        const words_2char = [
+            // 받침 없는 두글자 (쉬움)
+            "사과", "바다", "하늘", "우유", "아기", "어머", "오이", "야구", "여우", "요리",
+            "이모", "아빠", "오빠", "의자", "예약", "의료", "여가", "요가", "유아", "유리",
+            // 받침 있는 두글자 (어려움)
+            "한국", "학교", "책상", "전화", "한글", "집안", "가방", "공부", "방법", "정답",
+            "생각", "방문", "강의", "회의", "정리", "준비", "방송", "영화", "일본", "미국",
+            // 섞인 두글자
+            "컴퓨터", "한정", "정원", "원리", "의원", "의견", "해답", "답안", "안전", "전장"
+        ];
+
+        // 🎯 3글자 단어 (사전 단어 40개)
+        const words_3char = [
+            // 받침 없는 세글자 (쉬움)
+            "바나나", "토마토", "카메라", "아이유", "오디오", "비디오", "라디오", "이메일", "카카오", "네이버",
+            // 받침 있는 세글자 (어려움)
+            "전화기", "학생들", "한국인", "컴퓨터", "선생님", "학교생", "책상위", "의자에", "방법론", "정답은",
+            "생각해", "방문자", "회의록", "준비물", "방송국", "영화관", "미국인", "중국어", "영국인", "정원사",
+            "원리는", "의원회", "의견서", "해답을", "답안지", "안전한", "전장에", "장소는", "소리가", "리듬이",
+            "성장은", "장래의", "일상은", "상상력", "상담실", "담당자", "당신은", "신발을", "발전은", "전진해"
+        ];
+
+        // ==========================================
+        // 게임 레벨 시스템 (동일 비율 섞기)
+        // ==========================================
+        
+        // 레벨별 단어 선택 함수
+        function getWordForLevel(level) {
+            const rand = Math.random();
+            
+            if (level === 1) {
+                // 레벨 1: 1글자 100%
+                return words_1char[Math.floor(Math.random() * words_1char.length)];
+                
+            } else if (level === 2) {
+                // 레벨 2: 1글자 50% + 2글자 50%
+                if (rand < 0.5) {
+                    return words_1char[Math.floor(Math.random() * words_1char.length)];
+                } else {
+                    return words_2char[Math.floor(Math.random() * words_2char.length)];
+                }
+                
+            } else if (level >= 3) {
+                // 레벨 3+: 1글자 33% + 2글자 33% + 3글자 33%
+                if (rand < 0.33) {
+                    return words_1char[Math.floor(Math.random() * words_1char.length)];
+                } else if (rand < 0.67) {
+                    return words_2char[Math.floor(Math.random() * words_2char.length)];
+                } else {
+                    return words_3char[Math.floor(Math.random() * words_3char.length)];
+                }
+            }
+        }
+
+        // 게임 진행 상활에 따른 레벨 계산
+        function calculateLevel(score, wordsDestroyed) {
+            // 처음 500점: 레벨 1 (1글자만)
+            if (score < 500) return 1;
+            
+            // 500~1500점: 레벨 2 (1글자 50% + 2글자 50%)
+            if (score < 1500) return 2;
+            
+            // 1500점 이상: 레벨 3 (1:1:1 비율)
+            return 3;
+        }
+
+        // 레벨과 점수에 따른 속도 계산 (점진적 가속)
+        function calculateSpeed(level, score) {
+            let baseSpeed = gameSettings.wordSpeed;
+            let multiplier = 1.0;
+            
+            if (level === 2) {
+                // 레벨 2: 500점마다 0.1씩 증가 (최대 2.0)
+                const bonus = Math.floor((score - 500) / 500) * 0.1;
+                multiplier += Math.min(bonus, 2.0);
+            } else if (level >= 3) {
+                // 레벨 3+: 1000점마다 0.2씩 증가 (최대 3.0)
+                const bonus = Math.floor((score - 1500) / 1000) * 0.2;
+                multiplier += Math.min(bonus, 3.0);
+            }
+            
+            return baseSpeed * multiplier;
+        }
+
+        // 단어 데이터 (하위호환용)
         const wordData = {
-            easy: [
-                "안녕", "감사", "사랑", "행복", "좋은",
-                "반가", "건강", "수고", "잘자", "맛있",
-                "환영", "축하", "대박", "화이팅", "신나"
-            ],
-            medium: [
-                "좋은하루", "건강하세요", "맛있게드세요",
-                "반갑습니다", "수고하셨어요", "행복하세요",
-                "안녕하세요", "감사합니다", "사랑합니다",
-                "잘자요", "오늘도힘내요", "항상응원해요"
-            ],
-            hard: [
-                "산토끼토끼야", "동해물과백두산",
-                "천리길도한걸음", "가는말이고와야",
-                "낮말은새가듣고", "꿩먹고알먹는다",
-                "세살버릇여든까지", "티끌모아태산",
-                "호랑이도제말하면", "소잃고외양간고친다"
-            ]
+            stage1: words_1char,
+            stage2: words_1char,  // 레벨 2도 1글자 사용
+            stage3: words_2char,
+            stage4: words_3char
         };
 
         // 게임 설정
@@ -670,15 +1136,18 @@
             }
         }
 
-        // 게임 상태
+        // 게임 상태 (레벨 시스템 추가)
         let gameState = {
             isPlaying: false,
             score: 0,
             lives: 3,
+            level: 1,                    // 현재 레벨 (1, 2, 3)
             words: [],
             lastSpawnTime: 0,
             animationId: null,
-            difficulty: 'medium'
+            difficulty: 'medium',
+            baseSpeed: 1.0,              // 레벨 1 기본 속도
+            currentSpeedMultiplier: 1.0  // 점수에 따른 속도 배율
         };
 
         // DOM 요소 참조
@@ -763,20 +1232,29 @@
         // Phase 3: 게임 엔진 구현
         // ==========================================
         
-        // 단어 생성
+        // 단어 생성 (레벨 시스템 적용)
         function spawnWord() {
-            const words = wordData[gameState.difficulty];
-            const randomText = words[Math.floor(Math.random() * words.length)];
+            // 현재 레벨 계산
+            const currentLevel = calculateLevel(gameState.score);
+            
+            // 레벨 변경 시 알림
+            if (currentLevel !== gameState.level) {
+                gameState.level = currentLevel;
+                showLevelUpNotification(currentLevel);
+            }
+            
+            // 레벨에 따른 단어 선택
+            const wordText = getWordForLevel(currentLevel);
             
             // 게임 영역 너비 가져오기
             const gameWidth = elements.gameArea.clientWidth;
             const maxX = gameWidth - 150; // 단어 너비 고려
             const randomX = Math.random() * maxX;
             
-            // 사용자가 설정한 속도 사용 (슬라이더 값)
-            const speed = gameSettings.wordSpeed;
+            // 레벨과 점수에 따른 속도 계산 (사용자 설정 × 레벨 배율)
+            const speed = calculateSpeed(currentLevel, gameState.score);
             
-            const word = new Word(randomText, randomX, speed);
+            const word = new Word(wordText, randomX, speed);
             const wordElement = word.createElement();
             elements.gameArea.appendChild(wordElement);
             
@@ -831,6 +1309,40 @@
 
         // 생명 UI 업데이트
         function updateLivesDisplay() {
+            const maxLives = Math.max(gameSettings.initialLives, gameState.lives);
+            const hearts = '♥'.repeat(gameState.lives) + '♡'.repeat(maxLives - gameState.lives);
+            elements.livesDisplay.textContent = hearts;
+        }
+
+        // 레벨 업 알림 표시
+        function showLevelUpNotification(level) {
+            const notification = document.createElement('div');
+            notification.className = 'level-up-notification';
+            
+            let desc = '';
+            if (level === 2) {
+                desc = '두글자 단어가 나타납니다!';
+            } else if (level === 3) {
+                desc = '세글자 단어가 추가되었습니다!';
+            } else {
+                desc = '모든 글자 단어가 등장합니다!';
+            }
+            
+            notification.innerHTML = `
+                <div class="level-number">Level ${level}</div>
+                <div class="level-text">레벨 업!</div>
+                <div class="level-desc">${desc}</div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // 2.5초 후 제거
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 2500);
+        }
             const maxLives = Math.max(gameSettings.initialLives, gameState.lives);
             const hearts = '♥'.repeat(gameState.lives) + '♡'.repeat(maxLives - gameState.lives);
             elements.livesDisplay.textContent = hearts;
@@ -942,6 +1454,9 @@
             gameState.isPlaying = true;
             gameState.score = 0;
             gameState.lives = gameSettings.initialLives;
+            gameState.level = 1;                    // 레벨 초기화
+            gameState.baseSpeed = 1.0;              // 기본 속도 초기화
+            gameState.currentSpeedMultiplier = 1.0; // 속도 배율 초기화
             gameState.words = [];
             gameState.lastSpawnTime = 0;
             gameState.difficulty = elements.difficulty.value;

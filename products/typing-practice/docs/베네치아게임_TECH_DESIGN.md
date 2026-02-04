@@ -55,24 +55,60 @@ senioraiclass/products/typing-practice/
 
 ## 3. 데이터 구조
 
-### 3.1 단어 데이터
+### 3.1 단어 데이터 (글자수별 분류)
 
 ```javascript
-// 난이도별 단어 목록
-const wordData = {
-    easy: [
-        "안녕", "감사", "사랑", "행복", "좋은",
-        "반가", "건강", "수고", "잘자", "맛있"
-    ],
-    medium: [
-        "좋은하루", "건강하세요", "맛있게드세요",
-        "반갑습니다", "수고하셨어요", "행복하세요"
-    ],
-    hard: [
-        "산토끼토끼야", "동해물과백두산",
-        "천리길도한걸음", "가는말이고와야"
-    ]
-};
+// 1글자 단어 (50개 - 받침 없는 것 + 받침 있는 것 섞임)
+const words_1char = [
+    // 받침 없는 한글자
+    "가", "나", "다", "라", "마", "바", "사", "아", "자", "차",
+    "거", "너", "더", "러", "머", "버", "서", "어", "저", "처",
+    "고", "노", "도", "로", "모", "보", "소", "오", "조", "초",
+    // 받침 있는 한글자
+    "각", "간", "감", "값", "강", "개", "객", "거", "건", "검",
+    "곡", "곤", "곰", "공", "과", "관", "교", "구", "국", "군"
+];
+
+// 2글자 단어 (사전 기반 50개)
+const words_2char = [
+    "사과", "바다", "하늘", "우유", "아기", "어머", "오이", "야구", "여우", "요리",
+    "이모", "아빠", "오빠", "의자", "예약", "의료", "여가", "요가", "유아", "유리",
+    "한국", "학교", "책상", "전화", "한글", "집안", "가방", "공부", "방법", "정답",
+    "생각", "방문", "강의", "회의", "정리", "준비", "방송", "영화", "일본", "미국",
+    "컴퓨터", "한정", "정원", "원리", "의원", "의견", "해답", "답안", "안전", "전장"
+];
+
+// 3글자 단어 (사전 기반 40개)
+const words_3char = [
+    "바나나", "토마토", "카메라", "아이유", "오디오", "비디오", "라디오", "이메일", "카카오", "네이버",
+    "전화기", "학생들", "한국인", "컴퓨터", "선생님", "학교생", "책상위", "의자에", "방법론", "정답은",
+    "생각해", "방문자", "회의록", "준비물", "방송국", "영화관", "미국인", "중국어", "영국인", "정원사",
+    "원리는", "의원회", "의견서", "해답을", "답안지", "안전한", "전장에", "장소는", "소리가", "리듬이"
+];
+
+// 레벨별 단어 선택 알고리즘
+function getWordForLevel(level) {
+    const rand = Math.random();
+    
+    if (level === 1) {
+        // 레벨 1: 1글자 100%
+        return words_1char[Math.floor(Math.random() * words_1char.length)];
+    } else if (level === 2) {
+        // 레벨 2: 1글자 50% + 2글자 50%
+        return rand < 0.5 
+            ? words_1char[Math.floor(Math.random() * words_1char.length)]
+            : words_2char[Math.floor(Math.random() * words_2char.length)];
+    } else {
+        // 레벨 3+: 1글자 33% + 2글자 33% + 3글자 33%
+        if (rand < 0.33) {
+            return words_1char[Math.floor(Math.random() * words_1char.length)];
+        } else if (rand < 0.67) {
+            return words_2char[Math.floor(Math.random() * words_2char.length)];
+        } else {
+            return words_3char[Math.floor(Math.random() * words_3char.length)];
+        }
+    }
+}
 ```
 
 ### 3.2 게임 설정 상수
@@ -81,18 +117,21 @@ const wordData = {
 const GAME_CONFIG = {
     // 화면 설정
     GAME_AREA_HEIGHT: 500,      // 게임 영역 높이 (px)
-    GAME_AREA_WIDTH: 800,       // 게임 영역 너비 (px)
+    GAME_AREA_WIDTH: 1000,       // 게임 영역 너비 (px)
     
     // 단어 설정
-    WORD_SPAWN_INTERVAL: 2000,  // 단어 생성 간격 (ms)
-    WORD_SPEED_EASY: 30,        // 쉬움 속도 (px/s)
-    WORD_SPEED_MEDIUM: 50,      // 보통 속도 (px/s)
-    WORD_SPEED_HARD: 80,        // 어려움 속도 (px/s)
+    WORD_SPAWN_INTERVAL: 2000,   // 단어 생성 간격 (ms) - 2초
+    WORD_SPEED_MIN: 0.5,         // 최소 속도 (px/frame)
+    WORD_SPEED_MAX: 8.0,         // 최대 속도 (px/frame)
     
     // 게임 설정
-    INITIAL_LIVES: 3,           // 초기 생명
-    SCORE_PER_CHAR: 100,        // 글자당 점수
-    BOTTOM_MARGIN: 50           // 바닥 여유 공간
+    INITIAL_LIVES: 3,            // 초기 생명 (1~10 조절 가능)
+    SCORE_PER_CHAR: 100,         // 글자당 점수
+    BOTTOM_MARGIN: 50,           // 바닥 여유 공간
+    
+    // 레벨 임계값
+    LEVEL_1_MAX: 500,            // 레벨 1 최대 점수
+    LEVEL_2_MAX: 1500            // 레벨 2 최대 점수
 };
 ```
 

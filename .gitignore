@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+nul
+
+# 이미지 리소스 (용량 큼)
+assets/rsc/pic/

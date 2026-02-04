@@ -1,698 +1,436 @@
 """
 고스트프롬프트 (Ghost Prompt) v1.0
 화면에는 보이지만, 녹화에는 안 잡히는 마법의 프롬프터
-
-Windows API SetWindowDisplayAffinity(WDA_EXCLUDEFROMCAPTURE) 사용
-Windows 10 버전 2004 (빌드 19041) 이상 필요
 """
 
 import tkinter as tk
-from tkinter import ttk, filedialog, messagebox
+from tkinter import filedialog
 import ctypes
 import sys
-import os
-import json
 
 # ============================================
-# 상수 정의
+# 상수
 # ============================================
 
-# Windows API 상수
 WDA_NONE = 0x00000000
 WDA_EXCLUDEFROMCAPTURE = 0x00000011
 
-# 색상 팔레트
 COLORS = {
-    'bg_dark': '#1a1a2e',           # 앱 배경
-    'bg_prompter': '#000000',        # 프롬프터 배경
-    'border_gold': '#D4A52C',        # 테두리/강조
-    'btn_default': '#374151',        # 버튼 기본
-    'btn_hover': '#6366F1',          # 버튼 호버
-    'btn_play': '#4ADE80',           # 재생 버튼
-    'text_primary': '#FFFFFF',       # 기본 텍스트
-    'text_secondary': '#9CA3AF',     # 보조 텍스트
-    'slider': '#818CF8',             # 슬라이더
+    "bg_dark": "#0f0f1a",
+    "bg_title": "#1a1a2e",
+    "bg_main": "#000000",
+    "bg_panel": "#1e2130",
+    "gold": "#d4a52c",
+    "green": "#4ade80",
+    "green_dark": "#1a3d2a",
+    "red": "#F87171",
+    "red_dark": "#3d2a2a",
+    "yellow": "#FCD34D",
+    "text_white": "#ffffff",
+    "text_gray": "#6B7280",
+    "btn_gray": "#374151",
+    "btn_orange": "#F97316",
+    "border": "#333333",
 }
 
-# 기본 설정
-DEFAULT_SETTINGS = {
-    'font_size': 24,
-    'scroll_speed': 1.0,
-    'opacity': 0.85,
-    'text_color': '#FFFFFF',
-    'bg_color': '#000000',
-    'window_width': 700,
-    'window_height': 500,
-    'sidebar_expanded': False,
-}
 
 # ============================================
-# 캡처 방지 모듈
+# 캡처 방지
 # ============================================
+
 
 class CaptureGuard:
-    """Windows 캡처 방지 기능"""
-
     def __init__(self):
         self.user32 = ctypes.windll.user32
         self.enabled = False
 
     @staticmethod
-    def is_supported() -> bool:
-        """OS 지원 여부 확인 (Windows 10 빌드 19041 이상)"""
+    def is_supported():
         try:
-            version = sys.getwindowsversion()
-            return version.build >= 19041
+            return sys.getwindowsversion().build >= 19041
         except:
             return False
 
-    def enable(self, hwnd: int) -> bool:
-        """캡처 방지 활성화"""
+    def enable(self, hwnd):
         try:
             result = self.user32.SetWindowDisplayAffinity(hwnd, WDA_EXCLUDEFROMCAPTURE)
-            self.enabled = (result != 0)
+            self.enabled = result != 0
             return self.enabled
-        except Exception as e:
-            print(f"캡처 방지 활성화 실패: {e}")
+        except:
             return False
 
-    def disable(self, hwnd: int) -> bool:
-        """캡처 방지 비활성화"""
+    def disable(self, hwnd):
         try:
             result = self.user32.SetWindowDisplayAffinity(hwnd, WDA_NONE)
             self.enabled = False
             return result != 0
-        except Exception as e:
-            print(f"캡처 방지 비활성화 실패: {e}")
+        except:
             return False
 
 
 # ============================================
-# 자동 스크롤 엔진
+# 프롬프터 뷰어
 # ============================================
 
-class AutoScroller:
-    """자동 스크롤 엔진"""
 
-    def __init__(self, text_widget, speed_var):
-        self.widget = text_widget
-        self.speed_var = speed_var
-        self.running = False
-        self._job = None
+class PrompterViewer:
+    def __init__(self, root):
+        self.root = root
+        self.capture_guard = CaptureGuard()
+        self.capture_enabled = tk.BooleanVar(value=True)
+        self.font_size = 32
 
-    def start(self):
-        """스크롤 시작"""
-        self.running = True
-        self._scroll()
+        self.setup_window()
+        self.create_ui()
 
-    def stop(self):
-        """스크롤 정지"""
-        self.running = False
-        if self._job:
-            self.widget.after_cancel(self._job)
-            self._job = None
+    def setup_window(self):
+        self.root.title("고스트 프롬프터 v1.0")
+        self.root.geometry("750x500+50+100")
+        self.root.configure(bg=COLORS["gold"])
+        self.root.attributes("-topmost", True)
+        self.root.attributes("-alpha", 0.98)
+        self.root.minsize(400, 300)
 
-    def toggle(self):
-        """스크롤 토글"""
-        if self.running:
+    def create_ui(self):
+        # 메인 프레임
+        self.main = tk.Frame(self.root, bg=COLORS["bg_main"])
+        self.main.pack(fill="both", expand=True, padx=2, pady=2)
+
+        # 타이틀바
+        title = tk.Frame(self.main, bg=COLORS["bg_title"], height=40)
+        title.pack(fill="x")
+        title.pack_propagate(False)
+
+        left = tk.Frame(title, bg=COLORS["bg_title"])
+        left.pack(side="left", padx=10, pady=6)
+        tk.Label(left, text="🔮", font=("Segoe UI Emoji", 12), bg=COLORS["bg_title"]).pack(side="left")
+        tk.Label(left, text="고스트 프롬프터", font=("Malgun Gothic", 11, "bold"),
+                 bg=COLORS["bg_title"], fg=COLORS["gold"]).pack(side="left", padx=5)
+
+        right = tk.Frame(title, bg=COLORS["bg_title"])
+        right.pack(side="right", padx=10)
+        for c in [COLORS["yellow"], COLORS["green"], COLORS["red"]]:
+            tk.Frame(right, bg=c, width=10, height=10).pack(side="left", padx=2)
+
+        # 상태 뱃지
+        badge = tk.Frame(self.main, bg=COLORS["bg_main"])
+        badge.pack(fill="x", padx=12, pady=(8, 0))
+        self.status_label = tk.Label(badge, text="🔒 캡처 방지 ON", font=("Malgun Gothic", 9),
+                                     bg=COLORS["green_dark"], fg=COLORS["green"], padx=8, pady=2)
+        self.status_label.pack(side="left")
+
+        # 텍스트 영역 - Text 위젯 사용
+        text_frame = tk.Frame(self.main, bg=COLORS["bg_main"])
+        text_frame.pack(fill="both", expand=True, padx=12, pady=8)
+
+        self.text = tk.Text(
+            text_frame,
+            font=("Malgun Gothic", self.font_size),
+            fg=COLORS["text_white"],
+            bg=COLORS["bg_main"],
+            wrap="word",
+            padx=25,
+            pady=20,
+            relief="flat",
+            cursor="arrow",
+            spacing1=5,
+            spacing3=5,
+            highlightthickness=0,
+            borderwidth=0,
+        )
+        self.text.pack(fill="both", expand=True)
+
+        # 기본 텍스트 (스크롤 테스트용으로 길게)
+        self.set_default_text()
+
+        # 하단바
+        bottom = tk.Frame(self.main, bg=COLORS["bg_dark"], height=30)
+        bottom.pack(fill="x", side="bottom")
+        bottom.pack_propagate(False)
+
+        hints = tk.Frame(bottom, bg=COLORS["bg_dark"])
+        hints.pack(expand=True, pady=5)
+        for key, txt in [("F8", "재생"), ("F9", "숨김"), ("Ctrl+↑↓", "속도")]:
+            tk.Label(hints, text=key, font=("Consolas", 8, "bold"),
+                     bg=COLORS["btn_gray"], fg=COLORS["gold"], padx=3).pack(side="left", padx=1)
+            tk.Label(hints, text=txt, font=("Malgun Gothic", 8),
+                     bg=COLORS["bg_dark"], fg=COLORS["text_gray"]).pack(side="left", padx=(0, 8))
+
+    def set_default_text(self):
+        sample = """안녕하세요, 구독자 여러분.
+
+오늘은 AI 이미지 생성에 대해
+알아보겠습니다.
+
+먼저, ChatGPT에 접속해서
+이미지 생성 기능을 사용해볼게요.
+
+프롬프트를 입력하면
+AI가 이미지를 만들어줍니다.
+
+정말 신기하죠?
+
+여러분도 한번 해보세요!
+
+다양한 스타일로
+이미지를 만들 수 있습니다.
+
+오늘 영상은 여기까지입니다.
+구독과 좋아요 부탁드려요!"""
+        self.text.delete("1.0", "end")
+        self.text.insert("1.0", sample)
+
+    def set_text(self, content):
+        self.text.config(state="normal")
+        self.text.delete("1.0", "end")
+        self.text.insert("1.0", content)
+        self.text.yview_moveto(0)
+
+    def set_font_size(self, size):
+        self.font_size = size
+        self.text.config(font=("Malgun Gothic", size))
+
+    def scroll_up(self, amount=1):
+        """텍스트 위로 스크롤 (내용이 위로 올라감)"""
+        self.text.yview_scroll(amount, "units")
+
+    def scroll_down(self, amount=1):
+        """텍스트 아래로 스크롤"""
+        self.text.yview_scroll(-amount, "units")
+
+    def scroll_to_top(self):
+        self.text.yview_moveto(0)
+
+    def apply_capture_guard(self):
+        self.root.update()
+        hwnd = ctypes.windll.user32.GetParent(self.root.winfo_id())
+        if CaptureGuard.is_supported() and self.capture_guard.enable(hwnd):
+            self.capture_enabled.set(True)
+            self.status_label.config(text="🔒 캡처 방지 ON", fg=COLORS["green"], bg=COLORS["green_dark"])
+
+    def toggle_capture(self):
+        hwnd = ctypes.windll.user32.GetParent(self.root.winfo_id())
+        if self.capture_enabled.get():
+            self.capture_guard.disable(hwnd)
+            self.capture_enabled.set(False)
+            self.status_label.config(text="🔓 캡처 방지 OFF", fg=COLORS["red"], bg=COLORS["red_dark"])
+        else:
+            self.capture_guard.enable(hwnd)
+            self.capture_enabled.set(True)
+            self.status_label.config(text="🔒 캡처 방지 ON", fg=COLORS["green"], bg=COLORS["green_dark"])
+
+
+# ============================================
+# 컨트롤 패널
+# ============================================
+
+
+class ControlPanel:
+    def __init__(self, viewer):
+        self.viewer = viewer
+        self.window = tk.Toplevel(viewer.root)
+        self.is_playing = False
+        self.scroll_job = None
+        self.speed = 1.0
+        self.font_size = 32
+
+        self.setup_window()
+        self.create_ui()
+        self.bind_shortcuts()
+
+    def setup_window(self):
+        self.window.title("컨트롤")
+        self.window.geometry("180x380+820+100")
+        self.window.configure(bg=COLORS["bg_panel"])
+        self.window.attributes("-topmost", True)
+        self.window.resizable(False, False)
+        self.window.protocol("WM_DELETE_WINDOW", lambda: self.viewer.root.quit())
+
+        # 창 드래그 이동 기능
+        self.drag_x = 0
+        self.drag_y = 0
+        self.window.bind("<Button-1>", self.start_drag)
+        self.window.bind("<B1-Motion>", self.do_drag)
+
+    def start_drag(self, event):
+        """드래그 시작 위치 저장"""
+        self.drag_x = event.x
+        self.drag_y = event.y
+
+    def do_drag(self, event):
+        """창 이동"""
+        x = self.window.winfo_x() + event.x - self.drag_x
+        y = self.window.winfo_y() + event.y - self.drag_y
+        self.window.geometry(f"+{x}+{y}")
+
+    def create_ui(self):
+        p = self.window
+
+        # 재생
+        self.play_btn = tk.Button(p, text="▶ 재생", font=("Malgun Gothic", 11, "bold"),
+                                  bg=COLORS["green"], fg="white", width=14, height=2,
+                                  relief="flat", command=self.toggle_play)
+        self.play_btn.pack(pady=(12, 4))
+
+        tk.Button(p, text="↻ 처음으로", font=("Malgun Gothic", 9),
+                  bg=COLORS["btn_gray"], fg="white", width=14,
+                  relief="flat", command=self.reset).pack(pady=4)
+
+        # 구분선
+        tk.Frame(p, bg=COLORS["border"], height=1).pack(fill="x", pady=8, padx=12)
+
+        # 캡처방지
+        self.cap_btn = tk.Button(p, text="🔒 캡처방지 ON", font=("Malgun Gothic", 9),
+                                 bg=COLORS["green_dark"], fg=COLORS["green"], width=14,
+                                 relief="flat", command=self.toggle_capture)
+        self.cap_btn.pack(pady=4)
+
+        # 구분선
+        tk.Frame(p, bg=COLORS["border"], height=1).pack(fill="x", pady=8, padx=12)
+
+        # 글자 크기
+        tk.Label(p, text="글자 크기", font=("Malgun Gothic", 9),
+                 bg=COLORS["bg_panel"], fg=COLORS["text_gray"]).pack()
+        f1 = tk.Frame(p, bg=COLORS["bg_panel"])
+        f1.pack(pady=2)
+        tk.Button(f1, text="-", font=("Arial", 10, "bold"), bg=COLORS["btn_gray"], fg="white",
+                  width=3, relief="flat", command=self.font_down).pack(side="left", padx=2)
+        self.font_lbl = tk.Label(f1, text="32", font=("Malgun Gothic", 10, "bold"),
+                                 bg=COLORS["bg_panel"], fg=COLORS["gold"], width=4)
+        self.font_lbl.pack(side="left")
+        tk.Button(f1, text="+", font=("Arial", 10, "bold"), bg=COLORS["btn_gray"], fg="white",
+                  width=3, relief="flat", command=self.font_up).pack(side="left", padx=2)
+
+        # 속도
+        tk.Label(p, text="스크롤 속도", font=("Malgun Gothic", 9),
+                 bg=COLORS["bg_panel"], fg=COLORS["text_gray"]).pack(pady=(8, 0))
+        f2 = tk.Frame(p, bg=COLORS["bg_panel"])
+        f2.pack(pady=2)
+        tk.Button(f2, text="-", font=("Arial", 10, "bold"), bg=COLORS["btn_gray"], fg="white",
+                  width=3, relief="flat", command=self.speed_down).pack(side="left", padx=2)
+        self.speed_lbl = tk.Label(f2, text="1.0x", font=("Malgun Gothic", 10, "bold"),
+                                  bg=COLORS["bg_panel"], fg=COLORS["gold"], width=4)
+        self.speed_lbl.pack(side="left")
+        tk.Button(f2, text="+", font=("Arial", 10, "bold"), bg=COLORS["btn_gray"], fg="white",
+                  width=3, relief="flat", command=self.speed_up).pack(side="left", padx=2)
+
+        # 구분선
+        tk.Frame(p, bg=COLORS["border"], height=1).pack(fill="x", pady=8, padx=12)
+
+        # 파일
+        tk.Button(p, text="📂 파일 열기", font=("Malgun Gothic", 9),
+                  bg=COLORS["btn_orange"], fg="white", width=14,
+                  relief="flat", command=self.open_file).pack(pady=4)
+
+        # 단축키
+        tk.Label(p, text="F8:재생 F9:숨김", font=("Malgun Gothic", 8),
+                 bg=COLORS["bg_panel"], fg=COLORS["text_gray"]).pack(pady=(8, 0))
+        tk.Label(p, text="Ctrl+↑↓:속도", font=("Malgun Gothic", 8),
+                 bg=COLORS["bg_panel"], fg=COLORS["text_gray"]).pack()
+
+    def bind_shortcuts(self):
+        for w in [self.viewer.root, self.window]:
+            w.bind("<F8>", lambda e: self.toggle_play())
+            w.bind("<F9>", lambda e: self.toggle_visibility())
+            w.bind("<Control-Up>", lambda e: self.speed_up())
+            w.bind("<Control-Down>", lambda e: self.speed_down())
+            w.bind("<Prior>", lambda e: self.viewer.scroll_down(3))
+            w.bind("<Next>", lambda e: self.viewer.scroll_up(3))
+            w.bind("<Home>", lambda e: self.reset())
+
+    def toggle_play(self):
+        if self.is_playing:
             self.stop()
         else:
             self.start()
-        return self.running
 
-    def _scroll(self):
-        """1픽셀 스크롤 실행"""
-        if self.running:
-            self.widget.yview_scroll(1, 'units')
-            # 속도에 따른 간격 계산 (1.0x = 50ms)
-            speed = self.speed_var.get()
-            interval = max(10, int(50 / speed))
-            self._job = self.widget.after(interval, self._scroll)
+    def start(self):
+        self.is_playing = True
+        self.play_btn.config(text="⏸ 정지", bg="#3bc472")
+        self.do_scroll()
+
+    def stop(self):
+        self.is_playing = False
+        self.play_btn.config(text="▶ 재생", bg=COLORS["green"])
+        if self.scroll_job:
+            self.viewer.root.after_cancel(self.scroll_job)
+            self.scroll_job = None
+
+    def do_scroll(self):
+        if self.is_playing:
+            # 아주 천천히 스크롤 (1/5로 더 줄임)
+            self.viewer.text.yview_moveto(self.viewer.text.yview()[0] + 0.0002 * self.speed)
+            interval = 50  # 50ms마다
+            self.scroll_job = self.viewer.root.after(interval, self.do_scroll)
 
     def reset(self):
-        """처음으로"""
-        self.widget.yview_moveto(0)
+        self.stop()
+        self.viewer.scroll_to_top()
 
-
-# ============================================
-# 메인 앱
-# ============================================
-
-class GhostPromptApp:
-    """고스트프롬프트 메인 애플리케이션"""
-
-    def __init__(self):
-        self.root = tk.Tk()
-        self.settings = DEFAULT_SETTINGS.copy()
-        self.capture_guard = CaptureGuard()
-        self.sidebar_expanded = False
-
-        # 변수 초기화
-        self.font_size_var = tk.IntVar(value=self.settings['font_size'])
-        self.scroll_speed_var = tk.DoubleVar(value=self.settings['scroll_speed'])
-        self.opacity_var = tk.IntVar(value=int(self.settings['opacity'] * 100))
-
-        self.setup_window()
-        self.setup_styles()
-        self.create_ui()
-        self.apply_capture_guard()
-
-        # 자동 스크롤러 초기화
-        self.scroller = AutoScroller(self.text_widget, self.scroll_speed_var)
-
-    def setup_window(self):
-        """윈도우 기본 설정"""
-        self.root.title("🔮 고스트 프롬프터 v1.0")
-        self.root.geometry(f"{self.settings['window_width']}x{self.settings['window_height']}")
-        self.root.configure(bg=COLORS['bg_dark'])
-        self.root.attributes('-topmost', True)  # 항상 위
-        self.root.attributes('-alpha', self.settings['opacity'])
-
-        # 최소 크기
-        self.root.minsize(500, 400)
-
-    def setup_styles(self):
-        """ttk 스타일 설정"""
-        style = ttk.Style()
-        style.theme_use('clam')
-
-        # 슬라이더 스타일
-        style.configure('Gold.Horizontal.TScale',
-                       background=COLORS['bg_dark'],
-                       troughcolor=COLORS['btn_default'],
-                       sliderthickness=16)
-
-    def create_ui(self):
-        """UI 생성"""
-        # 메인 컨테이너
-        self.main_frame = tk.Frame(self.root, bg=COLORS['bg_dark'])
-        self.main_frame.pack(fill='both', expand=True)
-
-        # 상단 타이틀바
-        self.create_titlebar()
-
-        # 컨텐츠 영역 (프롬프터 + 사이드바)
-        self.content_frame = tk.Frame(self.main_frame, bg=COLORS['bg_dark'])
-        self.content_frame.pack(fill='both', expand=True, padx=2, pady=2)
-
-        # 프롬프터 영역
-        self.create_prompter()
-
-        # 접힌 사이드바 (기본)
-        self.create_collapsed_sidebar()
-
-        # 펼친 사이드바 (숨김)
-        self.create_expanded_sidebar()
-
-        # 하단 단축키 힌트
-        self.create_bottom_hints()
-
-    def create_titlebar(self):
-        """상단 타이틀바"""
-        titlebar = tk.Frame(self.main_frame, bg=COLORS['bg_dark'], height=40)
-        titlebar.pack(fill='x', padx=2, pady=(2, 0))
-        titlebar.pack_propagate(False)
-
-        # 제목
-        title_label = tk.Label(
-            titlebar,
-            text="🔮 고스트 프롬프터 v1.0",
-            font=('Malgun Gothic', 11, 'bold'),
-            fg=COLORS['border_gold'],
-            bg=COLORS['bg_dark']
-        )
-        title_label.pack(side='left', padx=10, pady=8)
-
-        # 캡처 방지 상태 표시
-        self.capture_status = tk.Label(
-            titlebar,
-            text="🔒 캡처 방지 ON",
-            font=('Malgun Gothic', 9),
-            fg=COLORS['btn_play'],
-            bg=COLORS['bg_dark']
-        )
-        self.capture_status.pack(side='left', padx=10)
-
-    def create_prompter(self):
-        """프롬프터 텍스트 영역"""
-        self.prompter_frame = tk.Frame(
-            self.content_frame,
-            bg=COLORS['bg_prompter'],
-            highlightbackground=COLORS['border_gold'],
-            highlightthickness=1
-        )
-        self.prompter_frame.pack(side='left', fill='both', expand=True)
-
-        # 텍스트 위젯
-        self.text_widget = tk.Text(
-            self.prompter_frame,
-            font=('Malgun Gothic', self.settings['font_size']),
-            fg=COLORS['text_primary'],
-            bg=COLORS['bg_prompter'],
-            wrap='word',
-            padx=30,
-            pady=30,
-            relief='flat',
-            cursor='arrow',
-            insertbackground=COLORS['text_primary']
-        )
-        self.text_widget.pack(fill='both', expand=True)
-
-        # 기본 안내 텍스트
-        self.text_widget.insert('1.0',
-            "고스트 프롬프터에 오신 것을 환영합니다!\n\n"
-            "◀ 오른쪽 버튼을 클릭해서 설정을 펼치세요.\n\n"
-            "스크립트를 입력하거나 파일을 불러오면\n"
-            "여기에 대본이 표시됩니다.\n\n"
-            "이 창은 화면 녹화에 캡처되지 않습니다! 🎉"
-        )
-        self.text_widget.config(state='disabled')  # 읽기 전용
-
-    def create_collapsed_sidebar(self):
-        """접힌 사이드바 (아이콘만)"""
-        self.collapsed_sidebar = tk.Frame(
-            self.content_frame,
-            bg=COLORS['bg_dark'],
-            width=56
-        )
-        self.collapsed_sidebar.pack(side='right', fill='y')
-        self.collapsed_sidebar.pack_propagate(False)
-
-        # 버튼들
-        buttons = [
-            ('▶', self.toggle_play, COLORS['btn_play'], '재생/정지'),
-            ('↺', self.reset_scroll, COLORS['btn_default'], '처음으로'),
-            ('─', None, None, None),  # 구분선
-            ('🔤', self.increase_font, COLORS['btn_default'], '글자 크게'),
-            ('⚡', self.increase_speed, COLORS['btn_default'], '속도 빠르게'),
-            ('👁', self.toggle_visibility, COLORS['btn_default'], '표시/숨김'),
-            ('─', None, None, None),  # 구분선
-            ('📁', self.open_file, COLORS['btn_default'], '파일 열기'),
-            ('⚙', self.toggle_sidebar, COLORS['btn_default'], '설정'),
-        ]
-
-        for text, command, color, tooltip in buttons:
-            if text == '─':
-                # 구분선
-                sep = tk.Frame(self.collapsed_sidebar, bg='#333', height=1, width=40)
-                sep.pack(pady=4)
-            else:
-                btn = tk.Button(
-                    self.collapsed_sidebar,
-                    text=text,
-                    font=('Segoe UI Emoji', 14),
-                    width=2,
-                    height=1,
-                    bg=color,
-                    fg='white',
-                    relief='flat',
-                    cursor='hand2',
-                    command=command
-                )
-                btn.pack(pady=3, padx=8)
-
-                # 호버 효과
-                btn.bind('<Enter>', lambda e, b=btn: b.configure(bg=COLORS['btn_hover']))
-                btn.bind('<Leave>', lambda e, b=btn, c=color: b.configure(bg=c))
-
-        # 펼치기 버튼 (맨 아래)
-        expand_btn = tk.Button(
-            self.collapsed_sidebar,
-            text='◀',
-            font=('Segoe UI', 14, 'bold'),
-            width=2,
-            height=1,
-            bg=COLORS['border_gold'],
-            fg='black',
-            relief='flat',
-            cursor='hand2',
-            command=self.toggle_sidebar
-        )
-        expand_btn.pack(side='bottom', pady=10, padx=8)
-        self.play_btn = None  # 나중에 참조용
-
-    def create_expanded_sidebar(self):
-        """펼친 사이드바 (전체 설정)"""
-        self.expanded_sidebar = tk.Frame(
-            self.content_frame,
-            bg=COLORS['bg_dark'],
-            width=280
-        )
-        # 처음엔 숨김
-
-        # 헤더
-        header = tk.Frame(self.expanded_sidebar, bg=COLORS['bg_dark'])
-        header.pack(fill='x', padx=10, pady=10)
-
-        tk.Label(
-            header,
-            text="설정",
-            font=('Malgun Gothic', 12, 'bold'),
-            fg=COLORS['border_gold'],
-            bg=COLORS['bg_dark']
-        ).pack(side='left')
-
-        collapse_btn = tk.Button(
-            header,
-            text='▶',
-            font=('Segoe UI', 10),
-            bg=COLORS['btn_default'],
-            fg='white',
-            relief='flat',
-            cursor='hand2',
-            command=self.toggle_sidebar
-        )
-        collapse_btn.pack(side='right')
-
-        # 스크립트 입력
-        tk.Label(
-            self.expanded_sidebar,
-            text="📝 스크립트",
-            font=('Malgun Gothic', 10),
-            fg=COLORS['text_secondary'],
-            bg=COLORS['bg_dark']
-        ).pack(anchor='w', padx=10, pady=(10, 5))
-
-        self.script_input = tk.Text(
-            self.expanded_sidebar,
-            font=('Malgun Gothic', 10),
-            height=6,
-            bg='#0f0f1a',
-            fg='white',
-            insertbackground='white',
-            relief='flat',
-            wrap='word'
-        )
-        self.script_input.pack(fill='x', padx=10, pady=(0, 5))
-        self.script_input.bind('<KeyRelease>', self.on_script_change)
-
-        # 버튼 행
-        btn_row = tk.Frame(self.expanded_sidebar, bg=COLORS['bg_dark'])
-        btn_row.pack(fill='x', padx=10, pady=5)
-
-        for text, cmd in [('▶ 재생', self.toggle_play), ('↺', self.reset_scroll), ('📁', self.open_file), ('💾', self.save_file)]:
-            btn = tk.Button(
-                btn_row,
-                text=text,
-                font=('Segoe UI Emoji', 9),
-                bg=COLORS['btn_play'] if '재생' in text else COLORS['btn_default'],
-                fg='white',
-                relief='flat',
-                cursor='hand2',
-                command=cmd
-            )
-            btn.pack(side='left', padx=2, expand=True, fill='x')
-
-        # 글자 크기 슬라이더
-        self.create_slider(
-            self.expanded_sidebar,
-            "🔤 글자 크기",
-            self.font_size_var,
-            12, 72,
-            self.on_font_size_change,
-            "px"
-        )
-
-        # 스크롤 속도 슬라이더
-        self.create_slider(
-            self.expanded_sidebar,
-            "⚡ 스크롤 속도",
-            self.scroll_speed_var,
-            0.25, 4.0,
-            None,
-            "x",
-            resolution=0.25
-        )
-
-        # 배경 투명도 슬라이더
-        self.create_slider(
-            self.expanded_sidebar,
-            "👁 배경 투명도",
-            self.opacity_var,
-            0, 100,
-            self.on_opacity_change,
-            "%"
-        )
-
-        # 초기화 버튼
-        reset_btn = tk.Button(
-            self.expanded_sidebar,
-            text="🔄 설정 초기화",
-            font=('Malgun Gothic', 10),
-            bg=COLORS['bg_dark'],
-            fg=COLORS['text_secondary'],
-            relief='flat',
-            cursor='hand2',
-            command=self.reset_settings
-        )
-        reset_btn.pack(side='bottom', fill='x', padx=10, pady=10)
-
-    def create_slider(self, parent, label_text, variable, from_, to_, command, unit, resolution=1):
-        """슬라이더 생성 헬퍼"""
-        frame = tk.Frame(parent, bg=COLORS['bg_dark'])
-        frame.pack(fill='x', padx=10, pady=8)
-
-        # 라벨 + 값
-        header = tk.Frame(frame, bg=COLORS['bg_dark'])
-        header.pack(fill='x')
-
-        tk.Label(
-            header,
-            text=label_text,
-            font=('Malgun Gothic', 10),
-            fg=COLORS['text_secondary'],
-            bg=COLORS['bg_dark']
-        ).pack(side='left')
-
-        value_label = tk.Label(
-            header,
-            text=f"{variable.get()}{unit}",
-            font=('Malgun Gothic', 10, 'bold'),
-            fg=COLORS['border_gold'],
-            bg=COLORS['bg_dark']
-        )
-        value_label.pack(side='right')
-
-        # 슬라이더
-        slider = ttk.Scale(
-            frame,
-            from_=from_,
-            to=to_,
-            variable=variable,
-            orient='horizontal',
-            style='Gold.Horizontal.TScale'
-        )
-        slider.pack(fill='x', pady=(5, 0))
-
-        # 값 업데이트
-        def update_label(*args):
-            val = variable.get()
-            if isinstance(val, float) and resolution < 1:
-                value_label.config(text=f"{val:.2f}{unit}")
-            else:
-                value_label.config(text=f"{int(val)}{unit}")
-            if command:
-                command()
-
-        variable.trace_add('write', update_label)
-
-    def create_bottom_hints(self):
-        """하단 단축키 힌트"""
-        hints_frame = tk.Frame(self.main_frame, bg='#0f0f1a', height=30)
-        hints_frame.pack(fill='x', side='bottom')
-        hints_frame.pack_propagate(False)
-
-        hints = [
-            ("F8", "재생/정지"),
-            ("F9", "표시/숨김"),
-            ("Ctrl+↑↓", "속도"),
-            ("PgUp/Dn", "스크롤"),
-        ]
-
-        for key, action in hints:
-            hint = tk.Frame(hints_frame, bg='#0f0f1a')
-            hint.pack(side='left', padx=15, pady=5)
-
-            tk.Label(
-                hint,
-                text=key,
-                font=('Consolas', 9),
-                fg=COLORS['border_gold'],
-                bg=COLORS['btn_default'],
-                padx=4,
-                pady=1
-            ).pack(side='left')
-
-            tk.Label(
-                hint,
-                text=f" {action}",
-                font=('Malgun Gothic', 9),
-                fg=COLORS['text_secondary'],
-                bg='#0f0f1a'
-            ).pack(side='left')
-
-        # 단축키 바인딩
-        self.root.bind('<F8>', lambda e: self.toggle_play())
-        self.root.bind('<F9>', lambda e: self.toggle_visibility())
-        self.root.bind('<Control-Up>', lambda e: self.increase_speed())
-        self.root.bind('<Control-Down>', lambda e: self.decrease_speed())
-        self.root.bind('<Prior>', lambda e: self.scroll_up())  # PgUp
-        self.root.bind('<Next>', lambda e: self.scroll_down())  # PgDn
-        self.root.bind('<Home>', lambda e: self.reset_scroll())
-
-    def apply_capture_guard(self):
-        """캡처 방지 적용"""
-        self.root.update()
-        hwnd = ctypes.windll.user32.GetParent(self.root.winfo_id())
-
-        if not CaptureGuard.is_supported():
-            messagebox.showwarning(
-                "경고",
-                "캡처 방지 기능은 Windows 10 버전 2004 이상에서만 지원됩니다.\n"
-                "현재 OS에서는 일반 창으로 동작합니다."
-            )
-            self.capture_status.config(text="⚠️ 캡처 방지 미지원", fg='#FCD34D')
-            return
-
-        if self.capture_guard.enable(hwnd):
-            self.capture_status.config(text="🔒 캡처 방지 ON", fg=COLORS['btn_play'])
+    def toggle_capture(self):
+        self.viewer.toggle_capture()
+        if self.viewer.capture_enabled.get():
+            self.cap_btn.config(text="🔒 캡처방지 ON", fg=COLORS["green"], bg=COLORS["green_dark"])
         else:
-            self.capture_status.config(text="❌ 캡처 방지 실패", fg='#F87171')
-
-    # ============================================
-    # 이벤트 핸들러
-    # ============================================
-
-    def toggle_sidebar(self):
-        """사이드바 접기/펼치기"""
-        if self.sidebar_expanded:
-            # 접기
-            self.expanded_sidebar.pack_forget()
-            self.collapsed_sidebar.pack(side='right', fill='y')
-            self.sidebar_expanded = False
-        else:
-            # 펼치기
-            self.collapsed_sidebar.pack_forget()
-            self.expanded_sidebar.pack(side='right', fill='y')
-            self.sidebar_expanded = True
-
-    def toggle_play(self):
-        """재생/정지 토글"""
-        is_playing = self.scroller.toggle()
-        # 버튼 상태 업데이트는 나중에
-
-    def reset_scroll(self):
-        """처음으로"""
-        self.scroller.stop()
-        self.scroller.reset()
+            self.cap_btn.config(text="🔓 캡처방지 OFF", fg=COLORS["red"], bg=COLORS["red_dark"])
 
     def toggle_visibility(self):
-        """창 표시/숨김"""
-        if self.root.state() == 'withdrawn':
-            self.root.deiconify()
+        if self.viewer.root.state() == "withdrawn":
+            self.viewer.root.deiconify()
         else:
-            self.root.withdraw()
+            self.viewer.root.withdraw()
 
-    def increase_font(self):
-        """글자 크기 증가"""
-        current = self.font_size_var.get()
-        if current < 72:
-            self.font_size_var.set(current + 4)
+    def font_up(self):
+        if self.font_size < 72:
+            self.font_size += 4
+            self.font_lbl.config(text=str(self.font_size))
+            self.viewer.set_font_size(self.font_size)
 
-    def increase_speed(self):
-        """속도 증가"""
-        current = self.scroll_speed_var.get()
-        if current < 4.0:
-            self.scroll_speed_var.set(min(4.0, current + 0.25))
+    def font_down(self):
+        if self.font_size > 16:
+            self.font_size -= 4
+            self.font_lbl.config(text=str(self.font_size))
+            self.viewer.set_font_size(self.font_size)
 
-    def decrease_speed(self):
-        """속도 감소"""
-        current = self.scroll_speed_var.get()
-        if current > 0.25:
-            self.scroll_speed_var.set(max(0.25, current - 0.25))
+    def speed_up(self):
+        if self.speed < 4.0:
+            self.speed = min(4.0, self.speed + 0.25)
+            self.speed_lbl.config(text=f"{self.speed:.1f}x")
 
-    def scroll_up(self):
-        """위로 스크롤"""
-        self.text_widget.yview_scroll(-3, 'units')
-
-    def scroll_down(self):
-        """아래로 스크롤"""
-        self.text_widget.yview_scroll(3, 'units')
-
-    def on_font_size_change(self):
-        """글자 크기 변경"""
-        size = self.font_size_var.get()
-        self.text_widget.config(font=('Malgun Gothic', int(size)))
-
-    def on_opacity_change(self):
-        """투명도 변경"""
-        opacity = self.opacity_var.get() / 100
-        self.root.attributes('-alpha', opacity)
-
-    def on_script_change(self, event=None):
-        """스크립트 입력 시 프롬프터에 반영"""
-        script = self.script_input.get('1.0', 'end-1c')
-        self.text_widget.config(state='normal')
-        self.text_widget.delete('1.0', 'end')
-        self.text_widget.insert('1.0', script)
-        self.text_widget.config(state='disabled')
+    def speed_down(self):
+        if self.speed > 0.25:
+            self.speed = max(0.25, self.speed - 0.25)
+            self.speed_lbl.config(text=f"{self.speed:.1f}x")
 
     def open_file(self):
-        """파일 열기"""
-        filepath = filedialog.askopenfilename(
-            title="스크립트 파일 열기",
-            filetypes=[
-                ("텍스트 파일", "*.txt"),
-                ("모든 파일", "*.*")
-            ]
-        )
-        if filepath:
+        path = filedialog.askopenfilename(filetypes=[("텍스트", "*.txt"), ("모든 파일", "*.*")])
+        if path:
             try:
-                # UTF-8 먼저 시도
-                with open(filepath, 'r', encoding='utf-8') as f:
+                with open(path, "r", encoding="utf-8") as f:
                     content = f.read()
-            except UnicodeDecodeError:
-                # EUC-KR 시도
-                try:
-                    with open(filepath, 'r', encoding='euc-kr') as f:
-                        content = f.read()
-                except:
-                    messagebox.showerror("오류", "파일을 읽을 수 없습니다.")
-                    return
+            except:
+                with open(path, "r", encoding="euc-kr") as f:
+                    content = f.read()
+            self.viewer.set_text(content)
+            self.reset()
 
-            # 스크립트 입력창과 프롬프터에 반영
-            self.script_input.delete('1.0', 'end')
-            self.script_input.insert('1.0', content)
-            self.on_script_change()
 
-    def save_file(self):
-        """파일 저장"""
-        filepath = filedialog.asksaveasfilename(
-            title="스크립트 저장",
-            defaultextension=".txt",
-            filetypes=[("텍스트 파일", "*.txt")]
-        )
-        if filepath:
-            content = self.script_input.get('1.0', 'end-1c')
-            with open(filepath, 'w', encoding='utf-8') as f:
-                f.write(content)
-            messagebox.showinfo("저장 완료", f"저장되었습니다:\n{filepath}")
+# ============================================
+# 메인
+# ============================================
 
-    def reset_settings(self):
-        """설정 초기화"""
-        self.font_size_var.set(DEFAULT_SETTINGS['font_size'])
-        self.scroll_speed_var.set(DEFAULT_SETTINGS['scroll_speed'])
-        self.opacity_var.set(int(DEFAULT_SETTINGS['opacity'] * 100))
+
+class GhostPromptApp:
+    def __init__(self):
+        self.root = tk.Tk()
+        self.viewer = PrompterViewer(self.root)
+        self.control = ControlPanel(self.viewer)
+        self.viewer.apply_capture_guard()
 
     def run(self):
-        """앱 실행"""
         self.root.mainloop()
 
 
-# ============================================
-# 메인 실행
-# ============================================
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     app = GhostPromptApp()
     app.run()
