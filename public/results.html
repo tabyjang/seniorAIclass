@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>수강결과 | 시니어AI클래스</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primary: #0F172A;
+            --color-accent: #D4A52C;
+            --color-accent-light: #FEF3C7;
+            --color-bg: #FAFAF9;
+            --color-white: #FFFFFF;
+            --color-text: #0F172A;
+            --color-text-secondary: #64748B;
+            --color-border: #E2E8F0;
+
+            --level-1: #0F172A;
+            --level-1-bg: #F1F5F9;
+            --level-2: #334155;
+            --level-2-bg: #F8FAFC;
+            --level-3: #D4A853;
+            --level-3-bg: #FFFBEB;
+            --level-4: #1E293B;
+            --level-4-bg: #F1F5F9;
+
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
+        a { text-decoration: none; color: inherit; }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* 네비게이션 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .navbar-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--color-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-accent);
+            font-weight: bold;
+        }
+
+        .logo-text {
+            font-size: 1.25rem;
+            font-weight: bold;
+        }
+
+        .logo-text span { color: var(--color-accent); }
+
+        .nav-links {
+            display: none;
+            gap: 2rem;
+        }
+
+        @media (min-width: 1024px) {
+            .nav-links { display: flex; }
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            font-size: 1.125rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active { color: var(--color-accent); }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--color-accent);
+            color: var(--color-primary);
+        }
+
+        .btn-primary:hover {
+            background: #C49A28;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--color-primary);
+            color: var(--color-white);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--color-border);
+            color: var(--color-text-secondary);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--color-accent);
+            color: var(--color-accent);
+        }
+
+        /* 히어로 */
+        .hero {
+            padding: 7rem 0 3rem;
+            text-align: center;
+            background: linear-gradient(180deg, var(--color-white) 0%, var(--color-bg) 100%);
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--color-accent-light);
+            color: var(--color-accent);
+            border-radius: 9999px;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        @media (min-width: 768px) {
+            .hero h1 { font-size: 3rem; }
+        }
+
+        .hero h1 span { color: var(--color-accent); }
+
+        .hero p {
+            font-size: 1.125rem;
+            color: var(--color-text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* 레벨 섹션 */
+        .level-section {
+            padding: 3rem 0;
+        }
+
+        .level-section:nth-child(odd) {
+            background: var(--color-white);
+        }
+
+        .section-header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            gap: 1rem;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .level-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-weight: 700;
+            font-size: 0.875rem;
+            color: var(--color-white);
+        }
+
+        .level-badge.level-1 { background: var(--level-1); }
+        .level-badge.level-2 { background: var(--level-2); }
+        .level-badge.level-3 { background: var(--level-3); color: var(--color-primary); }
+        .level-badge.level-4 { background: var(--level-4); }
+
+        .section-title h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .section-title .slogan {
+            font-size: 1rem;
+            color: var(--color-text-secondary);
+            font-weight: 400;
+        }
+
+        /* 카드 그리드 */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        @media (min-width: 768px) {
+            .cards-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        @media (min-width: 1024px) {
+            .cards-grid { grid-template-columns: repeat(4, 1fr); }
+        }
+
+        /* 결과 카드 */
+        .result-card {
+            background: var(--color-white);
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 1px solid var(--color-border);
+        }
+
+        .result-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--color-accent);
+        }
+
+        .card-thumbnail {
+            width: 100%;
+            height: 140px;
+            background: #E2E8F0;
+            object-fit: cover;
+        }
+
+        @media (min-width: 768px) {
+            .card-thumbnail { height: 160px; }
+        }
+
+        .card-content {
+            padding: 1rem;
+        }
+
+        .card-product-badge {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-product-badge.level-1 { background: var(--level-1-bg); color: var(--level-1); }
+        .card-product-badge.level-2 { background: var(--level-2-bg); color: var(--level-2); }
+        .card-product-badge.level-3 { background: var(--level-3-bg); color: #92400E; }
+        .card-product-badge.level-4 { background: var(--level-4-bg); color: var(--level-4); }
+
+        .card-title {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-review {
+            font-size: 0.8rem;
+            color: var(--color-text-secondary);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            margin-bottom: 0.75rem;
+            min-height: 2.4em;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            color: var(--color-text-secondary);
+        }
+
+        /* 더보기 버튼 영역 */
+        .more-btn-wrapper {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        /* CTA 섹션 */
+        .cta-section {
+            padding: 4rem 0;
+            text-align: center;
+            background: linear-gradient(180deg, var(--color-bg) 0%, var(--color-white) 100%);
+        }
+
+        .cta-section h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .cta-section p {
+            color: var(--color-text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        /* 푸터 */
+        .footer {
+            background: var(--color-primary);
+            color: var(--color-white);
+            padding: 2rem 0;
+        }
+
+        .footer-inner {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-size: 1.125rem;
+            font-weight: bold;
+        }
+
+        .footer-logo span { color: var(--color-accent); }
+        .footer-copyright { font-size: 0.875rem; opacity: 0.8; }
+
+        /* 모달 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.75);
+            z-index: 100;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal-overlay.active { display: flex; }
+
+        .modal {
+            background: var(--color-white);
+            border-radius: 1rem;
+            max-width: 550px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalIn 0.3s ease;
+        }
+
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: flex-end;
+            padding: 0.75rem;
+        }
+
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: #F1F5F9;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .modal-close:hover { background: #E2E8F0; }
+
+        .modal-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            background: #E2E8F0;
+        }
+
+        .modal-content { padding: 1.25rem; }
+
+        .modal-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--color-white);
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-badge.level-1 { background: var(--level-1); }
+        .modal-badge.level-2 { background: var(--level-2); }
+        .modal-badge.level-3 { background: var(--level-3); color: var(--color-primary); }
+        .modal-badge.level-4 { background: var(--level-4); }
+
+        .modal-title {
+            font-size: 1.375rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .modal-meta {
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 1.25rem;
+        }
+
+        .modal-section { margin-bottom: 1.25rem; }
+
+        .modal-section h4 {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--color-text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-review {
+            background: #F8FAFC;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-style: italic;
+            border-left: 3px solid var(--color-accent);
+        }
+
+        .modal-criteria { list-style: none; }
+
+        .modal-criteria li {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem 0;
+            font-size: 0.9rem;
+        }
+
+        .modal-criteria li::before {
+            content: "✓";
+            color: var(--color-accent);
+            font-weight: bold;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.25rem;
+        }
+
+        .modal-actions .btn { flex: 1; }
+    </style>
+</head>
+<body>
+    <!-- 네비게이션 -->
+    <nav class="navbar">
+        <div class="container navbar-inner">
+            <a href="/" class="logo">
+                <div class="logo-icon">AI</div>
+                <span class="logo-text">시니어<span>AI</span>클래스</span>
+            </a>
+            <div class="nav-links">
+                <a href="/products.html">40개 프로덕트</a>
+                <a href="/#levels">AI 배우기</a>
+                <a href="/#trial">무료 체험</a>
+                <a href="/#reviews">수강 후기</a>
+                <a href="/results.html" class="active">수강결과</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 히어로 -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-badge">&#127942; 실제 수강생 결과물</div>
+            <h1>수강생 <span>결과물 갤러리</span></h1>
+            <p>40개 프로덕트, 실제 수강생이 만든 작품들<br>"나도 할 수 있어요!"</p>
+        </div>
+    </section>
+
+    <!-- Lv.1 초보자 섹션 -->
+    <section class="level-section" id="level1">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-title">
+                    <span class="level-badge level-1">Lv.1</span>
+                    <h2>초보자 <span class="slogan">"AI에 도전하는 용기"</span></h2>
+                </div>
+                <a href="/results-level1.html" class="btn btn-outline">더 보기 →</a>
+            </div>
+            <div class="cards-grid" id="level1Grid"></div>
+        </div>
+    </section>
+
+    <!-- Lv.2 중급자 섹션 -->
+    <section class="level-section" id="level2">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-title">
+                    <span class="level-badge level-2">Lv.2</span>
+                    <h2>중급자 <span class="slogan">"AI와 즐겁게 놀기"</span></h2>
+                </div>
+                <a href="/results-level2.html" class="btn btn-outline">더 보기 →</a>
+            </div>
+            <div class="cards-grid" id="level2Grid"></div>
+        </div>
+    </section>
+
+    <!-- Lv.3 고급자 섹션 -->
+    <section class="level-section" id="level3">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-title">
+                    <span class="level-badge level-3">Lv.3</span>
+                    <h2>고급자 <span class="slogan">"AI로 능력자 되기"</span></h2>
+                </div>
+                <a href="/results-level3.html" class="btn btn-outline">더 보기 →</a>
+            </div>
+            <div class="cards-grid" id="level3Grid"></div>
+        </div>
+    </section>
+
+    <!-- Lv.4 전문가 섹션 -->
+    <section class="level-section" id="level4">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-title">
+                    <span class="level-badge level-4">Lv.4</span>
+                    <h2>전문가 <span class="slogan">"AI로 수익 만들기"</span></h2>
+                </div>
+                <a href="/results-level4.html" class="btn btn-outline">더 보기 →</a>
+            </div>
+            <div class="cards-grid" id="level4Grid"></div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>&#128161; 나도 이런 결과물 만들고 싶다면?</h2>
+            <p>지금 바로 무료 상담을 받아보세요!</p>
+            <div class="cta-buttons">
+                <a href="/#contact" class="btn btn-primary">무료 상담 받기</a>
+                <a href="/#level-test" class="btn btn-secondary">레벨 테스트 하기</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 푸터 -->
+    <footer class="footer">
+        <div class="container footer-inner">
+            <div class="footer-logo">시니어<span>AI</span>클래스</div>
+            <p class="footer-copyright">&copy; 2026 시니어AI클래스. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- 모달 -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal">
+            <div class="modal-header">
+                <button class="modal-close" id="modalClose">&times;</button>
+            </div>
+            <img class="modal-image" id="modalImage" src="" alt="">
+            <div class="modal-content">
+                <div class="modal-badge" id="modalBadge"></div>
+                <h3 class="modal-title" id="modalTitle"></h3>
+                <p class="modal-meta" id="modalMeta"></p>
+                <div class="modal-section">
+                    <h4>&#128221; 수강생 후기</h4>
+                    <p class="modal-review" id="modalReview"></p>
+                </div>
+                <div class="modal-section">
+                    <h4>&#9989; 완성 기준</h4>
+                    <ul class="modal-criteria" id="modalCriteria"></ul>
+                </div>
+                <div class="modal-actions">
+                    <a href="/#contact" class="btn btn-primary">나도 만들기</a>
+                    <button class="btn btn-secondary" onclick="closeModal()">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 샘플 데이터
+        const resultsData = [
+            // Lv.1 초보자 (8개)
+            { id: 1, productId: 1, productName: "나의 첫 Gmail", level: 1, levelName: "초보자", studentName: "김OO", studentAge: 62, completedDate: "2026-01-15", thumbnail: "https://picsum.photos/seed/gmail1/400/300", review: "처음 만든 이메일 계정이에요! 손주에게 첫 편지 보냈어요.", criteria: ["@gmail.com 생성", "프로필 사진 설정", "첫 이메일 발송"] },
+            { id: 2, productId: 2, productName: "나만의 스마트폰", level: 1, levelName: "초보자", studentName: "이OO", studentAge: 58, completedDate: "2026-01-18", thumbnail: "https://picsum.photos/seed/phone1/400/300", review: "드디어 스마트폰이 내 것 같아졌어요!", criteria: ["배경화면 설정", "글자 크기 조정", "자주 쓰는 앱 배치"] },
+            { id: 3, productId: 4, productName: "ChatGPT 첫 대화록", level: 1, levelName: "초보자", studentName: "박OO", studentAge: 65, completedDate: "2026-01-20", thumbnail: "https://picsum.photos/seed/chat1/400/300", review: "AI랑 대화하는 게 이렇게 재밌을 줄 몰랐어요.", criteria: ["ChatGPT 가입", "5개 대화 완료", "대화 저장"] },
+            { id: 4, productId: 5, productName: "첫 AI 그림 5종세트", level: 1, levelName: "초보자", studentName: "최OO", studentAge: 70, completedDate: "2026-01-22", thumbnail: "https://picsum.photos/seed/art1/400/300", review: "AI가 그린 우리 집 그림이 너무 예뻐요!", criteria: ["그림 5장 생성", "폴더 정리", "베스트 1장 선정"] },
+            { id: 5, productId: 7, productName: "디지털 앨범 시즌1", level: 1, levelName: "초보자", studentName: "정OO", studentAge: 55, completedDate: "2026-01-25", thumbnail: "https://picsum.photos/seed/album1/400/300", review: "30년 치 사진을 정리했어요. 추억 여행!", criteria: ["앨범 3개 생성", "사진 30장 정리", "가족 공유"] },
+            { id: 6, productId: 1, productName: "나의 첫 Gmail", level: 1, levelName: "초보자", studentName: "한OO", studentAge: 67, completedDate: "2026-01-27", thumbnail: "https://picsum.photos/seed/gmail2/400/300", review: "이메일로 손주 사진 받아볼 수 있어요!", criteria: ["@gmail.com 생성", "프로필 설정", "이메일 수신 확인"] },
+            { id: 7, productId: 4, productName: "ChatGPT 첫 대화록", level: 1, levelName: "초보자", studentName: "오OO", studentAge: 63, completedDate: "2026-01-28", thumbnail: "https://picsum.photos/seed/chat2/400/300", review: "매일 아침 AI에게 인사해요. 친구 같아요!", criteria: ["ChatGPT 가입", "대화 10개", "질문 기록"] },
+            { id: 8, productId: 5, productName: "첫 AI 그림 5종세트", level: 1, levelName: "초보자", studentName: "서OO", studentAge: 59, completedDate: "2026-01-30", thumbnail: "https://picsum.photos/seed/art2/400/300", review: "손주 얼굴로 만화 캐릭터 만들었어요!", criteria: ["그림 5장", "캐릭터 생성", "인쇄 완료"] },
+
+            // Lv.2 중급자 (8개)
+            { id: 9, productId: 11, productName: "손주 사랑 편지함", level: 2, levelName: "중급자", studentName: "강OO", studentAge: 63, completedDate: "2026-02-01", thumbnail: "https://picsum.photos/seed/letter1/400/300", review: "손주 생일마다 보낼 편지 12통 완성!", criteria: ["월별 편지 12통", "디자인 완성", "PDF 저장"] },
+            { id: 10, productId: 12, productName: "가족 동화책", level: 2, levelName: "중급자", studentName: "윤OO", studentAge: 59, completedDate: "2026-02-03", thumbnail: "https://picsum.photos/seed/book1/400/300", review: "손주 이름으로 동화책 만들었어요!", criteria: ["5페이지 스토리", "AI 일러스트 5장", "소책자 인쇄"] },
+            { id: 11, productId: 13, productName: "가족 여행 바이블", level: 2, levelName: "중급자", studentName: "장OO", studentAge: 61, completedDate: "2026-02-05", thumbnail: "https://picsum.photos/seed/travel1/400/300", review: "제주도 가족여행 계획 완벽하게!", criteria: ["10페이지 PPT", "일정표 완성", "맛집 지도"] },
+            { id: 12, productId: 16, productName: "가족 AI 요리책", level: 2, levelName: "중급자", studentName: "임OO", studentAge: 67, completedDate: "2026-02-07", thumbnail: "https://picsum.photos/seed/recipe1/400/300", review: "우리 집 레시피 20개를 요리책으로!", criteria: ["레시피 20개", "사진 포함", "영양 정보"] },
+            { id: 13, productId: 19, productName: "가족 갤러리", level: 2, levelName: "중급자", studentName: "조OO", studentAge: 56, completedDate: "2026-02-08", thumbnail: "https://picsum.photos/seed/gallery1/400/300", review: "AI로 보정한 사진 액자 만들어서 걸었어요!", criteria: ["6장 보정", "AI 스타일", "A4 출력"] },
+            { id: 14, productId: 11, productName: "손주 사랑 편지함", level: 2, levelName: "중급자", studentName: "홍OO", studentAge: 64, completedDate: "2026-02-09", thumbnail: "https://picsum.photos/seed/letter2/400/300", review: "손주 3명 각각 편지함 만들었어요!", criteria: ["편지 36통", "개인화 디자인", "출력 완료"] },
+            { id: 15, productId: 12, productName: "가족 동화책", level: 2, levelName: "중급자", studentName: "권OO", studentAge: 60, completedDate: "2026-02-10", thumbnail: "https://picsum.photos/seed/book2/400/300", review: "할아버지가 주인공인 동화책!", criteria: ["10페이지", "가족 캐릭터", "제본 완료"] },
+            { id: 16, productId: 16, productName: "가족 AI 요리책", level: 2, levelName: "중급자", studentName: "백OO", studentAge: 68, completedDate: "2026-02-11", thumbnail: "https://picsum.photos/seed/recipe2/400/300", review: "40년 요리 비법을 책으로 남겼어요.", criteria: ["레시피 30개", "사진 촬영", "ISBN 등록"] },
+
+            // Lv.3 고급자 (4개)
+            { id: 17, productId: 21, productName: "가족 영화관", level: 3, levelName: "고급자", studentName: "신OO", studentAge: 64, completedDate: "2026-02-12", thumbnail: "https://picsum.photos/seed/movie1/400/300", review: "결혼 40주년 기념 영상! 다 같이 울었어요.", criteria: ["5편 영상", "총 20분", "유튜브 업로드"] },
+            { id: 18, productId: 22, productName: "우리 가족 홈페이지", level: 3, levelName: "고급자", studentName: "안OO", studentAge: 57, completedDate: "2026-02-13", thumbnail: "https://picsum.photos/seed/web1/400/300", review: "가족 홈페이지 생겼어요! 해외 친척도 봐요.", criteria: ["5페이지", "갤러리", "연락처"] },
+            { id: 19, productId: 26, productName: "가족 유튜브 채널", level: 3, levelName: "고급자", studentName: "전OO", studentAge: 60, completedDate: "2026-02-14", thumbnail: "https://picsum.photos/seed/yt1/400/300", review: "구독자 100명 달성! 요리 채널 운영 중!", criteria: ["채널 개설", "영상 10개", "구독자 100명"] },
+            { id: 20, productId: 21, productName: "가족 영화관", level: 3, levelName: "고급자", studentName: "황OO", studentAge: 62, completedDate: "2026-02-15", thumbnail: "https://picsum.photos/seed/movie2/400/300", review: "손주 성장 다큐 20분짜리 완성!", criteria: ["다큐 1편", "자막 포함", "USB 저장"] },
+
+            // Lv.4 전문가 (4개)
+            { id: 21, productId: 33, productName: "AI봉사단", level: 4, levelName: "전문가", studentName: "송OO", studentAge: 66, completedDate: "2026-02-16", thumbnail: "https://picsum.photos/seed/vol1/400/300", review: "경로당에서 AI 강의 5회! 어르신들 좋아하세요.", criteria: ["지역사회 5회", "수강생 50명", "봉사 확인증"] },
+            { id: 22, productId: 35, productName: "AI 전문가 인증", level: 4, levelName: "전문가", studentName: "유OO", studentAge: 58, completedDate: "2026-02-17", thumbnail: "https://picsum.photos/seed/cert1/400/300", review: "공식 AI 강사 자격증! 이제 저도 선생님!", criteria: ["수료증 발급", "강사 등록", "명함 제작"] },
+            { id: 23, productId: 33, productName: "AI봉사단", level: 4, levelName: "전문가", studentName: "양OO", studentAge: 63, completedDate: "2026-02-18", thumbnail: "https://picsum.photos/seed/vol2/400/300", review: "도서관 AI 특강 인기 폭발!", criteria: ["도서관 3회", "수강생 80명", "재초청"] },
+            { id: 24, productId: 35, productName: "AI 전문가 인증", level: 4, levelName: "전문가", studentName: "배OO", studentAge: 55, completedDate: "2026-02-19", thumbnail: "https://picsum.photos/seed/cert2/400/300", review: "컨설팅 첫 수익 50만원!", criteria: ["포트폴리오", "첫 고객", "수익 인증"] }
+        ];
+
+        // 레벨별 데이터 분리
+        const level1Data = resultsData.filter(r => r.level === 1).slice(0, 8);
+        const level2Data = resultsData.filter(r => r.level === 2).slice(0, 8);
+        const level3Data = resultsData.filter(r => r.level === 3).slice(0, 4);
+        const level4Data = resultsData.filter(r => r.level === 4).slice(0, 4);
+
+        // 카드 HTML 생성
+        function createCard(item) {
+            return `
+                <div class="result-card" onclick="openModal(${item.id})">
+                    <img class="card-thumbnail" src="${item.thumbnail}" alt="${item.productName}">
+                    <div class="card-content">
+                        <span class="card-product-badge level-${item.level}">#${item.productId} ${item.productName}</span>
+                        <h3 class="card-title">${item.productName}</h3>
+                        <p class="card-review">"${item.review}"</p>
+                        <div class="card-footer">
+                            <span>&#128100; ${item.studentName} (${item.studentAge}세)</span>
+                            <span>${item.completedDate.slice(5)}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 그리드 렌더링
+        document.getElementById('level1Grid').innerHTML = level1Data.map(createCard).join('');
+        document.getElementById('level2Grid').innerHTML = level2Data.map(createCard).join('');
+        document.getElementById('level3Grid').innerHTML = level3Data.map(createCard).join('');
+        document.getElementById('level4Grid').innerHTML = level4Data.map(createCard).join('');
+
+        // 모달
+        const modal = document.getElementById('modal');
+
+        function openModal(id) {
+            const item = resultsData.find(r => r.id === id);
+            if (!item) return;
+
+            document.getElementById('modalImage').src = item.thumbnail;
+            document.getElementById('modalBadge').textContent = `Lv.${item.level} ${item.levelName}`;
+            document.getElementById('modalBadge').className = `modal-badge level-${item.level}`;
+            document.getElementById('modalTitle').textContent = item.productName;
+            document.getElementById('modalMeta').textContent = `${item.studentName} (${item.studentAge}세) | ${item.completedDate} 완성`;
+            document.getElementById('modalReview').textContent = item.review;
+            document.getElementById('modalCriteria').innerHTML = item.criteria.map(c => `<li>${c}</li>`).join('');
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('modalClose').addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+    </script>
+</body>
+</html>
