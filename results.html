@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>수강 결과물 - 시니어AI클래스</title>
+  <meta name="description" content="시니어AI클래스에서 만든 프로덕트들을 확인하세요.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Noto Sans KR', 'sans-serif'],
+          },
+          colors: {
+            primary: {
+              50: '#F8FAFC',
+              100: '#F1F5F9',
+              500: '#0F172A',
+              600: '#0D1424',
+              700: '#0A0F1A',
+            },
+            accent: {
+              50: '#FDF8ED',
+              100: '#F9EDDA',
+              400: '#D4A853',
+              500: '#C49A47',
+            },
+            warm: {
+              50: '#FAF9F6',
+              100: '#F5F5F0',
+            },
+            text: {
+              primary: '#1C1917',
+              secondary: '#78716C',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #FAF9F6;
+      color: #1C1917;
+      font-size: 18px;
+      line-height: 1.8;
+    }
+    .card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(15, 23, 42, 0.08);
+      transition: all 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(15, 23, 42, 0.12);
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #D4A853 0%, #C49A47 100%);
+      color: #0F172A;
+      font-weight: 700;
+      padding: 12px 24px;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(212, 168, 83, 0.4);
+    }
+    .badge-ready {
+      background: #10B981;
+      color: white;
+    }
+    .badge-pending {
+      background: #9CA3AF;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <!-- 헤더 -->
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-warm-100 shadow-sm">
+    <div class="container mx-auto px-4">
+      <div class="flex justify-between items-center h-20">
+        <a href="/" class="flex items-center gap-2">
+          <div class="w-10 h-10 bg-primary-500 rounded-full flex items-center justify-center">
+            <span class="text-accent-400 font-bold text-lg">AI</span>
+          </div>
+          <span class="text-xl font-bold text-text-primary">
+            시니어<span class="text-accent-400">AI</span>클래스
+          </span>
+        </a>
+        <a href="/" class="text-text-primary font-medium hover:text-accent-400 transition-colors text-lg">
+          홈으로
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 메인 콘텐츠 -->
+  <main class="pt-32 pb-20">
+    <div class="container mx-auto px-4 max-w-5xl">
+
+      <!-- 헤더 섹션 -->
+      <div class="text-center mb-12">
+        <h1 class="text-4xl md:text-5xl font-bold text-text-primary mb-4">
+          수강 결과물
+        </h1>
+        <p class="text-xl text-text-secondary">
+          시니어AI클래스에서 직접 만든 프로덕트들입니다
+        </p>
+        <div class="flex justify-center gap-4 mt-6">
+          <span class="inline-flex items-center gap-2 px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm font-medium">
+            <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+            실행 가능 4개
+          </span>
+          <span class="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-600 rounded-full text-sm font-medium">
+            <span class="w-2 h-2 bg-gray-400 rounded-full"></span>
+            준비중 13개
+          </span>
+        </div>
+      </div>
+
+      <!-- 실행 가능한 프로덕트 -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-bold text-text-primary mb-6 flex items-center gap-2">
+          <span class="w-3 h-3 bg-green-500 rounded-full"></span>
+          실행 가능
+        </h2>
+        <div class="grid gap-4">
+
+          <!-- QR코드 생성기 -->
+          <div class="card p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div class="flex-1">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">📱</span>
+                <h3 class="text-xl font-bold text-text-primary">QR코드 생성기</h3>
+                <span class="badge-ready px-3 py-1 rounded-full text-xs font-medium">실행가능</span>
+              </div>
+              <p class="text-text-secondary">텍스트, URL을 QR코드로 간편하게 변환합니다</p>
+            </div>
+            <a href="/products/qr-code-generator/src/index.html" class="btn-primary text-center whitespace-nowrap">
+              열기
+            </a>
+          </div>
+
+          <!-- 타자연습 -->
+          <div class="card p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div class="flex-1">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">⌨️</span>
+                <h3 class="text-xl font-bold text-text-primary">타자연습</h3>
+                <span class="badge-ready px-3 py-1 rounded-full text-xs font-medium">실행가능</span>
+              </div>
+              <p class="text-text-secondary">시니어를 위한 한글 타자 연습 프로그램</p>
+            </div>
+            <a href="/products/typing-practice/index.html" class="btn-primary text-center whitespace-nowrap">
+              열기
+            </a>
+          </div>
+
+          <!-- 온라인 포토앨범 -->
+          <div class="card p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div class="flex-1">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">📷</span>
+                <h3 class="text-xl font-bold text-text-primary">온라인 포토앨범</h3>
+                <span class="badge-ready px-3 py-1 rounded-full text-xs font-medium">실행가능</span>
+              </div>
+              <p class="text-text-secondary">추억의 사진을 정리하고 공유하는 디지털 앨범</p>
+            </div>
+            <a href="/products/online-photo-album/src/index.html" class="btn-primary text-center whitespace-nowrap">
+              열기
+            </a>
+          </div>
+
+          <!-- 고스트프롬프트 -->
+          <div class="card p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div class="flex-1">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">👻</span>
+                <h3 class="text-xl font-bold text-text-primary">고스트프롬프트</h3>
+                <span class="badge-ready px-3 py-1 rounded-full text-xs font-medium">실행가능</span>
+              </div>
+              <p class="text-text-secondary">AI 프롬프트를 자동으로 생성해주는 도구</p>
+            </div>
+            <a href="/products/ghost-prompt/ui-mockup.html" class="btn-primary text-center whitespace-nowrap">
+              열기
+            </a>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- 준비중인 프로덕트 -->
+      <section>
+        <h2 class="text-2xl font-bold text-text-primary mb-6 flex items-center gap-2">
+          <span class="w-3 h-3 bg-gray-400 rounded-full"></span>
+          준비중
+        </h2>
+        <div class="grid gap-4">
+
+          <!-- AI 자서전작가 -->
+          <div class="card p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 opacity-70">
+            <div class="flex-1">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">📖</span>
+                <h3 class="text-xl font-bold text-text-primary">AI 자서전작가</h3>
+                <span class="badge-pending px-3 py-1 rounded-full text-xs font-medium">준비중</span>
+              </div>
+              <p class="text-text-secondary">AI와 함께 나만의 자서전을 작성합니다</p>
+            </div>
+            <span class="text-gray-400 font-medium whitespace-nowrap">연결예정</span>
+          </div>
+
+          <!-- AI 일기대필 -->
+          <div class="card p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 opacity-70">
+            <div class="flex-1">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">📝</span>
+                <h3 class="text-xl font-bold text-text-primary">AI 일기대필</h3>
+                <span class="badge-pending px-3 py-1 rounded-full text-xs font-medium">준비중</span>
+              </div>
+              <p class="text-text-secondary">AI가 도와주는 일기 쓰기 도우미</p>
+            </div>
+            <span class="text-gray-400 font-medium whitespace-nowrap">연결예정</span>
+          </div>
+
+          <!-- AI 할머니 옛날이야기 -->
+          <div class="card p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 opacity-70">
+            <div class="flex-1">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">👵</span>
+                <h3 class="text-xl font-bold text-text-primary">AI 할머니 옛날이야기</h3>
+                <span class="badge-pending px-3 py-1 rounded-full text-xs font-medium">준비중</span>
+              </div>
+              <p class="text-text-secondary">손주에게 들려줄 옛날이야기를 AI와 함께 만듭니다</p>
+            </div>
+            <span class="text-gray-400 font-medium whitespace-nowrap">연결예정</span>
+          </div>
+
+          <!-- AI 건강코치 -->
+          <div class="card p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 opacity-70">
+            <div class="flex-1">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">💪</span>
+                <h3 class="text-xl font-bold text-text-primary">AI 건강코치</h3>
+                <span class="badge-pending px-3 py-1 rounded-full text-xs font-medium">준비중</span>
+              </div>
+              <p class="text-text-secondary">개인 맞춤 건강 관리 조언을 제공합니다</p>
+            </div>
+            <span class="text-gray-400 font-medium whitespace-nowrap">연결예정</span>
+          </div>
+
+          <!-- AI 아이디어생성기 -->
+          <div class="card p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 opacity-70">
+            <div class="flex-1">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">💡</span>
+                <h3 class="text-xl font-bold text-text-primary">AI 아이디어생성기</h3>
+                <span class="badge-pending px-3 py-1 rounded-full text-xs font-medium">준비중</span>
+              </div>
+              <p class="text-text-secondary">창의적인 아이디어 브레인스토밍 도구</p>
+            </div>
+            <span class="text-gray-400 font-medium whitespace-nowrap">연결예정</span>
+          </div>
+
+          <!-- AI 사진정리사 -->
+          <div class="card p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 opacity-70">
+            <div class="flex-1">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">🖼️</span>
+                <h3 class="text-xl font-bold text-text-primary">AI 사진정리사</h3>
+                <span class="badge-pending px-3 py-1 rounded-full text-xs font-medium">준비중</span>
+              </div>
+              <p class="text-text-secondary">사진을 자동으로 분류하고 정리합니다</p>
+            </div>
+            <span class="text-gray-400 font-medium whitespace-nowrap">연결예정</span>
+          </div>
+
+          <!-- AI 요리레시피 -->
+          <div class="card p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 opacity-70">
+            <div class="flex-1">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">🍳</span>
+                <h3 class="text-xl font-bold text-text-primary">AI 요리레시피</h3>
+                <span class="badge-pending px-3 py-1 rounded-full text-xs font-medium">준비중</span>
+              </div>
+              <p class="text-text-secondary">냉장고 재료 기반 맞춤 레시피 추천</p>
+            </div>
+            <span class="text-gray-400 font-medium whitespace-nowrap">연결예정</span>
+          </div>
+
+          <!-- AI 일정관리 -->
+          <div class="card p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 opacity-70">
+            <div class="flex-1">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">📅</span>
+                <h3 class="text-xl font-bold text-text-primary">AI 일정관리</h3>
+                <span class="badge-pending px-3 py-1 rounded-full text-xs font-medium">준비중</span>
+              </div>
+              <p class="text-text-secondary">스마트한 일정 관리 도우미</p>
+            </div>
+            <span class="text-gray-400 font-medium whitespace-nowrap">연결예정</span>
+          </div>
+
+          <!-- AI 쇼핑도우미 -->
+          <div class="card p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 opacity-70">
+            <div class="flex-1">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">🛒</span>
+                <h3 class="text-xl font-bold text-text-primary">AI 쇼핑도우미</h3>
+                <span class="badge-pending px-3 py-1 rounded-full text-xs font-medium">준비중</span>
+              </div>
+              <p class="text-text-secondary">현명한 쇼핑을 위한 가격 비교 도우미</p>
+            </div>
+            <span class="text-gray-400 font-medium whitespace-nowrap">연결예정</span>
+          </div>
+
+          <!-- AI 주식분석 -->
+          <div class="card p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 opacity-70">
+            <div class="flex-1">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">📈</span>
+                <h3 class="text-xl font-bold text-text-primary">AI 주식분석</h3>
+                <span class="badge-pending px-3 py-1 rounded-full text-xs font-medium">준비중</span>
+              </div>
+              <p class="text-text-secondary">주식 뉴스 요약 및 시장 분석</p>
+            </div>
+            <span class="text-gray-400 font-medium whitespace-nowrap">연결예정</span>
+          </div>
+
+          <!-- AI 여행가이드 -->
+          <div class="card p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 opacity-70">
+            <div class="flex-1">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">✈️</span>
+                <h3 class="text-xl font-bold text-text-primary">AI 여행가이드</h3>
+                <span class="badge-pending px-3 py-1 rounded-full text-xs font-medium">준비중</span>
+              </div>
+              <p class="text-text-secondary">맞춤형 여행 계획 수립 도우미</p>
+            </div>
+            <span class="text-gray-400 font-medium whitespace-nowrap">연결예정</span>
+          </div>
+
+          <!-- AI 영상편집 -->
+          <div class="card p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 opacity-70">
+            <div class="flex-1">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">🎬</span>
+                <h3 class="text-xl font-bold text-text-primary">AI 영상편집</h3>
+                <span class="badge-pending px-3 py-1 rounded-full text-xs font-medium">준비중</span>
+              </div>
+              <p class="text-text-secondary">간편한 영상 편집 도구</p>
+            </div>
+            <span class="text-gray-400 font-medium whitespace-nowrap">연결예정</span>
+          </div>
+
+          <!-- 구글포토 가이드 -->
+          <div class="card p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 opacity-70">
+            <div class="flex-1">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">☁️</span>
+                <h3 class="text-xl font-bold text-text-primary">구글포토 가이드</h3>
+                <span class="badge-pending px-3 py-1 rounded-full text-xs font-medium">준비중</span>
+              </div>
+              <p class="text-text-secondary">구글포토로 사진 안전하게 보관하는 방법</p>
+            </div>
+            <span class="text-gray-400 font-medium whitespace-nowrap">연결예정</span>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- 하단 CTA -->
+      <div class="mt-16 text-center">
+        <p class="text-text-secondary mb-4">더 많은 프로덕트가 계속 추가됩니다!</p>
+        <a href="/" class="inline-block btn-primary text-lg px-8 py-4">
+          홈으로 돌아가기
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- 푸터 -->
+  <footer class="bg-primary-500 text-white py-8">
+    <div class="container mx-auto px-4 text-center">
+      <p class="text-warm-100">
+        &copy; 2026 시니어AI클래스. All rights reserved.
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>
