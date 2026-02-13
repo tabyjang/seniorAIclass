@@ -56,30 +56,13 @@ const Navbar: React.FC = () => {
 
           {/* CTA 버튼 */}
           <div className="hidden lg:flex items-center gap-4">
-            <a
-              href="https://pf.kakao.com/_example"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 px-4 py-2 bg-yellow-400 text-text-primary rounded-full font-bold hover:bg-yellow-300 transition-colors"
-            >
-              <MessageCircle size={20} />
-              카톡 상담
-            </a>
             <a href="#contact" className="btn-primary flex items-center gap-2 text-lg">
               무료 상담 받기
             </a>
           </div>
 
-          {/* 모바일: 카톡 + 햄버거 */}
+          {/* 모바일: 햄버거 */}
           <div className="flex lg:hidden items-center gap-3">
-            <a
-              href="https://pf.kakao.com/_example"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center text-text-primary"
-            >
-              <MessageCircle size={24} />
-            </a>
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="w-12 h-12 bg-primary-500 rounded-full flex items-center justify-center text-white"
@@ -115,15 +98,6 @@ const Navbar: React.FC = () => {
               </a>
               <a href="/results.html" className="text-text-primary font-medium text-lg py-2" onClick={() => setIsMenuOpen(false)}>
                 수강결과
-              </a>
-              <a
-                href="https://pf.kakao.com/_example"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 px-6 py-4 bg-yellow-400 text-text-primary rounded-button font-bold text-lg mt-2"
-              >
-                <MessageCircle size={20} />
-                카카오톡 상담하기
               </a>
             </div>
           </div>
